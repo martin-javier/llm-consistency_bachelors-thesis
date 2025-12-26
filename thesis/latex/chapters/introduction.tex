@@ -1,0 +1,23 @@
+Large Language Models (LLMs) have become essential in natural language processing, powering a wide range of applications from information retrieval to conversational agents and increasingly serving as automated evaluators in academic, medical, and social science domains. Among the arsenal of evaluation methods, multiple-choice question answering (MCQA) occupies a central role. As \citet{balepur2025bestdescribesmcq} note, MCQA is popular for LLM evaluation due to its simplicity and similarity to human testing in educational and survey settings. Furthermore, \citet{mucciaccia2025automaticmcq} observe that MCQA provides a method to objectively and efficiently assess a diverse set of underlying abilities, from recalling factual information and reasoning to judgment and preference measurement.
+
+However, the reliability of this method is increasingly questioned. Recent research reveals that the outcomes of these probabilistic, next-token predictors are highly sensitive to seemingly minor choices, such as option order or prompt design \citep{zheng2024largelanguagemodelsrobust, molfese2025rightanswerwrongscore}. Unlike human respondents who typically parse semantic meaning, LLMs may rely on surface-level statistical patterns, raising concerns about the robustness and reproducibility of studies that rely on them as simulated subjects.
+
+\vspace{0.2cm}
+When multiple-choice question formats are adapted for survey-style settings, one conceptual question may be presented through many different Likert-type scales or response phrasings. Yet it remains uncertain to what extent LLMs maintain consistent judgments when the scale design, phrasing, or polarity changes, posing challenges for the validity and reproducibility of evaluations \citep{lee2024evalconsistencyllmevaluators}. A recurring theme in recent discussions is the need to assess not only pointwise accuracy but also the consistency of LLMs, both when tested repeatedly with the same prompt (self-consistency), and when answer scales, labels, or polarities are varied (inter-scale consistency).
+
+Building on these concerns, this study investigates the consistency of LLMs in MCQA, specifically examining how model responses shift when Likert-type answer options are varied in number, reworded to have the same meaning, or presented in unipolar or bipolar formats. Such variation in scale design is common in surveys and known to influence how humans interpret and select answers \citep[see, e.g.,][]{menold2021biasinagreementscales}, making it critical to understand whether LLMs are also sensitive to these factors, especially since even small changes in answer wording or prompt formulation can result in different model responses \citep{lunardi2025reliabilitybenchmarkllmevaluation}.
+
+\vspace{0.2cm}
+The empirical investigation uses a curated set of multiple-choice questions from the OpinionQA corpus \citep{santurkar2023opinionsQApaper} to probe whether, and how, LLM answers change under varying scale formulations and response phrasings. To guide this investigation, this thesis addresses the following research questions:
+\begin{enumerate}
+    \item To what extent does the rewording of answer options, while maintaining semantic equivalence, impact the consistency of LLM responses in subjective MCQA tasks?
+    \item How does the permutation of answer option order influence the stability of model decisions, and does it reveal positional bias?
+    \item How do structural anchors (e.g., numeric vs. alphabetic vs. no option labels) and variation in option availability (e.g., inclusion of non-substantive options like ``Refused'' option) influence the consistency of LLM predictions?
+\end{enumerate}
+
+The work is structured as follows. Section \ref{related_work} situates the study in the current literature, detailing the theoretical foundations of Transformer-based models, general survey methodology, and existing findings on LLM biases.
+Section \ref{exp_framework} introduces the general methodological framework, outlining the end-to-end pipeline employed to process raw data into analyzable results.
+Section \ref{exp_setups} details the experimental design, including data curation and adaptation, consistency metrics, scale-variant generation, and evaluation protocols.
+Section \ref{results} presents the findings on how variations in answer scales and phrasings impact response consistency across different LLMs.
+Section \ref{discussion} analyzes trade-offs, threats to validity, and implications for future evaluator design.
+Finally, Section \ref{conclusion} summarizes key findings and their implications.

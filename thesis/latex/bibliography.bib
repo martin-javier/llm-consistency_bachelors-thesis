@@ -1,0 +1,585 @@
+% OpinionQA Paper
+@inproceedings{santurkar2023opinionsQApaper,
+author = {Santurkar, Shibani and Durmus, Esin and Ladhak, Faisal and Lee, Cinoo and Liang, Percy and Hashimoto, Tatsunori},
+title = {Whose opinions do language models reflect?},
+year = {2023},
+publisher = {JMLR.org},
+abstract = {Language models (LMs) are increasingly being used in open-ended contexts, where the opinions they reflect in response to subjective queries can have a profound impact, both on user satisfaction, and shaping the views of society at large. We put forth a quantitative framework to investigate the opinions reflected by LMs – by leveraging high-quality public opinion polls. Using this framework, we create OpinionQA, a dataset for evaluating the alignment of LM opinions with those of 60 US demographic groups over topics ranging from abortion to automation. Across topics, we find substantial misalignment between the views reflected by current LMs and those of US demographic groups: on par with the Democrat-Republican divide on climate change. Notably, this misalignment persists even after explicitly steering the LMs towards particular groups. Our analysis not only confirms prior observations about the left-leaning tendencies of some human feedback-tuned LMs, but also surfaces groups whose opinions are poorly reflected by current LMs (e.g., 65+ and widowed individuals).},
+booktitle = {Proceedings of the 40th International Conference on Machine Learning},
+articleno = {1244},
+numpages = {34},
+location = {Honolulu, Hawaii, USA},
+series = {ICML'23}
+}
+url={https://arxiv.org/abs/2303.17548},
+
+
+@inproceedings{balepur2025bestdescribesmcq,
+    title = "Which of These Best Describes Multiple Choice Evaluation with {LLM}s? A) Forced {B}) Flawed {C}) Fixable {D}) All of the Above",
+    author = "Balepur, Nishant  and
+      Rudinger, Rachel  and
+      Boyd-Graber, Jordan Lee",
+    editor = "Che, Wanxiang  and
+      Nabende, Joyce  and
+      Shutova, Ekaterina  and
+      Pilehvar, Mohammad Taher",
+    booktitle = "Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+    month = jul,
+    year = "2025",
+    address = "Vienna, Austria",
+    publisher = "Association for Computational Linguistics",
+    doi = "10.18653/v1/2025.acl-long.169",
+    pages = "3394--3418",
+    ISBN = "979-8-89176-251-0",
+    abstract = "Multiple choice question answering (MCQA) is popular for LLM evaluation due to its simplicity and human-like testing, but we argue for its reform. We first reveal flaws in MCQA{'}s format, as it struggles to: 1) test generation/subjectivity; 2) match LLM use cases; and 3) fully test knowledge. We instead advocate for generative formats based on human testing{---}where LLMs construct and explain answers{---}better capturing user needs and knowledge while remaining easy to score. We then show even when MCQA is a useful format, its datasets suffer from: leakage; unanswerability; shortcuts; and saturation. In each issue, we give fixes from education, like rubrics to guide MCQ writing; scoring methods to bridle guessing; and Item Response Theory to build harder MCQs. Lastly, we discuss LLM errors in MCQA{---}robustness, biases, and unfaithful explanations{---}showing how our prior solutions better measure or address these issues. While we do not need to desert MCQA, we encourage more efforts in refining the task based on educational testing, advancing evaluations."
+}
+url={https://arxiv.org/abs/2502.14127},
+
+
+@inproceedings{molfese2025rightanswerwrongscore,
+    title = "Right Answer, Wrong Score: Uncovering the Inconsistencies of {LLM} Evaluation in Multiple-Choice Question Answering",
+    author = "Molfese, Francesco Maria  and
+      Moroni, Luca  and
+      Gioffr{\'e}, Luca  and
+      Scir{\`e}, Alessandro  and
+      Conia, Simone  and
+      Navigli, Roberto",
+    editor = "Che, Wanxiang  and
+      Nabende, Joyce  and
+      Shutova, Ekaterina  and
+      Pilehvar, Mohammad Taher",
+    booktitle = "Findings of the Association for Computational Linguistics: ACL 2025",
+    month = jul,
+    year = "2025",
+    address = "Vienna, Austria",
+    publisher = "Association for Computational Linguistics",
+    doi = "10.18653/v1/2025.findings-acl.950",
+    pages = "18477--18494",
+    ISBN = "979-8-89176-256-5",
+    abstract = "One of the most widely used tasks for evaluating Large Language Models (LLMs) is Multiple-Choice Question Answering (MCQA). While open-ended question answering tasks are more challenging to evaluate, MCQA tasks are, in principle, easier to assess, as the model{'}s answer is thought to be simple to extract and is compared directly to a set of predefined choices. However, recent studies have started to question the reliability of MCQA evaluation, showing that multiple factors can significantly impact the reported performance of LLMs, especially when the model generates free-form text before selecting one of the answer choices. In this work, we shed light on the inconsistencies of MCQA evaluation strategies, which can lead to inaccurate and misleading model comparisons. We systematically analyze whether existing answer extraction methods are aligned with human judgment, and how they are influenced by answer constraints in the prompt across different domains. Our experiments demonstrate that traditional evaluation strategies often underestimate LLM capabilities, while LLM-based answer extractors are prone to systematic errors. Moreover, we reveal a fundamental trade-off between including format constraints in the prompt to simplify answer extraction and allowing models to generate free-form text to improve reasoning. Our findings call for standardized evaluation methodologies and highlight the need for more reliable and consistent MCQA evaluation practices."
+}
+url={https://arxiv.org/abs/2503.14996},
+
+
+@inproceedings{zheng2024largelanguagemodelsrobust,
+title={Large Language Models Are Not Robust Multiple Choice Selectors},
+author={Chujie Zheng and Hao Zhou and Fandong Meng and Jie Zhou and Minlie Huang},
+booktitle={The Twelfth International Conference on Learning Representations},
+year={2024},
+}
+% url={https://openreview.net/forum?id=shr9PXz7T0},
+% url={https://arxiv.org/abs/2309.03882},
+
+
+@inproceedings{mucciaccia2025automaticmcq,
+    title = "Automatic Multiple-Choice Question Generation and Evaluation Systems Based on {LLM}: A Study Case With University Resolutions",
+    author = "Mucciaccia, S{\'e}rgio Silva  and
+      Meireles Paix{\~a}o, Thiago  and
+      Wall Mutz, Filipe  and
+      Santos Badue, Claudine  and
+      Ferreira de Souza, Alberto  and
+      Oliveira-Santos, Thiago",
+    editor = "Rambow, Owen  and
+      Wanner, Leo  and
+      Apidianaki, Marianna  and
+      Al-Khalifa, Hend  and
+      Eugenio, Barbara Di  and
+      Schockaert, Steven",
+    booktitle = "Proceedings of the 31st International Conference on Computational Linguistics",
+    month = jan,
+    year = "2025",
+    address = "Abu Dhabi, UAE",
+    publisher = "Association for Computational Linguistics",
+    pages = "2246--2260",
+    abstract = "Multiple choice questions (MCQs) are often used in both employee selection and training, providing objectivity, efficiency, and scalability. However, their creation is resource-intensive, requiring significant expertise and financial investment. This study leverages large language models (LLMs) and prompt engineering techniques to automate the generation and validation of MCQs, particularly within the context of university regulations. Mainly, two novel approaches are proposed in this work: an automatic question generation system for university resolution and an automatic evaluation system to assess the performance of MCQ generation systems. The generation system combines different prompt engineering techniques and a review process to create well formulated questions. The evaluation system uses prompt engineering combined with an advanced LLM model to assess the integrity of the generated question. Experimental results demonstrate the effectiveness of both systems. The findings highlight the transformative potential of LLMs in educational assessment, reducing the burden on human resources and enabling scalable, cost-effective MCQ generation."
+}
+url = {https://aclanthology.org/2025.coling-main.154/}
+url = {https://www.semanticscholar.org/paper/Automatic-Multiple-Choice-Question-Generation-and-A-Mucciaccia-Paix%C3%A3o/5829b00f149aa165787a116f6043293f71648a25}
+
+
+@inproceedings{lee2024evalconsistencyllmevaluators,
+    title = "Evaluating the Consistency of {LLM} Evaluators",
+    author = "Lee, Noah  and
+      Hong, Jiwoo  and
+      Thorne, James",
+    editor = "Rambow, Owen  and
+      Wanner, Leo  and
+      Apidianaki, Marianna  and
+      Al-Khalifa, Hend  and
+      Eugenio, Barbara Di  and
+      Schockaert, Steven",
+    booktitle = "Proceedings of the 31st International Conference on Computational Linguistics",
+    month = jan,
+    year = "2025",
+    address = "Abu Dhabi, UAE",
+    publisher = "Association for Computational Linguistics",
+    pages = "10650--10659",
+    abstract = "Large language models (LLMs) have shown potential as general evaluators along with the evident benefits of speed and cost. While their correlation against human annotators has been widely studied, consistency as evaluators is still understudied, raising concerns about the reliability of LLM evaluators. In this paper, we conduct extensive studies on the two aspects of consistency in LLM evaluations, Self-Consistency (SC) and Inter-scale Consistency (IC), on different scoring scales and criterion granularity with open-source and proprietary models. Our comprehensive analysis demonstrates that strong proprietary models are not necessarily consistent evaluators, highlighting the importance of considering consistency in assessing the capability of LLM evaluators."
+}
+url={https://arxiv.org/abs/2412.00543}
+
+
+@article{menold2021biasinagreementscales,
+  author = {Menold, Natalja},
+  title = {Response Bias and Reliability in Verbal Agreement Rating Scales: Does Polarity and Verbalization of the Middle Category Matter?},
+  journal = {Social Science Computer Review},
+  year = {2021},
+  volume = {39},
+  number = {1},
+  pages = {130-147}
+}
+url = {https://journals.sagepub.com/doi/10.1177/0894439319847672}
+
+
+@misc{lunardi2025reliabilitybenchmarkllmevaluation,
+      title={On Robustness and Reliability of Benchmark-Based Evaluation of LLMs}, 
+      author={Riccardo Lunardi and Vincenzo Della Mea and Stefano Mizzaro and Kevin Roitero},
+      year={2025},
+      eprint={2509.04013},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+url={https://arxiv.org/abs/2509.04013}
+
+
+@inproceedings{ngweta2025llmsrobustnesschangesprompt,
+    title = "Towards {LLM}s Robustness to Changes in Prompt Format Styles",
+    author = "Ngweta, Lilian  and
+      Kate, Kiran  and
+      Tsay, Jason  and
+      Rizk, Yara",
+    editor = "Ebrahimi, Abteen  and
+      Haider, Samar  and
+      Liu, Emmy  and
+      Haider, Sammar  and
+      Leonor Pacheco, Maria  and
+      Wein, Shira",
+    booktitle = "Proceedings of the 2025 Conference of the Nations of the Americas Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 4: Student Research Workshop)",
+    month = apr,
+    year = "2025",
+    address = "Albuquerque, USA",
+    publisher = "Association for Computational Linguistics",
+    doi = "10.18653/v1/2025.naacl-srw.51",
+    pages = "529--537",
+    ISBN = "979-8-89176-192-6",
+    abstract = "Large language models (LLMs) have gained popularity in recent years for their utility in various applications. However, they are sensitive to non-semantic changes in prompt formats, where small changes in the prompt format can lead to significant performance fluctuations. In the literature, this problem is commonly referred to as prompt brittleness. Previous research on prompt engineering has focused mainly on developing techniques for identifying the optimal prompt for specific tasks. Some studies have also explored the issue of prompt brittleness and proposed methods to quantify performance variations; however, no simple solution has been found to address this challenge. We propose Mixture of Formats (MOF), a simple and efficient technique for addressing prompt brittleness in LLMs by diversifying the styles used in the prompt few-shot examples. MOF was inspired by computer vision techniques that utilize diverse style datasets to prevent models from associating specific styles with the target variable. Empirical results show that our proposed technique reduces style-induced prompt brittleness in various LLMs while also enhancing overall performance across prompt variations and different datasets."
+}
+url={https://api.semanticscholar.org/CorpusID:277634322}
+
+
+@article{rupprecht2025prompt,
+  title={Prompt Perturbations Reveal Human-Like Biases in Large Language Model Survey Responses},
+  author={Jens Rupprecht and Georg Ahnert and Markus Strohmaier},
+  journal={ArXiv},
+  year={2025},
+  volume={abs/2507.07188}
+}
+url={https://api.semanticscholar.org/CorpusID:280149893}
+
+
+@inproceedings{khan2025randomness,
+    title = {Randomness, Not Representation: The Unreliability of Evaluating Cultural Alignment in LLMs},
+    author = {Khan, Ariba and Casper, Stephen and Hadfield-Menell, Dylan},
+    year = {2025},
+    isbn = {9798400714825},
+    publisher = {Association for Computing Machinery},
+    address = {New York, NY, USA},
+    doi = {10.1145/3715275.3732147},
+    booktitle = {Proceedings of the 2025 ACM Conference on Fairness, Accountability, and Transparency},
+    pages = {2151–2165}
+}
+url = {https://dl.acm.org/doi/full/10.1145/3715275.3732147}
+url = {https://doi.org/10.1145/3715275.3732147}
+
+
+@inproceedings{xue2024symbolbindingmakesllmreliableinmcq,
+    title = "Strengthened Symbol Binding Makes Large Language Models Reliable Multiple-Choice Selectors",
+    author = "Xue, Mengge  and
+      Hu, Zhenyu  and
+      Liu, Liqun  and
+      Liao, Kuo  and
+      Li, Shuang  and
+      Han, Honglin  and
+      Zhao, Meng  and
+      Yin, Chengguo",
+    editor = "Ku, Lun-Wei  and
+      Martins, Andre  and
+      Srikumar, Vivek",
+    booktitle = "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+    month = aug,
+    year = "2024",
+    address = "Bangkok, Thailand",
+    publisher = "Association for Computational Linguistics",
+    doi = "10.18653/v1/2024.acl-long.237",
+    pages = "4331--4344",
+    abstract = "Multiple-Choice Questions (MCQs) constitute a critical area of research in the study of Large Language Models (LLMs). Previous works have investigated the selection bias problem in MCQs within few-shot scenarios, in which the LLM{'}s performance may be influenced by the presentation of answer choices, leaving the selection bias during Supervised Fine-Tuning (SFT) unexplored. In this paper, we reveal that selection bias persists in the SFT phase , primarily due to the LLM{'}s inadequate Multiple Choice Symbol Binding (MCSB) ability. This limitation implies that the model struggles to associate the answer options with their corresponding symbols (e.g., A/B/C/D) effectively. To enhance the model{'}s MCSB capability, we first incorporate option contents into the loss function and subsequently adjust the weights of the option symbols and contents, guiding the model to understand the option content of the current symbol. Based on this, we introduce an efficient SFT algorithm for MCQs, termed Point-wise Intelligent Feedback (PIF). PIF constructs negative instances by randomly combin- ing the incorrect option contents with all candidate symbols, and proposes a point-wise loss to provide feedback on these negative samples into LLMs. Our experimental results demonstrate that PIF significantly reduces the model{'}s selection bias by improving its MCSB capability. Remarkably, PIF exhibits a substantial enhancement in the accuracy for MCQs."
+}
+url={https://arxiv.org/abs/2406.01026},
+
+
+@article{dykema2022reconsiderationADscales,
+    title = {Towards a reconsideration of the use of agree-disagree questions in measuring subjective evaluations},
+    author = {Jennifer Dykema and Nora Cate Schaeffer and Dana Garbarski and Nadia Assad and Steven Blixt},
+    journal = {Research in Social and Administrative Pharmacy},
+    volume = {18},
+    number = {2},
+    pages = {2335-2344},
+    year = {2022},
+    issn = {1551-7411},
+    doi = {https://doi.org/10.1016/j.sapharm.2021.06.014},
+}
+url = {https://www.sciencedirect.com/science/article/pii/S1551741121002321},
+
+
+@inproceedings{wang2024largelanguagemodelsfair,
+    title = "Large Language Models are not Fair Evaluators",
+    author = "Wang, Peiyi  and Li, Lei  and Chen, Liang  and Cai, Zefan  and Zhu, Dawei  and Lin, Binghuai  and Cao, Yunbo  and Kong, Lingpeng  and Liu, Qi  and Liu, Tianyu  and Sui, Zhifang",
+    editor = "Ku, Lun-Wei  and Martins, Andre  and Srikumar, Vivek",
+    booktitle = "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+    year = "2024",
+    publisher = "Association for Computational Linguistics",
+    doi = "10.18653/v1/2024.acl-long.511",
+    pages = "9440--9450"
+}
+url = "https://aclanthology.org/2024.acl-long.511/",
+
+
+@inproceedings{
+sharma2023sycophancy,
+title={Towards Understanding Sycophancy in Language Models},
+author={Mrinank Sharma and Meg Tong and Tomasz Korbak and David Duvenaud and Amanda Askell and Samuel R. Bowman and Esin DURMUS and Zac Hatfield-Dodds and Scott R Johnston and Shauna M Kravec and Timothy Maxwell and Sam McCandlish and Kamal Ndousse and Oliver Rausch and Nicholas Schiefer and Da Yan and Miranda Zhang and Ethan Perez},
+booktitle={The Twelfth International Conference on Learning Representations},
+year={2024},
+}
+url={https://api.semanticscholar.org/CorpusID:264405698}
+
+
+@article{krosnick1991satisficing,
+  title={Response strategies for coping with the cognitive demands of attitude measures in surveys},
+  author={Krosnick, Jon A},
+  journal={Applied Cognitive Psychology},
+  volume={5},
+  number={3},
+  pages={213--236},
+  year={1991},
+  publisher={Wiley Online Library}
+}
+url = {https://onlinelibrary.wiley.com/doi/abs/10.1002/acp.2350050305}
+
+
+@article{likert1932likertscale,
+  title={A technique for the measurement of attitudes},
+  author={Likert, Rensis},
+  journal={Archives of Psychology},
+  volume={22},
+  number={140},
+  pages={1--55},
+  year={1932}
+}
+url = {https://openlibrary.org/books/OL50383141M/A_technique_for_the_measurement_of_attitudes}
+
+
+@article{hohne2021measuring,
+  title={Measuring Income (In)equality: Comparing Survey Questions With Unipolar and Bipolar Scales in a Probability-Based Online Panel},
+  author={H{\"o}hne, Jan Karem and Krebs, Dagmar and K{\"u}hnel, Steffen M},
+  journal={Social Science Computer Review},
+  volume={40},
+  number={5},
+  pages={108--123},
+  year={2022},
+  issn = {0894-4393},
+  doi = "10.1177/0894439320902461",
+  publisher={SAGE Publications Inc.}
+}
+url = {https://www.fis.uni-hannover.de/portal/en/publications/measuring-income-inequality(bc1ba6ef-6b47-41a1-884d-1659c381d6c3).html}
+
+
+@misc{grattafiori2024llama3,
+      title={The Llama 3 Herd of Models}, 
+      author={Aaron Grattafiori and Abhimanyu Dubey and Abhinav Jauhri and Abhinav Pandey and Abhishek Kadian and others},
+      year={2024},
+      eprint={2407.21783},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI}
+}
+url={https://arxiv.org/abs/2407.21783}
+
+
+@misc{jiang2023mistral7b,
+      title={Mistral 7B}, 
+      author={Albert Q. Jiang and Alexandre Sablayrolles and Arthur Mensch and Chris Bamford and Devendra Singh Chaplot and others},
+      year={2023},
+      eprint={2310.06825},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+url={https://arxiv.org/abs/2310.06825}
+
+
+@misc{yang2024qwen2,
+      title={Qwen2 Technical Report}, 
+      author={An Yang and Baosong Yang and Binyuan Hui and Bo Zheng and Bowen Yu and others},
+      year={2024},
+      eprint={2407.10671},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+url={https://arxiv.org/abs/2407.10671}
+
+
+% changed authors to only gemma team at al. bc else it was displayed as Team et al.)
+@misc{gemmateam2024gemma,
+      title={Gemma: Open Models Based on Gemini Research and Technology}, 
+      author={{Gemma Team et al.}},
+      year={2024},
+      eprint={2403.08295},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+url={https://arxiv.org/abs/2403.08295}
+
+
+@book{lord1968statistical,
+  title     = {Statistical Theories of Mental Test Scores},
+  author    = {Lord, Frederic M. and Novick, Melvin R. and Birnbaum, Allan},
+  year      = {1968},
+  publisher = {Addison-Wesley},
+}
+url = {https://psycnet.apa.org/record/1968-35040-000}
+
+
+@article{cronbach1951coefficient,
+  title   = {Coefficient Alpha and the Internal Structure of Tests},
+  author  = {Cronbach, Lee J.},
+  journal = {Psychometrika},
+  volume  = {16},
+  number  = {3},
+  pages   = {297--334},
+  year    = {1951},
+  doi     = {10.1007/BF02310555}
+}
+url = {https://psycnet.apa.org/record/1952-03137-001}
+
+
+@article{couch1960yeasayers,
+  title   = {Yeasayers and Naysayers: Agreeing Response Set as a Personality Variable},
+  author  = {Couch, Arthur and Keniston, Kenneth},
+  journal = {Journal of Abnormal and Social Psychology},
+  volume  = {60},
+  number  = {2},
+  pages   = {151--174},
+  year    = {1960},
+  doi     = {10.1037/h0040372}
+}
+url = {https://psycnet.apa.org/record/1960-07376-001}
+
+
+@article{krosnick1987order,
+  title     = {An Evaluation of a Cognitive Theory of Response-Order Effects in Survey Measurement},
+  author    = {Krosnick, Jon A. and Alwin, Duane F.},
+  journal   = {Public Opinion Quarterly},
+  publisher = {[Oxford University Press, American Association for Public Opinion Research]},
+  volume    = {51},
+  number    = {2},
+  pages     = {201--219},
+  year      = {1987},
+  doi       = {10.1086/269029}
+}
+url = {https://www.jstor.org/stable/2748993}
+
+
+@inproceedings{vaswani2017attentionisallyouneed,
+ author = {Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N and Kaiser, \L ukasz and Polosukhin, Illia},
+ booktitle = {Advances in Neural Information Processing Systems},
+ editor = {I. Guyon and U. Von Luxburg and S. Bengio and H. Wallach and R. Fergus and S. Vishwanathan and R. Garnett},
+ pages = {},
+ publisher = {Curran Associates, Inc.},
+ title = {Attention is All you Need},
+ volume = {30},
+ year = {2017}
+}
+url = {https://research.google/pubs/attention-is-all-you-need/}
+url = {https://arxiv.org/abs/1706.03762} % 2023 Version
+
+
+@inproceedings{devlin2019bert,
+    title = "{BERT}: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+    author = "Devlin, Jacob  and
+      Chang, Ming-Wei  and
+      Lee, Kenton  and
+      Toutanova, Kristina",
+    editor = "Burstein, Jill  and
+      Doran, Christy  and
+      Solorio, Thamar",
+    booktitle = "Proceedings of the 2019 Conference of the North {A}merican Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers)",
+    month = jun,
+    year = "2019",
+    address = "Minneapolis, Minnesota",
+    publisher = "Association for Computational Linguistics",
+    doi = "10.18653/v1/N19-1423",
+    pages = "4171--4186",
+    abstract = "We introduce a new language representation model called BERT, which stands for Bidirectional Encoder Representations from Transformers. Unlike recent language representation models (Peters et al., 2018a; Radford et al., 2018), BERT is designed to pre-train deep bidirectional representations from unlabeled text by jointly conditioning on both left and right context in all layers. As a result, the pre-trained BERT model can be fine-tuned with just one additional output layer to create state-of-the-art models for a wide range of tasks, such as question answering and language inference, without substantial task-specific architecture modifications. BERT is conceptually simple and empirically powerful. It obtains new state-of-the-art results on eleven natural language processing tasks, including pushing the GLUE score to 80.5 (7.7 point absolute improvement), MultiNLI accuracy to 86.7{\%} (4.6{\%} absolute improvement), SQuAD v1.1 question answering Test F1 to 93.2 (1.5 point absolute improvement) and SQuAD v2.0 Test F1 to 83.1 (5.1 point absolute improvement)."
+}
+url = "https://aclanthology.org/N19-1423/",
+
+
+@article{hochreiter1997long,
+author = {Hochreiter, Sepp and Schmidhuber, J\"{u}rgen},
+title = {Long Short-Term Memory},
+year = {1997},
+issue_date = {November 15, 1997},
+publisher = {MIT Press},
+address = {Cambridge, MA, USA},
+volume = {9},
+number = {8},
+issn = {0899-7667},
+doi = {10.1162/neco.1997.9.8.1735},
+abstract = {Learning to store information over extended time intervals by recurrent backpropagation takes a very long time, mostly because of insufficient, decaying error backflow. We briefly review Hochreiter's (1991) analysis of this problem, then address it by introducing a novel, efficient, gradient based method called long short-term memory (LSTM). Truncating the gradient where this does not do harm, LSTM can learn to bridge minimal time lags in excess of 1000 discrete-time steps by enforcing constant error flow through constant error carousels within special units. Multiplicative gate units learn to open and close access to the constant error flow. LSTM is local in space and time; its computational complexity per time step and weight is O. 1. Our experiments with artificial data involve local, distributed, real-valued, and noisy pattern representations. In comparisons with real-time recurrent learning, back propagation through time, recurrent cascade correlation, Elman nets, and neural sequence chunking, LSTM leads to many more successful runs, and learns much faster. LSTM also solves complex, artificial long-time-lag tasks that have never been solved by previous recurrent network algorithms.},
+journal = {Neural Comput.},
+month = nov,
+pages = {1735–1780},
+numpages = {46}
+}
+url = {https://doi.org/10.1162/neco.1997.9.8.1735},
+
+
+@article{radford2019language,
+  title={Language models are unsupervised multitask learners},
+  author={Radford, Alec and Wu, Jeffrey and Child, Rewon and Luan, David and Amodei, Dario and Sutskever, Ilya and others},
+  journal={OpenAI blog},
+  volume={1},
+  number={8},
+  pages={9},
+  year={2019}
+}
+url = {https://api.semanticscholar.org/CorpusID:160025533}
+
+
+@inproceedings{brown2020language,
+author = {Brown, Tom B. and Mann, Benjamin and Ryder, Nick and Subbiah, Melanie and Kaplan, Jared and Dhariwal, Prafulla and Neelakantan, Arvind and Shyam, Pranav and Sastry, Girish and Askell, Amanda and Agarwal, Sandhini and Herbert-Voss, Ariel and Krueger, Gretchen and Henighan, Tom and Child, Rewon and Ramesh, Aditya and Ziegler, Daniel M. and Wu, Jeffrey and Winter, Clemens and Hesse, Christopher and Chen, Mark and Sigler, Eric and Litwin, Mateusz and Gray, Scott and Chess, Benjamin and Clark, Jack and Berner, Christopher and McCandlish, Sam and Radford, Alec and Sutskever, Ilya and Amodei, Dario},
+title = {Language models are few-shot learners},
+year = {2020},
+isbn = {9781713829546},
+publisher = {Curran Associates Inc.},
+address = {Red Hook, NY, USA},
+abstract = {We demonstrate that scaling up language models greatly improves task-agnostic, few-shot performance, sometimes even becoming competitive with prior state-of-the-art fine-tuning approaches. Specifically, we train GPT-3, an autoregressive language model with 175 billion parameters, 10x more than any previous non-sparse language model, and test its performance in the few-shot setting. For all tasks, GPT-3 is applied without any gradient updates or fine-tuning, with tasks and few-shot demonstrations specified purely via text interaction with the model. GPT-3 achieves strong performance on many NLP datasets, including translation, question-answering, and cloze tasks. We also identify some datasets where GPT-3's few-shot learning still struggles, as well as some datasets where GPT-3 faces methodological issues related to training on large web corpora.},
+booktitle = {Proceedings of the 34th International Conference on Neural Information Processing Systems},
+articleno = {159},
+numpages = {25},
+pages={1877--1901},
+location = {Vancouver, BC, Canada},
+series = {NIPS '20}
+}
+url = {https://dl.acm.org/doi/abs/10.5555/3495724.3495883}
+
+
+@inproceedings{wei2021finetuned,
+title={Finetuned Language Models are Zero-Shot Learners},
+author={Jason Wei and Maarten Bosma and Vincent Zhao and Kelvin Guu and Adams Wei Yu and Brian Lester and Nan Du and Andrew M. Dai and Quoc V Le},
+booktitle={International Conference on Learning Representations},
+year={2022},
+}
+
+
+@inproceedings{ouyang2022training,
+author = {Ouyang, Long and Wu, Jeff and Jiang, Xu and Almeida, Diogo and Wainwright, Carroll L. and Mishkin, Pamela and Zhang, Chong and Agarwal, Sandhini and Slama, Katarina and Ray, Alex and Schulman, John and Hilton, Jacob and Kelton, Fraser and Miller, Luke and Simens, Maddie and Askell, Amanda and Welinder, Peter and Christiano, Paul and Leike, Jan and Lowe, Ryan},
+title = {Training language models to follow instructions with human feedback},
+year = {2022},
+isbn = {9781713871088},
+publisher = {Curran Associates Inc.},
+address = {Red Hook, NY, USA},
+abstract = {Making language models bigger does not inherently make them better at following a user's intent. For example, large language models can generate outputs that are untruthful, toxic, or simply not helpful to the user. In other words, these models are not aligned with their users. In this paper, we show an avenue for aligning language models with user intent on a wide range of tasks by fine-tuning with human feedback. Starting with a set of labeler-written prompts and prompts submitted through a language model API, we collect a dataset of labeler demonstrations of the desired model behavior, which we use to fine-tune GPT-3 using supervised learning. We then collect a dataset of rankings of model outputs, which we use to further fine-tune this supervised model using reinforcement learning from human feedback. We call the resulting models InstructGPT. In human evaluations on our prompt distribution, outputs from the 1.3B parameter InstructGPT model are preferred to outputs from the 175B GPT-3, despite having 100x fewer parameters. Moreover, InstructGPT models show improvements in truthfulness and reductions in toxic output generation while having minimal performance regressions on public NLP datasets. Even though InstructGPT still makes simple mistakes, our results show that fine-tuning with human feedback is a promising direction for aligning language models with human intent.},
+booktitle = {Proceedings of the 36th International Conference on Neural Information Processing Systems},
+articleno = {2011},
+pages={27730--27744},
+numpages = {15},
+location = {New Orleans, LA, USA},
+series = {NIPS '22}
+}
+url = {https://dl.acm.org/doi/abs/10.5555/3600270.3602281}
+
+
+@inproceedings{zhao2021calibrate,
+  title = 	 {Calibrate Before Use: Improving Few-shot Performance of Language Models},
+  author =       {Zhao, Zihao and Wallace, Eric and Feng, Shi and Klein, Dan and Singh, Sameer},
+  booktitle = 	 {Proceedings of the 38th International Conference on Machine Learning},
+  pages = 	 {12697--12706},
+  year = 	 {2021},
+  editor = 	 {Meila, Marina and Zhang, Tong},
+  volume = 	 {139},
+  series = 	 {Proceedings of Machine Learning Research},
+  month = 	 {18--24 Jul},
+  publisher =    {PMLR},
+  abstract = 	 {GPT-3 can perform numerous tasks when provided a natural language prompt that contains a few training examples. We show that this type of few-shot learning can be unstable: the choice of prompt format, training examples, and even the order of the examples can cause accuracy to vary from near chance to near state-of-the-art. We demonstrate that this instability arises from the bias of language models towards predicting certain answers, e.g., those that are placed near the end of the prompt or are common in the pre-training data. To mitigate this, we first estimate the model’s bias towards each answer by asking for its prediction when given a training prompt and a content-free test input such as "N/A". We then fit calibration parameters that cause the prediction for this input to be uniform across answers. On a diverse set of tasks, this contextual calibration procedure substantially improves GPT-3 and GPT-2’s accuracy (up to 30.0% absolute) across different choices of the prompt, while also making learning considerably more stable.}
+}
+% pdf = 	 {http://proceedings.mlr.press/v139/zhao21c/zhao21c.pdf},
+% url = 	 {https://proceedings.mlr.press/v139/zhao21c.html},
+
+
+@misc{kadavath2022language,
+      title={Language Models (Mostly) Know What They Know}, 
+      author={Saurav Kadavath and Tom Conerly and Amanda Askell and Tom Henighan and Dawn Drain and Ethan Perez and Nicholas Schiefer and Zac Hatfield-Dodds and Nova DasSarma and Eli Tran-Johnson and Scott Johnston and Sheer El-Showk and Andy Jones and Nelson Elhage and Tristan Hume and Anna Chen and Yuntao Bai and Sam Bowman and Stanislav Fort and Deep Ganguli and Danny Hernandez and Josh Jacobson and Jackson Kernion and Shauna Kravec and Liane Lovitt and Kamal Ndousse and Catherine Olsson and Sam Ringer and Dario Amodei and Tom Brown and Jack Clark and Nicholas Joseph and Ben Mann and Sam McCandlish and Chris Olah and Jared Kaplan},
+      year={2022},
+      eprint={2207.05221},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},   
+}
+% url={https://arxiv.org/abs/2207.05221},
+
+
+@article{elazar2021measuring,
+  title={Measuring and Improving Consistency in Pretrained Language Models},
+  author={Elazar, Yanai  and Kassner, Nora  and Ravfogel, Shauli  and Ravichander, Abhilasha  and Hovy, Eduard  and Sch{\"u}tze, Hinrich  and Goldberg, Yoav},
+  editor = {Roark, Brian  and Nenkova, Ani},
+  journal={Transactions of the Association for Computational Linguistics},
+  volume={9},
+  pages={1012--1031},
+  year={2021},
+  publisher={MIT Press},
+  address = {Cambridge, MA},
+  doi = {10.1162/tacl_a_00410},
+  abstract = {Consistency of a model{---}that is, the invariance of its behavior under meaning-preserving alternations in its input{---}is a highly desirable property in natural language processing. In this paper we study the question: Are Pretrained Language Models (PLMs) consistent with respect to factual knowledge? To this end, we create ParaRel��, a high-quality resource of cloze-style query English paraphrases. It contains a total of 328 paraphrases for 38 relations. Using ParaRel��, we show that the consistency of all PLMs we experiment with is poor{---} though with high variance between relations. Our analysis of the representational spaces of PLMs suggests that they have a poor structure and are currently not suitable for representing knowledge robustly. Finally, we propose a method for improving model consistency and experimentally demonstrate its effectiveness.1}
+}
+% url = [https://aclanthology.org/2021.tacl-1.60/]
+
+
+@inproceedings{aher2023llmstosimhumans,
+  title     = {Using Large Language Models to Simulate Multiple Humans and Replicate Human Subject Studies},
+  author    = {Aher, Gati V and Arriaga, Rosa I. and Kalai, Adam Tauman},
+  booktitle = {Proceedings of the 40th International Conference on Machine Learning},
+  pages     = {337--371},
+  year      = {2023},
+  editor    = {Krause, Andreas and Brunskill, Emma and Cho, Kyunghyun and Engelhardt, Barbara and Sabato, Sivan and Scarlett, Jonathan},
+  volume    = {202},
+  series    = {Proceedings of Machine Learning Research},
+  month     = {23--29 Jul},
+  publisher = {PMLR},
+  abstract  = {We introduce a new type of test, called a Turing Experiment (TE), for evaluating to what extent a given language model, such as GPT models, can simulate different aspects of human behavior. A TE can also reveal consistent distortions in a language model’s simulation of a specific human behavior. Unlike the Turing Test, which involves simulating a single arbitrary individual, a TE requires simulating a representative sample of participants in human subject research. We carry out TEs that attempt to replicate well-established findings from prior studies. We design a methodology for simulating TEs and illustrate its use to compare how well different language models are able to reproduce classic economic, psycholinguistic, and social psychology experiments: Ultimatum Game, Garden Path Sentences, Milgram Shock Experiment, and Wisdom of Crowds. In the first three TEs, the existing findings were replicated using recent models, while the last TE reveals a “hyper-accuracy distortion” present in some language models (including ChatGPT and GPT-4), which could affect downstream applications in education and the arts.}
+}
+% pdf = 	 {https://proceedings.mlr.press/v202/aher23a/aher23a.pdf},
+% url = 	 {https://proceedings.mlr.press/v202/aher23a.html},
+
+
+@inproceedings{turpin2024languagemodels,
+title = {Language models don't always say what they think: unfaithful explanations in chain-of-thought prompting},
+author = {Turpin, Miles and Michael, Julian and Perez, Ethan and Bowman, Samuel R.},
+year = {2023},
+publisher = {Curran Associates Inc.},
+address = {Red Hook, NY, USA},
+abstract = {Large Language Models (LLMs) can achieve strong performance on many tasks by producing step-by-step reasoning before giving a final output, often referred to as chain-of-thought reasoning (CoT). It is tempting to interpret these CoT explanations as the LLM's process for solving a task. This level of transparency into LLMs' predictions would yield significant safety benefits. However, we find that CoT explanations can systematically misrepresent the true reason for a model's prediction. We demonstrate that CoT explanations can be heavily influenced by adding biasing features to model inputs—e.g., by reordering the multiple-choice options in a few-shot prompt to make the answer always "(A)"—which models systematically fail to mention in their explanations. When we bias models toward incorrect answers, they frequently generate CoT explanations rationalizing those answers. This causes accuracy to drop by as much as 36\% on a suite of 13 tasks from BIG-Bench Hard, when testing with GPT-3.5 from OpenAI and Claude 1.0 from Anthropic. On a social-bias task, model explanations justify giving answers in line with stereotypes without mentioning the influence of these social biases. Our findings indicate that CoT explanations can be plausible yet misleading, which risks increasing our trust in LLMs without guaranteeing their safety. Building more transparent and explainable systems will require either improving CoT faithfulness through targeted efforts or abandoning CoT in favor of alternative methods.},
+booktitle = {Proceedings of the 37th International Conference on Neural Information Processing Systems},
+articleno = {3275},
+numpages = {14},
+location = {New Orleans, LA, USA},
+series = {NIPS '23}
+}
+% url = {https://dl.acm.org/doi/10.5555/3666122.3669397}
+
+
+@misc{pew_atp,
+  author = {{Pew Research Center}},
+  title = {{The American Trends Panel (ATP)}},
+  year = {2024},
+  note = {Dataset. Accessed via OpinionQA}
+}
+% url = {https://www.pewresearch.org/the-american-trends-panel/},

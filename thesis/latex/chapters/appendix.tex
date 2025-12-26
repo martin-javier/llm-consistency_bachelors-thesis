@@ -1,0 +1,276 @@
+\subsection{Use of AI Tools}
+In accordance with academic integrity guidelines, this section outlines the use of Generative AI tools in the preparation of this thesis. Large Language Models (specifically GPT-4o and GPT-5) were utilized for the following purposes:
+
+\begin{itemize}
+    \item \textbf{Code Generation and Documentation:} Assistance in writing, debugging, and documenting Python scripts. This encompassed the development of the experimental pipeline used to prompt the models, as well as scripts for downstream data processing (pandas) and visualization (matplotlib/seaborn).
+    \item \textbf{Text Refinement:} Improving the clarity, grammar, and flow of written sections. This included converting draft notes into academic prose and generating LaTeX code for tables and figures.
+\end{itemize}
+
+All experimental design choices, data interpretations, theoretical arguments, and final conclusions were determined solely by the author. All content generated or improved by AI tools was critically reviewed and independently verified. Final responsibility for all content lies with the author.
+
+
+\subsection{Distribution of Scale Types}
+\label{app:scale_distribution}
+
+To better understand the structural properties of the test sets, Table \ref{tab:scale_distributions} details the distribution of ``Scale Types'', defined here as the combination of the answer scale's cardinality (number of options) and its polarity (Unipolar vs. Bipolar), across both datasets.
+
+The Reworded Dataset (Table \ref{tab:scale_dist_rew}) contains a wider variety of scale lengths (including 6-point scales) by experimental design; the generation of five distinct reworded variations per question was explicitly used to test model performance across different cardinalities and polarities. In contrast, the Shuffled Dataset (Table \ref{tab:scale_dist_shuff}) strictly adheres to the original answer options provided in the source opinion surveys, resulting in a higher concentration of 4-point scales and the absence of 6-point variations.
+
+\begin{table}[H]
+    \centering
+    \small
+    \caption{Distribution of Answer Scale Types across the two experimental datasets.}
+    \label{tab:scale_distributions}
+    
+    \begin{subtable}{0.49\textwidth}
+        \centering
+        \caption{Reworded Dataset ($N=6,175$)}
+        \label{tab:scale_dist_rew}
+        \begin{tabular}{lrr}
+            \toprule
+            \textbf{Scale Type} & \textbf{Count} & \textbf{Pct.} \\
+            \midrule
+            4-point Unipolar & 1,858 & 30.1\,\% \\
+            4-point Bipolar & 1,760 & 28.5\,\% \\
+            5-point Bipolar & 1,375 & 22.3\,\% \\
+            5-point Unipolar & 635 & 10.3\,\% \\
+            6-point Bipolar & 512 & 8.3\,\% \\
+            6-point Unipolar & 35 & 0.6\,\% \\
+            \bottomrule
+        \end{tabular}
+    \end{subtable}
+    \hfill
+    \begin{subtable}{0.49\textwidth}
+        \centering
+        \caption{Shuffled Dataset ($N=7,410$)}
+        \label{tab:scale_dist_shuff}
+        \begin{tabular}{lrr}
+            \toprule
+            \textbf{Scale Type} & \textbf{Count} & \textbf{Pct.} \\
+            \midrule
+            4-point Unipolar & 3,408 & 46.0\,\% \\
+            4-point Bipolar & 2,424 & 32.7\,\% \\
+            5-point Bipolar & 1,350 & 18.2\,\% \\
+            5-point Unipolar & 228 & 3.1\,\% \\
+            & & \\
+            & & \\
+            \bottomrule
+        \end{tabular}
+    \end{subtable}
+
+    \vspace{0.3cm}
+    \raggedright
+    \footnotesize{\textbf{Note:} These counts represent the baseline Likert options present in Prompts 1, 2, and 3. Prompt 4 (Extended) adds two additional options (``Refused'' and ``Don't Know'') to every question, effectively increasing the cardinality of all scales shown above by $+\,2$ for that specific prompt variation.}
+\end{table}
+
+
+\subsection{Additional Answer Distribution Plots}
+\label{app:it_answer_distributions}
+This section presents the answer percentage distributions for the Instruction-Tuned models. These figures complement the analysis of Base models presented in Section \ref{results:overview:answer_distributions} (Figure \ref{fig:answer_distributions_combined}).
+
+Figures \ref{fig:answer_perc_distr_it_rew} and \ref{fig:answer_perc_distr_it_shuff} illustrate the response patterns for IT models across the Reworded and Shuffled datasets, respectively. In contrast to the Base models, which exhibited high volatility and mechanical biases (e.g., primacy bias or polarity flipping), the IT models demonstrate remarkable stability.
+
+\vspace{-0.4cm}
+\paragraph{Semantic Stability.}
+The most notable observation is the much higher similarity of distributions across the two datasets. While Base models frequently shifted their preference based on the presentation method, IT models maintained consistent response profiles. For the Shuffled Dataset (Figure \ref{fig:answer_perc_distr_it_shuff}), where answers are mapped back to their original semantic index (e.g., ``Option 1'' always represents ``Fully Agree''), the distributions closely mirror those of the Reworded Dataset (Figure \ref{fig:answer_perc_distr_it_rew}). This indicates that IT models successfully attend to the semantic meaning of the options rather than their position or phrasing.
+
+\vspace{-0.4cm}
+\paragraph{Response Validity.}
+Furthermore, the rate of ``Unusable'' responses is negligible for IT models. Unlike \textit{Mistral-7B-v0.3} (Base), which failed in Prompts 1, 2, and 4, the IT variants produced valid outputs across all prompt types. The only exception was \textit{Mistral-7B-Instruct-v0.3}, which produced a negligible number of unusable responses ($<0.1\,\%$) in Prompt 3 for both datasets.
+
+% --- Figure 1: Reworded Dataset ---
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{plots/answer_distributions/answer_perc_distr_it_rew_notitle.pdf}
+    \caption{Distribution of response categories for Instruction-Tuned Models on the Reworded Dataset}
+    \label{fig:answer_perc_distr_it_rew}
+\end{figure}
+
+% --- Figure 2: Shuffled Dataset ---
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{plots/answer_distributions/answer_perc_distr_it_shuff_notitle.pdf}
+    \caption{Distribution of response categories for Instruction-Tuned Models on the Shuffled Dataset. As in Figure \ref{fig:answer_distributions_combined}, the indexing uses the original semantic order (Option 1 = ``Fully Agree''), allowing for direct comparison with Figure \ref{fig:answer_perc_distr_it_rew}.}
+    \label{fig:answer_perc_distr_it_shuff}
+\end{figure}
+
+
+\subsection{Aggregate Distributional Bias (Qwen)}
+\label{app:qwen_bias_analysis}
+This section extends the aggregate distributional analysis presented in Section \ref{results:overview:answer_distr_on_scale}. While the main text focused on \textit{Gemma}, which exhibited the most extreme divergence between Base and IT variants, Figure \ref{fig:bias_analysis_qwen} illustrates the behavior of the \textit{Qwen} family. In contrast to the extreme polarity instability observed in Gemma, the Qwen family demonstrates a much higher degree of intrinsic stability, even in its Base variant.
+
+\vspace{-0.4cm}
+\paragraph{Base vs. IT Similarity:} Unlike Gemma, where the Base model favored extremes ($\pm\,1$) and the IT model favored neutrality, Qwen shows a remarkably consistent distributional profile across both versions. Both \textit{Qwen2.5-7B} (Figure \ref{fig:ans_distr_bm_qwen}) and \textit{Qwen2.5-7B-Instruct} (Figure \ref{fig:ans_distr_it_qwen}) distribute density relatively evenly across the scale, with a slight preference for the positive spectrum.
+    
+\vspace{-0.4cm}
+\paragraph{Comparison to Other Families:} Qualitative analysis of the remaining models (for visualizations see the GitHub repository linked in Section \ref{el_app}) reveals that \textit{Mistral} follows a pattern similar to Qwen, exhibiting relative stability in both Base and IT forms, though the IT variant shows a slightly higher density in the neutral region. \textit{Llama}, on the other hand, shows similarities to the Gemma pattern. The Base model exhibits high density at the extreme answers (though exclusively at the positive end $+\,1.0$, unlike Gemma's bipolarity), while the IT variant successfully redistributes this density toward the center of the scale.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/answer_distributions/ans_distr_bm_qwen2.5-7b_notitle.pdf}
+        \caption{Base version of Qwen (Qwen2.5-7B)}
+        \label{fig:ans_distr_bm_qwen}
+    \end{subfigure}
+    
+    \vspace{0.5cm}
+
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/answer_distributions/ans_distr_it_qwen2.5-7b-instruct_notitle.pdf}
+        \caption{Instruction Tuned version of Qwen (Qwen2.5-7B-Instruct)}
+        \label{fig:ans_distr_it_qwen}
+    \end{subfigure}
+    
+    \caption{Comparative histograms of projected numeric answers for the Qwen family. Note the high similarity between the Base (a) and Instruction-Tuned (b) distributions, contrasting sharply with the divergence observed in the Gemma family (Figure \ref{fig:bias_analysis}).}
+    \label{fig:bias_analysis_qwen}
+\end{figure}
+
+
+\subsection{Complementary Pairwise Distance Analysis}
+\label{app:pairwise_distances_complementary}
+This section complements the pairwise distance analysis in Section \ref{results:pairwise_distances}. While the main text focused on APD for the Shuffled Dataset and MPD for the Reworded Dataset, the inverse configurations are presented here.
+
+\vspace{-0.4cm}
+\paragraph{Structural Artifacts.}
+A distinct visual difference is observable between the two datasets. The distributions for the Shuffled Dataset (Figures \ref{fig:mpd_distr_bm_shuff_prompt2} and \ref{fig:mpd_distr_it_shuff_prompt2}) exhibit distinct gaps and high peaks (``spikes''). This occurs because the Shuffled dataset always uses the same number of answer options, limiting the possible distances between answers. In contrast, the Reworded Dataset (Figures \ref{fig:apd_distr_bm_rew_prompt1} and \ref{fig:apd_distr_it_rew_prompt1}) produces smoother, more spread-out distributions, as the varying scale lengths (4, 5, or 6 options) generate a wider array of possible intermediate distance values.
+
+\vspace{-0.4cm}
+\paragraph{APD on Reworded Dataset (Figure \ref{fig:APD_rew}).}
+Comparing these results to the Shuffled analysis in the main text reveals that rewording is generally less disruptive than shuffling for Base models.
+In Prompt 1, all Base models exhibit improved consistency (lower APD) on the Reworded dataset compared to the Shuffled dataset. \textit{Mistral-7B-v0.3} and \textit{Gemma-2-9B} show the most significant recovery, with mean APDs decreasing by $\approx 0.2$, while \textit{Llama} and \textit{Qwen} show modest improvements.
+Qualitative analysis of the remaining prompts (available in the electronic appendix \ref{el_app}) confirms this trend for Prompts 1, 2, and 4. However, Prompt 3 (Unlabeled) acts as an outlier: for Base models, it yields the worst consistency on the Reworded dataset, exhibiting higher means and distinct density shifts toward higher distances.
+
+For IT models, the trend is similar but subtler. They exhibit slightly lower APDs on the Reworded dataset ($\approx 0.05$ decrease in mean), confirming high stability. The only exception is the ``Prompt 3 Paradox'' noted in the main text: IT models achieve their highest consistency on the Shuffled dataset for Prompt 3, outperforming the Reworded results shown here.
+
+\vspace{-0.4cm}
+\paragraph{MPD on Shuffled Dataset (Figure \ref{fig:MPD_shuff}).}
+This analysis captures the ``worst-case'' impact of option ordering.
+For Base models, shuffling triggers more extreme polarity flips than rewording. The distributions shift toward higher distances, indicating that a mere change in order causes models to flip from one end of the scale to the other more frequently.
+IT models effectively mitigate these extremes, shifting density back toward the lower end. However, consistent with the base trend, the MPD values are generally higher here than in the Reworded dataset, confirming that ordering effects remain the more challenging semantic variation to overcome. Again, Prompt 3 remains the exception, where IT models (particularly Llama and Gemma) show remarkably low MPD values on the Shuffled dataset compared to the Reworded one.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/distance_distributions/apd_distr_bm_rew_prompt1_notitle.pdf}
+        \caption{Base Models (APD on Reworded Dataset, Prompt 1)}
+        \label{fig:apd_distr_bm_rew_prompt1}
+    \end{subfigure}
+    
+    \vspace{0.5cm}
+
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/distance_distributions/apd_distr_it_rew_prompt1_notitle.pdf}
+        \caption{Instruction-Tuned Models (APD on Reworded Dataset, Prompt 1)}
+        \label{fig:apd_distr_it_rew_prompt1}
+    \end{subfigure}
+    
+    \caption{Distribution of Average Pairwise Distances on the \textbf{Reworded Dataset}. Note the wider dispersion compared to the Shuffled Dataset due to the variable scale lengths.}
+    \label{fig:APD_rew}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/distance_distributions/mpd_distr_bm_shuff_prompt2_notitle.pdf}
+        \caption{Base Models (MPD on Shuffled Dataset, Prompt 2)}
+        \label{fig:mpd_distr_bm_shuff_prompt2}
+    \end{subfigure}
+    
+    \vspace{0.5cm}
+
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/distance_distributions/mpd_distr_it_shuff_prompt2_notitle.pdf}
+        \caption{Instruction-Tuned Models (MPD on Shuffled Dataset, Prompt 2)}
+        \label{fig:mpd_distr_it_shuff_prompt2}
+    \end{subfigure}
+    
+    \caption{Distribution of Maximum Pairwise Distances on the \textbf{Shuffled Dataset}. Note the distinct ``spikes'' (gaps) caused by the fixed number of answer options.}
+    \label{fig:MPD_shuff}
+\end{figure}
+
+
+\subsection{Additional Volatility Analysis}
+\label{app:msd_analysis_complementary}
+This section complements the volatility analysis in Section \ref{results:msd_analysis}. While the main text presented the Mean Standard Deviation for the Reworded Dataset, Table \ref{tab:mean_volatility_shuff} presents the corresponding values for the Shuffled Dataset.
+
+\begin{table}[H]
+    \centering
+    \small
+    \caption{MSD on the \textbf{Shuffled Dataset}. This table aggregates the volatility scores for both Base and Instruction-Tuned models. Note that for IT models, Column P3 (Unlabeled) consistently yields the lowest values, confirming the ``Prompt 3 Paradox'' discussed in the main text.}
+    \label{tab:mean_volatility_shuff}
+    \begin{tabular}{lcccc}
+        \toprule
+        & \multicolumn{4}{c}{\textbf{Mean Standard Deviation}} \\
+        \cmidrule(lr){2-5}
+        \textbf{Model} & \textbf{P1 (Numeric)} & \textbf{P2 (Alpha)} & \textbf{P3 (Unlabeled)} & \textbf{P4 (Ext.)} \\
+        \midrule
+        \textit{Base Models} & & & & \\
+        Llama-3.1-8B & 0.367 & 0.403 & 0.445 & 0.328 \\
+        Mistral-7B-v0.3 & 0.503 & 0.400 & 0.365 & 0.482 \\
+        Qwen2.5-7B & 0.323 & 0.361 & 0.363 & 0.330 \\
+        Gemma-2-9B & 0.553 & 0.346 & 0.415 & 0.378 \\
+        \midrule
+        \textit{Instruction-Tuned Models} & & & & \\
+        Llama-3.1-8B-Instruct & 0.277 & 0.232 & 0.146 & 0.273 \\
+        Mistral-7B-Instruct-v0.3 & 0.263 & 0.320 & 0.242 & 0.250 \\
+        Qwen2.5-7B-Instruct & 0.310 & 0.277 & 0.207 & 0.279 \\
+        Gemma-2-9B-IT & 0.233 & 0.187 & 0.122 & 0.217 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\paragraph{Observations and Comparison.}
+Comparing these values to the Reworded Dataset (Table \ref{tab:mean_volatility_rew}) reveals a general increase in volatility, suggesting that option shuffling is typically more disruptive than rewording. This instability is most pronounced in Base models, where MSD values rise considerably across most configurations. A notable exception is \textit{Qwen2.5-7B}, which maintains the lowest volatility among Base models, reinforcing its status as the most robust base model. Instruction-Tuned models display a more nuanced pattern: while their volatility generally rises compared to the reworded baseline (though to a lesser extent than Base models), they exhibit a unique anomaly in Prompt 3. The Unlabeled prompt consistently yields the lowest MSD for every IT model, quantitatively confirming the ``Prompt 3 Paradox'' where the removal of labels appears to enhance semantic consistency in randomized contexts.
+
+
+\subsection{Categorical Consistency on Shuffled Dataset}
+\label{app:consistency_shuffled}
+The categorical consistency analysis (Section \ref{results:consistency}) was extended to the Shuffled Dataset to verify if the trends observed in the Reworded Dataset hold when option order is randomized.
+
+The overall patterns remain largely consistent with the main results: Instruction-Tuned models outperform Base models, with \textit{Llama-3.1-8B-Instruct} maintaining the highest stability. The only notable deviation was observed in the \textit{Qwen} family. Unlike other models that show static or slightly degraded consistency under shuffling, both \textit{Qwen2.5-7B} (Base) and \textit{Qwen2.5-7B-Instruct} exhibit slightly higher rates of perfect cross-prompt agreement (``4 Same Answers'') on the Shuffled Dataset compared to the Reworded one. This further supports the observation that the Qwen architecture possesses a distinct robustness to format variations, even when combined with semantic shuffling.
+
+Detailed visualizations for these comparisons are available in the electronic appendix (Section \ref{el_app}).
+
+
+\subsection{Correlation Stability (Reworded Dataset)}
+\label{app:corr_reworded}
+Complementing the analysis of Correlational Stability in Section \ref{results:corr_stability}, this section presents the Pearson correlation analysis for the Reworded Dataset. While the main text focused on the Shuffled Dataset, this dataset isolates the impact of changing the answer formulations and scale length.
+
+Table \ref{tab:corr_reworded} displays the correlation coefficients for all prompt pairs.
+
+\begin{table}[H]
+    \centering
+    \small
+    \caption{Pearson Correlation Coefficients ($r$) on the \textbf{Reworded Dataset}. Note that correlations are generally higher here than in the Shuffled Dataset (Table \ref{tab:corr_shuffled}), indicating that reworded answer options facilitate better cross-prompt consistency.}
+    \label{tab:corr_reworded}
+    \begin{tabular}{lcccccc}
+        \toprule
+        & \multicolumn{6}{c}{\textbf{Prompt Pair Correlations}} \\
+        \cmidrule(lr){2-7}
+        \textbf{Model} & \textbf{1\,--\,2} & \textbf{1\,--\,3} & \textbf{1\,--\,4} & \textbf{2\,--\,3} & \textbf{2\,--\,4} & \textbf{3\,--\,4} \\
+        \midrule
+        \textit{Base Models} & & & & & & \\
+        Llama-3.1-8B & 0.580 & 0.398 & 0.644 & 0.464 & 0.536 & 0.461 \\
+        Mistral-7B-v0.3 & 0.485 & 0.408 & 0.454 & 0.354 & 0.336 & 0.278 \\
+        Qwen2.5-7B & 0.608 & 0.575 & 0.750 & 0.467 & 0.560 & 0.481 \\
+        Gemma-2-9B & 0.534 & 0.374 & 0.564 & 0.473 & 0.627 & 0.504 \\
+        \midrule
+        \textit{Instruction-Tuned Models} & & & & & & \\
+        Llama-3.1-8B-Instruct & 0.820 & 0.701 & 0.894 & 0.712 & 0.797 & 0.683 \\
+        Mistral-7B-Instruct-v0.3 & 0.707 & 0.722 & 0.913 & 0.646 & 0.709 & 0.703 \\
+        Qwen2.5-7B-Instruct & 0.818 & 0.743 & 0.883 & 0.737 & 0.799 & 0.726 \\
+        Gemma-2-9B-IT & 0.860 & 0.778 & 0.897 & 0.820 & 0.841 & 0.749 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\paragraph{Observations and Comparison.}
+Comparing these results to the Shuffled Dataset (Table \ref{tab:corr_shuffled}) reveals that correlations are universally higher in the Reworded context, confirming that preserving logical ranking is easier for models when the option order is fixed.
+Among Base models, \textit{Qwen2.5-7B} emerges as the clear outlier; it achieves correlations that approach the stability of Instruction-Tuned models, reinforcing the observation that its pre-training induced a stronger logical robustness than its competitors.
+Finally, structural trends remain consistent across datasets: the pair 1\,--\,4 (Standard Numeric vs. Extended Numeric) yields the highest stability across all models (often $>0.90$ for IT variants), confirming that models successfully recognize the structural similarity of these prompts despite the difference in scale length.

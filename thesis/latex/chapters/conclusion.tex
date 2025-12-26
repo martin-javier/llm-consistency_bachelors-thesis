@@ -1,0 +1,44 @@
+This thesis investigated the reliability and consistency of LLMs when deployed as simulated respondents in survey research. By subjecting four major model families (Llama, Mistral, Qwen, and Gemma) to rigorous changes in answer options and their presentation, including answer rewording, option shuffling, and prompt reformatting, this study isolated the mechanical artifacts of text generation from genuine semantic stability. The empirical findings presented in Chapter \ref{results} allow for definitive conclusions regarding the feasibility of using LLMs for synthetic survey research.
+
+
+\subsection{Summary of Findings}
+
+The overarching finding of this research is that Instruction Tuning is the primary determinant of survey reliability. While model architecture and size play a role, the alignment process (SFT + RLHF, see Section \ref{sec:llm_theory}) fundamentally alters how models process multiple-choice tasks, shifting them from probabilistic text completers to semantically grounded respondents.
+
+\subsubsection{The Stabilization Effect of Instruction Tuning}
+The comparison between Base and Instruction-Tuned models revealed a stark divergence in consistency. Base models demonstrated high volatility and susceptibility to ``choice architecture'' effects. For instance, \textit{Llama-3.1-8B} exhibited a strong primacy bias, defaulting to the first option, while \textit{Gemma-2-9B} displayed extreme polarity instability, flipping from one end of the Likert scale to the other (e.g., ``Fully agree'' to ``Fully disagree'') based solely on option order. This confirms the findings of \citet{zheng2024largelanguagemodelsrobust}, who identify selection bias as an intrinsic weakness of base models. Crucially, the direction of this bias appears unstable. While this study observed primacy effects, \citet{rupprecht2025prompt} demonstrate that such biases are highly sensitive to prompt syntax, further highlighting the structural fragility of unaligned models.
+
+In contrast, Instruction-Tuned models reduced response volatility by approximately 50\,\% (as measured by MSD). They effectively mitigated positional biases, maintaining consistent semantic profiles even when answer options were shuffled or reworded. This confirms that the ``opinions'' extracted from base models are often artifacts of next-token prediction probabilities, whereas IT models are capable of maintaining a more coherent logical stance.
+
+\subsubsection{Robustness to Variation: Language, Order, and Structure}
+The analysis disaggregated consistency into three distinct dimensions:
+
+\vspace{-0.4cm}
+\paragraph{Language Stability (Rewording).} While generally less disruptive than shuffling, reworded variations exposed a distinct capability gap. Base models exhibited higher volatility when the formulation changed. However, Instruction-Tuned models remained highly stable, with \textit{Gemma-2-9B-IT} demonstrating that instruction tuning effectively grounds the model in semantic meaning, allowing it to treat synonymous labels (e.g., ``Fully agree'' vs.\ ``Strongly agree'') as logically equivalent.
+
+\vspace{-0.4cm}
+\paragraph{Order Stability (Shuffling).} This dimension proved more challenging for the models than rewording. Base models frequently collapsed, with \textit{Gemma-2-9B} yielding values that indicate random guessing. Instruction-Tuned models were far more robust, often reducing volatility by half compared to their base counterparts. Notably, a divergence emerged regarding the Unlabeled Prompt 3. In the Reworded dataset, the absence of labels generally hurt performance. However, in the Shuffled dataset, a ``paradox'' occurred for IT models: Prompt 3 yielded the highest consistency. This phenomenon is best explained by the theory of ``Multiple Choice Symbol Binding'' (MCSB) proposed by \citet{xue2024symbolbindingmakesllmreliableinmcq}. Models often fail not at selecting the content, but at binding that content to an abstract symbol (e.g., mapping ``Agree'' to ``A''). By removing the labels, Prompt 3 allows IT models to bypass this error-prone binding step and choose based purely on semantic content.
+
+\vspace{-0.4cm}
+\paragraph{Structural Stability (Prompt Formats).} The study identified noticeable sensitivity to the presence of option labels. Prompt 3 (Unlabeled) acted as a structural outlier; without the labels, cross-prompt consistency dropped for all models. Conversely, the high correlation between Prompt 1 (Numeric labels) and Prompt 4 (Numeric labels \& extended scale) indicates that models stuck to their choice in this context, rarely selecting the newly introduced ``Don't Know'' and ``Refused'' options.
+
+
+\subsection{Implications for Synthetic Survey Research}
+
+These findings have direct practical implications for researchers utilizing LLMs to simulate human populations or generate synthetic data:
+
+\vspace{-0.4cm}
+\paragraph{Base models are unsuitable for direct surveying.} Despite their capabilities in other domains, Base models lack the requisite stability for multiple-choice tasks. Their responses are too heavily influenced by arbitrary formatting choices to be treated as valid proxies for opinion. Future research should rely on Instruction-Tuned variants to ensure that variability in the data reflects simulated human diversity rather than mechanical noise \citep{santurkar2023opinionsQApaper}.
+
+\vspace{-0.4cm}\paragraph{Prompt design acts as a reliability filter.} The results suggest that ``minimalist'' prompting (e.g., removing labels as in Prompt 3) generally degrades reliability. Numeric or alphabetic labels appear to help the model map its internal probability distribution to a discrete selection, resulting in more consistent answers. The notable exception is for IT models in randomized option ordering; in this specific context, the absence of labels actually increases consistency. This suggests that while labels generally stabilize responses, they introduce a specific vulnerability to ``symbol binding'' errors \citep{xue2024symbolbindingmakesllmreliableinmcq} when the option order is perturbed, creating a trade-off between structural guidance and binding accuracy.
+
+\vspace{-0.4cm}
+\paragraph{Verification requires perturbation.} A single query is insufficient to gauge an LLM's true ``opinion.'' The volatility observed predominantly in Base models suggests that researchers should employ ensemble prompting (querying the model multiple times with shuffled options or reworded answers) to average out stochastic noise. As \citet{khan2025randomness} argue, without such robustness checks, what appears to be the model's opinion can easily change with some variations in presentation, making it indistinguishable from random noise.
+
+\vspace{-0.4cm}
+\paragraph{Relevance to Open-Ended Tasks.} While this study focused on rigid multiple-choice formats to rigorously quantify consistency, LLMs are increasingly utilized for answering open-ended questions. The instability quantified here serves as a critical baseline: if a model cannot consistently maintain a stance in a structured environment, its open-ended justifications may be similarly fragile or ``unfaithful'' to the model's true internal state \citep{turpin2024languagemodels}. Thus, robustness checks are equally vital for free-text generation tasks.
+
+
+\subsection{Final Remarks}
+
+In conclusion, while Large Language Models exhibit promising capabilities for social science simulation, their reliability is not inherent. It is a product of specific fine-tuning processes and careful prompt engineering. By understanding the mechanical sensitivities of these models (to order, wording, and structure) researchers can better separate the signal of synthetic opinion from the noise of stochastic generation.

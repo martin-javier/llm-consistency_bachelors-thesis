@@ -1,0 +1,242 @@
+This section details the experimental methodology, beginning with the data preparation and the systematic introduction of Likert-scale variations. It then outlines the prompting strategies, model specifications, and the metrics used to quantify answer consistency. The goal is to standardize questions and response scales so that the analysis can isolate the effect of scale wording, polarity, and cardinality on model choices.
+
+\subsection{Data Preparation}
+\label{exp_setups:data_prep}
+
+The foundation of this study is a carefully curated dataset derived from the OpinionQA corpus \citep{santurkar2023opinionsQApaper} (see Section \ref{sec:opinionQA} for details on the original corpus). The preparation process involved multiple stages of automated and manual refinement to ensure the questions were suitable for investigating variation sensitivity in LLMs.
+
+\vspace{-0.4cm}
+\paragraph{Initial Data Unification and Filtering.}
+The original OpinionQA data, comprising questions from the Pew American Trends Panel, was first consolidated into a unified CSV (comma-separated values) format using an automated Python script. This initial dataset then underwent rigorous manual review. Each question was evaluated based on its suitability for LLM administration, specifically checking whether the question implicitly assumed a specific respondent background (e.g., questions asking ``While growing up, how often did you...'' or ``How much ... would you say is in your neighborhood''). Questions deemed inappropriate or unanswerable without giving the models a specific persona were excluded to ensure the final dataset assessed the models' generalized opinions rather than role-playing capabilities.
+
+\vspace{-0.4cm}
+\paragraph{Adaptation for Likert-Scale Administration.}
+A second manual pass ensured all remaining questions could be coherently answered using Likert-scale response options (as defined in Section \ref{exp_framework:stage1}). This required reformatting questions where the substantive content resided in the answer choices rather than the question stem. For instance, questions following the format \textit{``Which statement do you agree with the most?''} with multiple substantive statements as options were transformed into multiple individual questions using the stem \textit{``How much do you agree or disagree with the following statement? ...''}, followed by each respective statement. This adaptation increased the total number of questions while ensuring consistent Likert-scale applicability across the dataset.
+
+\vspace{-0.4cm}
+\paragraph{Question Typology and Scale Standardization.}
+To enable systematic scale variation, questions were automatically classified based on their Content Dimension (as defined in Section \ref{exp_framework:stage1}). This operational categorization, referred to hereafter as the question type, groups items into 15 distinct classes (e.g., Agreement, Importance, Quantity), as detailed in Table \ref{tab:content_dimensions}. The classification was performed using a Python script employing keyword matching and Regular Expressions (RegEx). This grouping allows for consistent answer option sets across questions of the same type. For example, all questions classified as ``Agreement'' are answered using variants of \textit{[``Fully agree'', ``Somewhat agree'', ``Somewhat disagree'', ``Fully disagree'']}.
+
+\begin{table}[H]
+    \centering
+    \small
+    \caption{Distribution of Content Dimensions in the final dataset ($N=1,235$). The ``Agreement'' type is the most prevalent, reflecting the common structure of the source survey data.}
+    \label{tab:content_dimensions}
+    \begin{tabular}{lrr}
+        \toprule
+        \textbf{Content Dimension} & \textbf{Count} & \textbf{Percentage} \\
+        \midrule
+        Agreement & 404 & 32.7\,\% \\
+        Quantity & 214 & 17.3\,\% \\
+        Better / Worse & 101 & 8.2\,\% \\
+        Importance & 91 & 7.4\,\% \\
+        Likelihood & 85 & 6.9\,\% \\
+        Positive / Negative & 67 & 5.4\,\% \\
+        Good / Bad & 50 & 4.0\,\% \\
+        Magnitude of Problem & 48 & 3.9\,\% \\
+        Frequency & 38 & 3.1\,\% \\
+        Performance (``How Well'') & 38 & 3.1\,\% \\
+        Priority & 35 & 2.8\,\% \\
+        Acceptance & 31 & 2.5\,\% \\
+        Reason & 15 & 1.2\,\% \\
+        Concern & 11 & 0.9\,\% \\
+        Increase / Decrease & 7 & 0.6\,\% \\
+        \midrule
+        \textbf{Total} & \textbf{1,235} & \textbf{100.0\,\%} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+It is recognized in the survey methodology literature that such Agree-Disagree (AD) scales require respondents to perform an additional cognitive step of mapping their judgment onto an agreement dimension, which can increase cognitive burden and introduce measurement error compared to item-specific questions that directly query the underlying dimension of interest \citep{dykema2022reconsiderationADscales}. Nonetheless, the AD format is used in this study because the primary goal is to investigate the effect of systematic changes in answer scale properties, rather than to create a methodologically perfect opinion questionnaire. By using a uniform scale structure across diverse topics, the study effectively isolates the impact of the scale parameters (cardinality, wording, polarity) from the semantics of the questions themselves. This approach preserves the spirit of the original survey design (where respondents were asked to select the statement they agree with the most) and maintains a manageable number of question types.
+
+\vspace{-0.4cm}
+\paragraph{Generation of the ``Reworded Dataset'' (Scale Variations).}
+To address the research questions regarding phrasing and scale design, five semantically equivalent but differently worded answer option sets were developed for each question type. These systematically vary along three dimensions:
+\begin{enumerate}
+    \item \textbf{Cardinality:} The number of response options (4, 5, or 6 points).
+    \item \textbf{Phrasing:} Synonymous rewording of labels while maintaining the same semantic meaning (e.g., changing ``Strongly agree'' to ``Fully agree'').
+    \item \textbf{Polarity:} The directionality of the scale (unipolar vs.\ bipolar) as defined in Section \ref{exp_framework:stage2}.
+\end{enumerate}
+Each variation was annotated with its attributes (e.g., ``5-point bipolar'') and mapped to a numerical scale using equidistant points along the interval $[-1, 1]$. For example, a 5-point scale is mapped to $\{1.0, 0.5, 0.0, -0.5, -1.0\}$. This normalization facilitates the calculation of distance-based consistency metrics across scales of differing lengths.
+
+\vspace{-0.4cm}
+\paragraph{Generation of the ``Shuffled Dataset'' (Order Permutations).}
+To investigate positional bias, a second distinct dataset was generated. For the answer options, the original wording was retained if it fit a Likert scale structure, or otherwise adapted to a Likert scale, before generating permuted versions. For every question, five random permutations were created using fixed random seeds ($2, 7, 10, 67, 101$). Combined with the original order, this results in six unique orderings per question. This dataset isolates the effect of option position while holding the question semantics and answer wording constant.
+
+\vspace{-0.4cm}
+\paragraph{Final Dataset Composition.}
+The data preparation process resulted in a final curated set of 1235 unique questions, organized into two experimental datasets for analysis. The Reworded Dataset comprises 6175 items ($1235 \text{ questions} \times 5 \text{ wording variations}$), while the Shuffled Dataset comprises 7410 items ($1235 \text{ questions} \times 6 \text{ order permutations}$). These comprehensive datasets enable a robust analysis of LLM consistency when answer options change in different ways.
+
+
+\subsection{Model Configurations}
+\label{exp_setups:model_config}
+
+To examine the consistency of LLM responses across both architecture families and alignment regimes, this study evaluates four open-weight model families in two configurations each: a base (pretrained) model and its corresponding instruction-tuned variant. All models are medium-sized (7\,--\,9B parameters), which permits running multiple evaluation passes per item while remaining representative of contemporary, general-purpose LLM architectures.
+
+All models were sourced from the Hugging Face Hub and inference was performed using the \texttt{transformers} library on the GPU cluster of the Leibniz Supercomputing Centre (LRZ). Models were loaded in their native precision (typically bfloat16 or float16) using the \texttt{dtype='auto'} setting, ensuring that the results reflect the exact model weights without performance degradation from quantization.
+
+\vspace{-0.4cm}
+\paragraph{Selected Model Families.}
+The study includes four distinct model families to ensure that observed consistency patterns are not specific to a certain training recipe or tokenizer. Table \ref{tab:model_overview} summarizes the exact versions used.
+
+\textbf{Llama 3.1 (8B)} represents a widely adopted decoder-only transformer family from Meta, known for strong performance on English-centric benchmarks \citep{grattafiori2024llama3}. \textbf{Mistral v0.3 (7B)} is a compact model family from Mistral AI optimized for efficiency, serving as a strong baseline in open-source evaluations \citep{jiang2023mistral7b}. \textbf{Qwen 2.5 (7B)}, developed by Alibaba Cloud, is a multilingual model family that demonstrates competitive performance relative to larger open-weight systems, particularly in reasoning and non-English tasks \citep{yang2024qwen2}. Finally, \textbf{Gemma 2 (9B)} from Google is built on the same research and technology as the Gemini models, targeting resource-constrained deployment while retaining strong general capabilities \citep{gemmateam2024gemma}.
+
+\begin{table}[H]
+\centering
+\caption{Overview of the language models evaluated in this study. Each family is tested in both its base and instruction-tuned configuration.}
+\vspace{0.15cm}
+\label{tab:model_overview}
+\begin{tabular}{@{}llcc@{}}
+\toprule
+\textbf{Family} & \textbf{Specific Version} & \textbf{Params} & \textbf{Type} \\ \midrule
+\multirow{2}{*}{Llama 3.1} & \texttt{Meta-Llama-3.1-8B} & 8B & Base \\
+ & \texttt{Meta-Llama-3.1-8B-Instruct} & 8B & IT \\ \midrule
+\multirow{2}{*}{Mistral} & \texttt{Mistral-7B-v0.3} & 7B & Base \\
+ & \texttt{Mistral-7B-Instruct-v0.3} & 7B & IT \\ \midrule
+\multirow{2}{*}{Qwen 2.5} & \texttt{Qwen2.5-7B} & 7B & Base \\
+ & \texttt{Qwen2.5-7B-Instruct} & 7B & IT \\ \midrule
+\multirow{2}{*}{Gemma 2} & \texttt{gemma-2-9b} & 9B & Base \\
+ & \texttt{gemma-2-9b-it} & 9B & IT \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{-0.3cm}
+\paragraph{Base vs.\ Instruction-Tuned Configurations.}
+For each family, the \textit{Base} model represents the pretrained backbone trained primarily with self-supervised next-token prediction on large-scale text corpora. The corresponding \textit{IT} variant has undergone further post-training, typically involving Supervised Fine-Tuning on instruction datasets and Reinforcement Learning from Human Feedback. Comparing these pairs isolates the effect of alignment training on multiple-choice consistency, holding the underlying architecture and parameter count constant.
+
+\vspace{-0.4cm}
+\paragraph{Inference and Decoding Strategy.}
+To ensure reproducibility and eliminate variance caused by stochastic sampling, all model outputs were generated using greedy decoding. In the generation configuration, sampling was disabled (\texttt{do\_sample=False}), which is mathematically equivalent to setting the temperature to 0. This forces the model to deterministically select the token with the highest probability at each step. This approach is preferred for evaluation tasks to ensure that any observed variation in responses is attributable to the changes in the prompt (scale design, wording) rather than the randomness of the generation process. The maximum new token limit was set to 50, sufficient for generating short survey responses.
+
+
+\subsection{Prompting Strategies}
+\label{exp_setups:prompt_strat}
+
+The prompting strategy aims to reliably extract a single choice from a set of Likert-type options while minimizing bias, refusal (if refusal is not an answer option) and formatting errors. The strategy employs a zero-shot approach, presenting the task as a neutral survey. This framing aims to reduce the likelihood that the model interprets the task as requiring factual justification or moral reasoning, and discourages content moderation refusals on sensitive subjective items.
+
+\vspace{-0.4cm}
+\paragraph{Instruction-Tuned vs.\ Base Model Implementation.}
+Due to the architectural differences between the model types, two distinct prompting paradigms were employed:
+
+\begin{enumerate}
+    \item \textbf{Instruction-Tuned Models:} These models were prompted using the standard chat template structure (List of Messages). All prompting content, including the core task instructions (e.g., ``You are taking a survey...''), was delivered within a single message with the role \texttt{user}. This approach deliberately omitted a separate \texttt{system} prompt to prevent potential inconsistencies in how different models parse such instructions.
+    \item \textbf{Base Models:} As these models are trained for text completion rather than instruction following, they were prompted using a sentence completion strategy. The instruction block was removed, and the prompt consisted solely of the Question, the Options, and a forcing suffix (e.g., ``The best answer is option number:'') to induce the model to generate the next token as the answer.
+\end{enumerate}
+
+\vspace{-0.5cm}
+\paragraph{Prompt Templates and Constraints.}
+All prompts were constructed to enforce a minimal output format, requesting a single token (number or letter) where possible to facilitate automated parsing.
+
+\vspace{0.4cm}
+\noindent\textit{Template A: Instruction-Tuned Models}
+\vspace{-0.2cm}
+\begin{quote}
+\small
+You are taking a survey. There are no right or wrong answers.\\
+Please choose the one option that best fits your view. The order of the options does not imply any ranking.\\
+Output format: Provide exactly one \texttt{label type} only (no words, no punctuation, no quotes).\\
+\\
+Question: \texttt{question}\\
+\\
+Options:\\
+\texttt{option block}\\
+\\
+Please answer with ONLY one of the answer options given above, and with only the \texttt{label type} corresponding to the option you choose.
+\end{quote}
+
+\noindent\textit{Template B: Base Models}
+\vspace{-0.2cm}
+\begin{quote}
+\small
+Question: \texttt{question}\\
+\\
+Options:\\
+\texttt{option block}\\
+\\
+The best answer is option \texttt{suffix}:
+\end{quote}
+
+\vspace{-0.4cm}
+\paragraph{Experimental Variations.}
+To test the research questions, the \texttt{option block}, \texttt{label type} and \texttt{suffix} components were varied in four configurations.
+
+\begin{itemize}
+    \item \textbf{Prompt 1: Numeric Labels.} Options are enumerated as ``1) ... 2) ...''.
+    \vspace{-0.2cm}
+    \begin{itemize}
+        \item \texttt{label type}: ``number''
+        \item \texttt{suffix}: ``number''
+    \end{itemize}
+
+    \item \textbf{Prompt 2: Alphabetic Labels.} Options are enumerated as ``A) ... B) ...''.
+    \vspace{-0.2cm}
+    \begin{itemize}
+        \item \texttt{label type}: ``letter''
+        \item \texttt{suffix}: ``letter''
+    \end{itemize}
+
+    \item \textbf{Prompt 3: Unlabeled Options.} Options are listed as plain text lines.
+    \vspace{-0.2cm}
+    \begin{itemize}
+        \item \texttt{label type}: ``option''
+        \item \texttt{suffix}: Empty (``The best answer is option:'')
+    \end{itemize}
+
+    \item \textbf{Prompt 4: Additional Options.} To examine the impact of expanded option availability on response stability, the numeric scale (Prompt 1) was augmented with two additional options: ``Don't know'' and ``Refused''. For a scale of length $N$, these were labeled as $N+1$ and $N+2$. Since these options do not map onto the substantive semantic interval $[-1, 1]$ defined in Section \ref{exp_setups:data_prep}, they are assigned distinct exclusion codes ($-98$ and $-99$) to separate them during analysis.
+\end{itemize}
+
+
+\subsection{Consistency Metrics}
+\label{exp_setups:consist_metr}
+
+To quantify the semantic stability of model responses across variations, the normalized numerical values (mapped to $[-1, 1]$ as defined in Section \ref{exp_setups:data_prep}) were analyzed. The analysis focuses on measuring the divergence between responses to the same underlying question when the prompt or scale is altered.
+
+\vspace{-0.4cm}
+\paragraph{Data Filtering and Validity.}
+Prior to calculation, all responses are filtered to separate substantive opinions from invalid outputs. Responses assigned the exclusion codes $-98$ (Don't Know), $-99$ (Refused), or those resulting in parsing errors (e.g., if the model's response does not contain any valid answer option) are removed from the set of values.
+
+To ensure a fair comparison and avoid artificially deflating variance through missing data, consistency metrics are computed only for questions where the model provided a valid substantive response for the full set of variations. Specifically, for the Reworded Dataset a question is included only if $n=5$ valid responses exist, and for the Shuffled Dataset only if $n=6$ valid responses exist. Questions failing this ``completeness check'' are excluded from the consistency aggregation.
+
+\vspace{-0.4cm}
+\paragraph{Metric 1: Average Pairwise Distance (APD).}
+The primary measure of inconsistency is the average absolute difference between all unique pairs of responses for a given question. Let $V = \{v_1, v_2, \dots, v_n\}$ be the set of valid normalized scores for a single question. The APD is calculated as:
+
+\begin{equation}
+    APD = \frac{1}{K} \sum_{i=1}^{n} \sum_{j=i+1}^{n} |v_i - v_j|
+    \label{eq:apd}
+\end{equation}
+
+where $K = \frac{n(n-1)}{2}$ represents the total number of unique pairs (10 pairs for $n=5$, 15 pairs for $n=6$). An APD of $0$ indicates perfect consistency, while higher values indicate semantic drift.
+
+\vspace{-0.4cm}
+\paragraph{Metric 2: Maximum Pairwise Distance (MPD).}
+To capture the worst-case divergence for a single question (e.g., a model switching from ``Strongly Agree'' to ``Strongly Disagree''), the Maximum Pairwise Distance is calculated:
+
+\begin{equation}
+    MPD = \max_{1 \leq i < j \leq n} |v_i - v_j|
+    \label{eq:mpd}
+\end{equation}
+
+This metric highlights extreme volatility, identifying cases where minor prompt variations cause the model to span a significant portion of the opinion spectrum.
+
+\vspace{-0.4cm}
+\paragraph{Metric 3: Mean Standard Deviation (MSD).}
+To quantify the stability of model responses at the question level, the standard deviation of answers is calculated for each unique question $q$. Let $V_q = \{v_1, \dots, v_n\}$ be the set of valid numeric projections across the $n$ variations ($n=5$ for the Reworded dataset and $n=6$ for the Shuffled dataset). The per-question standard deviation ($\sigma_q$) is defined as:
+
+\begin{equation}
+    \sigma_q = \sqrt{\frac{1}{n-1} \sum_{i=1}^{n} (v_i - \bar{v})^2}
+    \label{eq:msd}
+\end{equation}
+
+To aggregate this metric for a specific model and prompt, the \textit{Mean Standard Deviation} is used, calculated as the arithmetic mean of $\sigma_q$ across all valid questions in the dataset. A lower MSD indicates higher consistency, implying the model settles on a specific numeric value regardless of variation.
+
+\vspace{-0.4cm}
+\paragraph{Metric 4: Pearson Correlation Coefficient ($r$).}
+To evaluate the structural robustness of a model's logic across different prompt formats (e.g., Numeric vs. Alphabetic), the Pearson correlation coefficient between the response vectors of distinct prompt pairs are calculated. Let $X = \{x_1, \dots, x_N\}$ be the set of numeric responses for Prompt $A$ across all $N$ valid questions (where valid answers exist for both prompts), and $Y = \{y_1, \dots, y_N\}$ be the corresponding responses for Prompt $B$. The correlation $r$ is defined as:
+
+\begin{equation}
+    r = \frac{\sum_{i=1}^{N} (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{N} (x_i - \bar{x})^2} \sqrt{\sum_{i=1}^{N} (y_i - \bar{y})^2}}
+    \label{eq:pearson}
+\end{equation}
+
+where $\bar{x}$ and $\bar{y}$ are the means of the response vectors. A high correlation ($r > 0.8$) indicates that the model preserves the relative semantic ordering of questions despite structural changes, implying high stability. Conversely, a low correlation ($r < 0.5$) suggests that the phrasing or option labels significantly alter the model's perception of the questions.

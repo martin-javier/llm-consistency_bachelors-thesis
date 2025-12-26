@@ -1,0 +1,82 @@
+This chapter introduces the general methodological framework developed to evaluate the consistency of Large Language Models in multiple-choice settings. While the subsequent chapter details the specific datasets and models used in this study, the framework described here serves as a generalized pipeline for stress-testing LLM decision-making.
+
+The core objective of this framework is to separate an LLM's understanding of a concept from its sensitivity to the format in which that concept is presented. To achieve this, the pipeline takes a standardized survey question and systematically pairs it with different sets of answer options. While the question text remains constant, the answer options vary in wording, granularity, and order. By comparing the model's responses across these variations, the framework allows for a mathematical assessment of consistency.
+
+The workflow consists of four distinct stages, illustrated in Figure \ref{fig:framework_pipeline}: \textit{Input Standardization and Classification}, \textit{Scale Generation}, \textit{Standardized Inference}, and \textit{Unified Analysis}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/fig_framework.pdf}
+    \caption{Overview of the experimental framework. The pipeline standardizes a raw question, classifies its underlying dimension (e.g., Agreement), and attaches multiple distinct answer scales. The model's responses to these variations are then normalized into a shared numerical space.}
+    \label{fig:framework_pipeline}
+\end{figure}
+
+
+\subsection{Stage 1: Input Standardization and Classification}
+\label{exp_framework:stage1}
+
+The first stage involves preparing the raw input data to ensure it is compatible with a systematic variation engine (details on the specific implementation are provided in Section \ref{exp_setups:data_prep}). This process consists of two substeps:
+
+\vspace{-0.4cm}
+\paragraph{1. Stem Standardization.}
+To isolate the answer options as a variable, the framework relies on the structure of Likert scales. Likert scales are psychometric scales where responses are presented along a continuum rather than as distinct categorical choices \citep{likert1932likertscale}. Respondents are asked to specify their position on the provided range, for example, by rating their level of agreement with a statement or their sentiment towards a political party.
+
+Raw survey items often embed the substantive statement into the answer choices to keep the question stem short (e.g., ``Which statement do you agree with?''). Because such formats tightly couple the question to specific options, they must be reformatted to include the substantive content entirely in the question stem (e.g., ``How much do you agree with the following statement...''). This ensures that the question stem serves as a fixed anchor, allowing the answer options to be swapped out modularly without altering the core inquiry.
+
+\vspace{-0.4cm}
+\paragraph{2. Dimensional Classification.}
+Once standardized, the underlying latent variable of the question, referred to here as the ``Content Dimension'', is identified. All questions are classified into a semantic type, such as \textit{Agreement}, \textit{Importance}, or \textit{Frequency}. This classification is critical because it determines which set of answer scales (e.g., ``Agree/Disagree'' vs.\ ``Important/Unimportant'') is semantically appropriate for generating variations in the next stage.
+
+
+\subsection{Stage 2: The Scale Variation Engine}
+\label{exp_framework:stage2}
+
+With the question stem fixed and the content dimension identified, the ``Variation Engine'' generates the specific answer option sets that will be presented to the model. Rather than altering the question, this stage attaches different response scales to the standardized stem. The framework utilizes two distinct strategies for variation:
+
+\vspace{-0.4cm}
+\paragraph{Reworded Variations (Semantic \& Structural Changes).}
+For a given Content Dimension (e.g., Agreement), the engine retrieves multiple pre-defined sets of answer options that represent that dimension. These sets vary systematically in:
+\begin{itemize}
+    \item \textbf{Cardinality:} The number of options (e.g., from a 4-point to a 5- or 6-point scale).
+    \item \textbf{Phrasing:} Using synonymous labels (e.g., substituting ``Fully'' with ``Strongly'').
+    \item \textbf{Polarity:} The directionality of the scale \citep{hohne2021measuring}. This includes \textit{bipolar} scales, which measure a construct from negative to positive with a neutral or zero point (e.g., ``Strongly agree'' to ``Strongly disagree''), and \textit{unipolar} scales, which measure the magnitude of a single attribute from zero to high (e.g., ``Extremely important'' to ``Not at all important'').
+\end{itemize}
+This process results in a ``Reworded Dataset'' where the same question stem is paired with multiple valid, semantically equivalent answer scales.
+
+\vspace{-0.4cm}
+\paragraph{Shuffled Variations (Positional Changes).}
+Permutation operations are performed to isolate the effect of option order (Positional Bias). For every question, a single canonical set of options is selected, and random permutations of the answer sequence are generated. This results in a ``Shuffled Dataset'' where the wording and scale properties remain identical to the source, but the position of each option (e.g., 1st vs.\ last) changes.
+
+
+\subsection{Stage 3: Standardized Inference Protocol}
+\label{exp_framework:stage3}
+
+The third stage manages the interaction with the subject models. While the Variation Engine (Section \ref{exp_framework:stage2}) produces the content of the query, the Inference Protocol determines the syntax used to present it. To ensure comparability across different model architectures (e.g., base vs.\ instruction-tuned), the framework employs a modular system that handles two functions:
+
+\vspace{-0.4cm}
+\paragraph{Model-Specific Encapsulation.}
+Different model families require distinct input formats to function correctly. The driver encapsulates the standardized question and options into the appropriate template:
+\begin{itemize}
+    \item \textbf{Instruction-Tuned Models:} Inputs are wrapped in chat-specific structures (e.g., \texttt{user} tags) to trigger the model's aligned response behavior.
+    \item \textbf{Base Models:} Inputs are formatted as text-completion tasks, often utilizing a forcing suffix (e.g., ``The answer is:'') to prime the model for an immediate response.
+\end{itemize}
+
+\vspace{-0.4cm}
+\paragraph{Syntactic Variation and Determinism.}
+Beyond architectural adaptation, this stage allows for the injection of syntactic variations to test robustness against prompt formatting. This includes altering option label formats (e.g., testing ``1, 2, 3'' vs.\ ``A, B, C''), comparing performance under zero-shot conditions versus few-shot setups, or altering the system instructions to impose specific personas or constraints (e.g., ``Answer as a conservative policy expert'' vs.\ ``You are taking part in a survey''). Finally, to ensure that the measured consistency reflects the model's internal representation rather than sampling noise, the inference is executed deterministically (typically using greedy decoding with temperature set to zero).
+
+
+\subsection{Stage 4: Unification and Consistency Analysis}
+\label{exp_framework:stage4}
+
+The final stage addresses the analytical challenge of comparing outputs drawn from heterogeneous scales. Since the Variation Engine (Section \ref{exp_framework:stage2}) produces answers using differing cardinalities (e.g., 4-point vs.\ 5-point scales) and labels, the raw tokens cannot be directly compared.
+
+\vspace{-0.4cm}
+\paragraph{Normalization Strategy.}
+To enable cross-scale comparison, the framework maps all valid substantive outputs to a unified latent interval $I \in [-1, 1]$. This mapping assumes that Likert response options represent equidistant points along the underlying semantic continuum. For any scale of cardinality $N$, the options are projected onto $I$ such that the most positive option maps to $1.0$ and the most negative to $-1.0$. This normalization allows for the calculation of distance metrics between different scales and formulations.
+
+\vspace{-0.4cm}
+\paragraph{Consistency Quantification.}
+With all responses mapped to a shared numerical space, the framework quantifies stability using distance-based metrics. Rather than measuring accuracy against a ground truth (which is undefined for opinion-based questions), the framework measures ``Self-Consistency'': the dispersion of the projected values across the generated variations for each individual question, calculated within a fixed prompting configuration.
+
+Computing dispersion at the question level is essential to distinguish instability from opinion diversity. Without this isolation, high variance could simply reflect that the model holds strong but opposing views on different topics (e.g., highly positive for Question A and highly negative for Question B). By restricting the analysis to individual questions, low dispersion implies that the model possesses a robust internal understanding of the specific concept, whereas high dispersion indicates that the model's judgment is brittle, fluctuating based on the presentation format or option order.

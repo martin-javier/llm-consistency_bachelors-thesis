@@ -1,0 +1,7 @@
+#save the content to requirements.txt file,
+#then use pip install -r requirements.txt
+pandas
+numpy
+matplotlib
+seaborn
+scipy

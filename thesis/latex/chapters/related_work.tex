@@ -1,0 +1,119 @@
+\subsection{Theoretical Foundations of Transformer-Based LLMs}
+\label{sec:llm_theory}
+
+Prior to the current generation of LLMs, natural language processing relied heavily on Recurrent Neural Networks (RNNs) and Long Short-Term Memory (LSTM) networks \citep{hochreiter1997long}. These architectures processed text sequentially, ingesting one word (or ``token'') at a time. This process is analogous to reading a text one word at a time without grasping the ``bigger picture.'' As a result, RNNs struggled with long-range dependencies, often forgetting context from the beginning of a paragraph by the time they reached the end, and were computationally inefficient, as the processing of the $n$-th word depended on the completion of the $(n-1)$-th word.
+
+The introduction of the \textit{Transformer} architecture by \citet{vaswani2017attentionisallyouneed} fundamentally shifted this paradigm. Instead of processing words sequentially, Transformers process the entire input sequence in parallel. This allows the model to ``look at'' all words simultaneously, determining their contextual importance and connections between them regardless of their distance in the text. This capability relies on a mechanism known as \textit{Self-Attention}.
+
+\subsubsection{The Mechanism of Self-Attention}
+Self-Attention describes the process where the model determines the relevance of words in a text using a mathematical system of weights. This allows the model to compare the relevance of different words relative to one another. The Transformer consists of a stack of layers, each layer contains two primary sub-components: a Self-Attention mechanism (where tokens share information) followed by a Feed-Forward Network (which processes each token individually).
+
+To perform self-attention, the model assigns three learned vectors to every input token: a \textbf{Query ($Q$)}, a \textbf{Key ($K$)}, and a \textbf{Value ($V$)}:
+\begin{itemize}
+    \item The \textbf{Query} represents what the current token is looking for (e.g., a pronoun looking for its noun or a noun looking for adjectives that further describe it).
+    \item The \textbf{Key} acts as a label or identifier for every other token in the sequence (e.g., identifying a token as a ``subject'' or ``object'').
+    \item The \textbf{Value} contains the actual semantic content of the token.
+\end{itemize}
+
+Keys that correspond to specific Queries are closely aligned in the vector space (meaning they point in similar directions). To measure how well each Key matches the current Query, the model computes the dot product across every possible pair. A high dot product indicates a strong semantic relationship (e.g., connecting ``he'' with ``the man'' earlier in the sentence); in such cases, the Query is said to ``attend to'' the Key. These raw scores are then normalized into probabilities using a Softmax function:
+
+\begin{equation}
+    \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+    \label{eq:attention}
+\end{equation}
+
+where $d_k$ represents the dimension of the key vectors. The scaling factor $\sqrt{d_k}$ is critical for numerical stability; without it, the dot products could grow extremely large, pushing the softmax function into regions with extremely small gradients (vanishing gradients), which would effectively halt the training process \citep{vaswani2017attentionisallyouneed}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/self_attention.pdf}
+    \caption{Simplified Self-Attention for ``The furry black cat''. The Query (``cat'') computes weights via dot products with all Keys. These weights scale the Value vectors to prioritize information relevant to the Query.}
+    \label{fig:self_attention}
+\end{figure}
+
+The resulting output is a weighted sum of the \textit{Values} (visualized in Figure \ref{fig:self_attention}), where irrelevant words are drowned out and relevant words are amplified. By stacking multiple such layers (Multi-Head Attention), the model learns complex linguistic nuances, such as syntax, sentiment, and coreference, far more effectively than sequential models. Furthermore, because this operation is matrix-based rather than recurrent, it allows for parallelization on modern GPU hardware, enabling the training of models on large datasets.
+
+
+\subsubsection{Architectures: Encoders and Decoders}
+The original Transformer consisted of two components: an \textit{Encoder} (which processes the input) and a \textit{Decoder} (which generates output). Modern LLMs typically specialize in one:
+
+\begin{itemize}
+    \item \textbf{Encoder Models (e.g., BERT):} The Encoder processes the input sequence bidirectionally, allowing every token to attend to both past and future context. This architecture, popularized by BERT (Bidirectional Encoder Representations from Transformers) \citep{devlin2019bert}, excels at discriminative tasks like sentiment analysis or classification because it builds a comprehensive representation of the entire sentence context, but is less suitable for text generation.
+    \item \textbf{Decoder Models (e.g., GPT, Llama):} The Decoder is unidirectional. It employs a masking mechanism (often called a ``causal mask'') that prevents a token from attending to future tokens. The model predicts the next token $t_i$ based solely on the history $t_{1}\,...\,t_{i-1}$ \citep{radford2019language}. This autoregressive property, meaning the model generates output iteratively, consuming its own previous predictions as input for the next step, makes Decoder architectures (such as the Generative Pre-trained Transformer, or GPT) inherently generative.
+\end{itemize}
+
+The models examined in this thesis, Llama \citep{grattafiori2024llama3}, Mistral \citep{jiang2023mistral7b}, Qwen \citep{yang2024qwen2}, and Gemma \citep{gemmateam2024gemma}, are all \textit{Decoder-only} architectures. They function as probabilistic engines, trained to predict the most likely continuation of a text sequence \citep{brown2020language}.
+
+\subsubsection{Alignment and Post-Training}
+A raw, pre-trained Decoder model (often referred to as a ``Base'' model) is primarily a text completer. If prompted with ``What is the capital of France?'', a Base model might continue with ``and what is its population?'' rather than answering the question, as it is merely mimicking the pattern of a list of questions found in its training data.
+
+To transform these predictors into helpful assistants, models undergo a secondary process known generally as \textit{Alignment} or \textit{Post-Training}. This typically involves two steps:
+\begin{enumerate}
+    \item \textbf{Instruction Tuning:} The model undergoes Supervised Fine-Tuning (SFT) on a dataset of formatted (Instruction, Response) pairs. This stage teaches the model to recognize and execute tasks rather than just completing text patterns \citep{wei2021finetuned}.
+    \item \textbf{Reinforcement Learning from Human Feedback (RLHF):} To further align the model with human intent, \citet{ouyang2022training} introduced a preference optimization stage. The model generates multiple candidate answers, which are ranked by humans to train a \textit{reward model} that serves as a proxy for human preference. The LLM is then updated via reinforcement learning algorithms to maximize the score from this reward model, optimizing for abstract qualities like helpfulness and safety.
+\end{enumerate}
+
+This distinction is central to this thesis, which compares Base models against their Aligned counterparts. Note that while ``Instruction Tuning'' technically refers only to the first stage (SFT), this thesis follows the naming convention of model providers (e.g., \textit{Llama-3-Instruct}) and uses the term ``Instruction-Tuned'' (IT) to refer to models that have undergone the full alignment pipeline (SFT + RLHF).
+
+
+\subsection{General Survey Methodology and Psychometrics}
+
+The reliability of survey data is fundamentally determined by the quality of the measurement instrument. Within Classical Test Theory (CTT), an observed response is conceptualized as the sum of a latent \textit{true score}, representing the respondent’s underlying attitude or opinion, and a \textit{measurement error} component that captures random or systematic noise introduced by the instrument, the context, or the respondent \citep{lord1968statistical}. From this perspective, the central objective of rigorous survey design is to minimize measurement error, such that observed variation in responses reflects meaningful differences in latent opinions rather than artifacts induced by question wording, response scales, or presentation format.
+
+\vspace{-0.4cm}
+\paragraph{Reliability and Consistency.}
+Psychometric theory distinguishes between several forms of reliability, each capturing a different aspect of measurement stability. Of particular relevance to this study is \textit{parallel-forms reliability}, which assesses the degree to which two equivalent versions of a measurement instrument yield consistent results \citep{cronbach1951coefficient}. Traditionally, parallel forms are constructed to differ only in superficial characteristics while targeting the same underlying construct. In the context of Large Language Models, robustness to rewording can be interpreted analogously: a reliable respondent should map semantically equivalent formulations (e.g., ``Do you agree?'' versus ``What is your stance?'') to comparable outputs. Substantial variation in responses across such rewordings therefore suggests a lack of internal consistency in the measurement process.
+
+\vspace{-0.4cm}
+\paragraph{Response Styles and Biases.}
+Human respondents frequently exhibit systematic biases, known as ``response styles''.
+\begin{itemize}
+    \item \textbf{Satisficing:} As noted by \citet{krosnick1991satisficing}, respondents may avoid the cognitive effort required to optimally answer a question. This often manifests as a tendency to select neutral or safe middle options to avoid taking a strong stance.
+    \item \textbf{Acquiescence Bias:} This is defined as the tendency for respondents to agree with statements regardless of their substantive content \citep{couch1960yeasayers}. This bias is often attributed to social desirability concerns, satisficing behavior, or a general inclination to appear cooperative. When LLMs are deployed as virtual survey respondents, acquiescence bias becomes particularly salient, as many models are explicitly trained to adopt a helpful and agreeable interaction style. As a result, apparent agreement in model responses may reflect alignment-induced priors rather than stable underlying judgments.
+    \item \textbf{Order Effects (Primacy and Recency):} The ordering of response options is another well-established source of measurement error in surveys. Research on response-order effects distinguishes between \textit{primacy effects}, in which respondents disproportionately select options presented early in a list, and \textit{recency effects}, in which later options are favored \citep{krosnick1987order}. Primacy effects are more commonly observed in visually presented questionnaires, where respondents scan options sequentially, whereas recency effects tend to arise in auditory or sequential presentation formats, where later options remain more accessible in working memory. Such effects demonstrate that response distributions can be shaped by presentation order independently of substantive preference, highlighting the importance of careful scale design.
+\end{itemize}
+
+\vspace{-0.4cm}
+\paragraph{Scale Design Impact.}
+Social science research has long established that the structural properties of the answer scale itself affect responses. \citet{menold2021biasinagreementscales} find that verbal agreement scales produce less bias and higher reliability when using unipolar wording (e.g., ``do not agree'' to ``agree'') rather than bipolar (``disagree'' to ``agree''). Understanding these human cognitive mechanisms provides a critical baseline: it allows researchers to determine whether LLM instability is mimicking human-like cognitive biases or resulting from entirely distinct, mechanical artifacts of the attention mechanism.
+
+\vspace{0.3cm}
+Taken together, these psychometric principles underscore that variability in responses can arise from properties of the measurement instrument itself, motivating an examination of whether analogous sources of measurement error affect LLMs when they are evaluated using survey-style prompts and response scales.
+
+\subsection{LLMs in Survey Research and Evaluation}
+
+\paragraph{MCQA Evaluation Biases and Prompt Sensitivity.}
+Multiple-choice question answering has become a cornerstone evaluation method for LLMs, but accumulating evidence demonstrates that model performance is highly sensitive to superficial format features. A primary concern is \textit{selection bias} (often referred to as positional bias), where the model's choice is systematically distorted by the presentation order, regardless of semantic content. \citet{wang2024largelanguagemodelsfair} identify a pervasive \textit{primacy bias} in models like GPT-4, where the model preferentially selects the first option presented. Similarly, \citet{zheng2024largelanguagemodelsrobust} show that simply reordering answer choices can substantially swing model accuracy. For instance, GPT-3.5's score on the MMLU (Massive Multitask Language Understanding) benchmark drops from 67.2\,\% to 60.9\,\% when the correct answer is consistently placed last.
+
+Conversely, \citet{wang2024largelanguagemodelsfair} also observe that other models, particularly those fine-tuned on instruction-following data, may exhibit \textit{recency bias}, favoring the last option due to the autoregressive nature of generation. This bias often arises because LLMs learn statistical priors for option labels (e.g., preferring ``A'' over ``D'') rather than making purely semantic judgments. Consequently, this sensitivity creates a ``random guess'' baseline that is not uniform, e.g., if an LLM has a high intrinsic preference for option ``A'', a binary choice question is practically invalid unless the options are permuted and averaged.
+
+The problem extends beyond option order to what \citet{ngweta2025llmsrobustnesschangesprompt} term \textit{prompt brittleness}, where minor changes in prompt formatting, punctuation, or spacing can produce fluctuations in model accuracy exceeding 76\,\% between semantically equivalent prompts. Meanwhile, \citet{balepur2025bestdescribesmcq} critique the MCQ format itself as artificially forced, arguing it oversimplifies subjective tasks and primarily tests answer-selection ability rather than generative reasoning. They note that while MCQs dominate popular benchmarks (appearing in 71\,\% of GPT-4's evaluation tasks), over 90\,\% of real user queries are free-form, potentially misleading evaluations by rewarding test-taking skill over general capability.
+
+Further complicating matters, \citet{molfese2025rightanswerwrongscore} demonstrate that evaluation procedures (regex vs. log-prob matching, constrained vs. free-form prompts) can under- or over-estimate performance. In their study, enforcing strict answer formats caused lower measured accuracy, whereas allowing free-form answers improved correctness but required brittle parsing routines.
+
+\vspace{-0.4cm}
+\paragraph{Consistency and Persona Adoption.}
+Given these format sensitivities, recent work has emphasized measuring consistency alongside accuracy. \citet{lee2024evalconsistencyllmevaluators} formalize this in terms of \textit{self-consistency}, which describes the stability of a model's outputs under repeated identical prompts and \textit{inter-scale consistency}, the stability of outputs when evaluation scales or phrasing are varied. Their findings reveal that high-performing models are not inherently consistent; using different rating formats (e.g. 5-point vs. 10-point scales, numeric vs. verbal labels) often yields divergent evaluations for the same input. Sampling randomness introduced by different decoding seeds produces nontrivial variability, with non-numerical verbal scales causing larger judgment swings than purely interval scales.
+
+These consistency challenges extend to input formulation. \citet{lunardi2025reliabilitybenchmarkllmevaluation} systematically paraphrase thousands of benchmark questions and find that while model rankings remain roughly stable, absolute accuracy drops markedly under paraphrasing. Even top-ranked models can lose significant percentage points when encountering synonymous wording, suggesting that minor phrasing changes can yield ``wrong scores'' despite the model possessing the requisite knowledge.
+
+Applying these concepts to survey simulation, \citet{rupprecht2025prompt} argue that response patterns depend heavily on the ``persona'' the model adopts; an LLM prompted to act as a helpful assistant may gravitate toward agreeableness (Acquiescence Bias), whereas a neutral prompt might result in a different distributional prior. Understanding these priors is crucial, as they can distort the interpretation of Likert-scale results: a ``Neutral'' response from an LLM might not indicate a lack of opinion, but rather a failure of the model to map its internal probability distribution to the extreme ends of the provided scale.
+
+Emerging evidence indicates LLMs exhibit the same, and sometimes amplified, sensitivities compared to humans. \citet{rupprecht2025prompt} systematically apply perturbations to World Values Survey items and find consistent human-like biases, such as \textit{recency bias}, where models heavily favor the last-presented option (in some cases approximately 20 times more frequently) and strong sensitivity to semantic paraphrasing. Notably, while higher-capacity models show somewhat greater stability, no model proves robust to scale or phrasing changes. \citet{khan2025randomness} similarly report large instabilities in LLM answers to ``cultural alignment'' surveys, where results swing dramatically with minor prompt variations, suggesting that LLM judgments often reflect methodological artifacts rather than true model traits.
+
+\vspace{-0.4cm}
+\paragraph{Symbol Binding and Mitigation Strategies.}
+The underlying cause of these instabilities may involve inadequate \textit{symbol binding}, the model's ability to associate option content with option labels. \citet{xue2024symbolbindingmakesllmreliableinmcq} demonstrate that selection bias persists during supervised fine-tuning because models fail to reliably bind answer symbols to their semantic content. Their proposed solution greatly reduces positional bias and substantially improves MCQ accuracy by training with a contrastive ``Point-wise Intelligent Feedback'' loss that forces the model to match each option’s content to its label. However, this approach requires access to model weights and retraining, limiting its applicability to closed-source models.
+
+Alternative mitigation strategies include prompt engineering and evaluation design adjustments. \citet{ngweta2025llmsrobustnesschangesprompt} show that training or prompting models with a mixture of formats can reduce brittleness, while careful evaluation protocol design, as emphasized by \citet{molfese2025rightanswerwrongscore}, can help ensure that scoring methods accurately capture model capabilities rather than format artifacts.
+
+
+\subsection{The OpinionQA Corpus and Survey Simulation}
+\label{sec:opinionQA}
+
+The OpinionQA corpus \citep{santurkar2023opinionsQApaper} provides a natural testbed for investigating these issues in survey-style settings. The dataset comprises 1,498 opinion-based multiple-choice questions derived from the American Trends Panel surveys conducted by the Pew Research Center \citep{pew_atp}. These questions cover a broad spectrum of highly subjective topics, ranging from political ideology and social issues to consumer preferences.
+
+Originally, the corpus was designed to assess the alignment between LLM ``views'' and human demographic groups. \citet{santurkar2023opinionsQApaper} found that base models often exhibit distinct ``liberal'' tendencies, aligning more closely with left-leaning demographic groups on topics like climate change and gun control. However, while previous work has explored whose opinions LLMs reflect, the question of how consistently they express those opinions across different scale formulations remains underexplored. This thesis leverages OpinionQA not to measure demographic alignment, but as a source of validated, subjective prompts to stress-test the structural stability of LLM evaluations.
+
+\vspace{0.5cm}
+In summary, the related literature establishes that LLMs exhibit substantial sensitivity to MCQA format choices, that consistency is a critical but often overlooked dimension of evaluation quality, and that existing mitigation strategies provide only partial solutions. This study builds on these insights by systematically manipulating Likert-type scale designs and measuring the resulting impact on LLM answer consistency, contributing to a more nuanced understanding of LLM robustness in survey-style evaluation tasks.

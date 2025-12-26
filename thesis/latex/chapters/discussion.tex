@@ -1,0 +1,43 @@
+The empirical results presented in Chapter \ref{results} highlight a significant divide in the reliability of LLMs for synthetic survey research. While IT models demonstrate a capability for consistent semantic reasoning, Base models remain driven by surface-level patterns and formatting cues rather than genuine semantic stability. These findings are interpreted in this chapter through the lens of model architecture and training paradigms, before critically examining the limitations of the current study and proposing avenues for future research.
+
+
+\subsection{Interpretation of Results}
+
+\subsubsection{The RLHF Hypothesis: Alignment as a Reliability Filter}
+The superior stability of IT models across all metrics most likely stems from a fundamental shift in training objectives. Base models optimize for next-token prediction, treating surveys as pattern completion tasks where arbitrary features, like option order or label format, alter the output probabilities. This aligns with findings by \citet{zhao2021calibrate}, who demonstrated that raw language models exhibit severe biases toward specific answers based on their frequency in pre-training data and their position in the prompt (recency bias).
+
+In contrast, the full alignment pipeline (see Section \ref{sec:llm_theory}) aligns the model to maximize helpfulness and faithfulness \citep{ouyang2022training}. This process acts as a reliability filter, training the model to abstract away from surface-level formatting and focus on semantic intent. Consequently, IT models converge on a logically ``best'' answer, rather than just the most likely continuation. However, this alignment is not without artifacts. \citet{sharma2023sycophancy} warn that RLHF can introduce ``sycophancy,'' causing models to bias responses toward perceived user expectations rather than objective truth. Thus, while IT models are more mechanically consistent, their stability may partially reflect a form of ``learned compliance'' alongside robust reasoning.
+
+\subsubsection{The Supporting Role of Option Labels}
+The consistency collapse of Base models in Prompt 3 (Unlabeled) underscores the mechanical function of option labels. In the other prompts, labels likely serve as attention ``anchors'', supporting the mapping of semantic probabilities to discrete outputs. When removed, the model must rely solely on the semantic text of the answers, a task where Base models struggle to maintain a stable mapping. This observation is supported by \citet{xue2024symbolbindingmakesllmreliableinmcq}, who identify this specific failure mode as a lack of ``Symbol Binding'' capability in standard training. The stability of IT models suggests that instruction tuning reduces this structural dependency, strengthening the model's ability to attend directly to semantic content.
+
+\subsection{Limitations and Future Work}
+
+While this study provides a robust baseline for measuring LLM consistency, several limitations in scope and methodology highlight important directions for future research.
+
+\subsubsection{Critique of Consistency Metrics}
+Measuring consistency in LLMs inherently depends on the reliability of the answer extraction pipeline. As \citet{molfese2025rightanswerwrongscore} demonstrate, standard evaluation strategies often fail to distinguish between reasoning failures and formatting failures, leading to ``Right Answer, Wrong Score'' scenarios. In this study, the reliance on strict output formatting imposed definitions of consistency that may have introduced specific biases:
+
+\vspace{-0.4cm}
+\paragraph{The Additional Options.} In the analysis of structural robustness, selecting ``Don't Know'' or ``Refused'' in Prompt 4 was categorized as an inconsistency. A more nuanced analysis could exclude these non-substantive responses to calculate a ``pure'' consistency score. As noted by \citet{kadavath2022language}, the ability of a model to identify its own knowledge boundaries is a desirable alignment feature; thus, shifting to ``Don't Know'' may represent a valid expression of uncertainty rather than a failure of stability.
+
+\vspace{-0.4cm}
+\paragraph{Handling of Unusable Responses.} The current intra-prompt stability metrics excluded unusable answers. This is particularly relevant for \textit{Mistral-7B-v0.3}, which exhibited a high rate of unusable responses. By excluding these failures, the analysis focused only on the ``surviving'' well-formed answers, potentially artificially inflating the perceived stability of the model. Future studies should investigate how stability counts shift if unusable outputs are treated as distinct, valid mismatch categories (e.g., ``Agree'', ``Unusable'', ``Unusable'', ``Disagree'' = ``4 Different answers'').
+
+\subsubsection{Scope of Variations}
+The perturbations in this study were limited to answer options and prompt structure. Future work should expand the scope of variation to verify robustness more thoroughly:
+
+\vspace{-0.4cm}
+\paragraph{Question Rewording.} In this study, the question text was held constant. Given the observed sensitivity to changes in answer option wording, it is probable that models are also sensitive to the phrasing of the question itself. Investigating whether LLMs maintain their stance when the query is rephrased (e.g., ``Do you support X?'' vs. ``Are you in favor of X?'') is a critical next step, as semantic inconsistencies under paraphrasing remain a known issue even for large models \citep{elazar2021measuring}.
+
+\vspace{-0.4cm}
+\paragraph{Scale Nuances.} The study utilized 4-, 5-, and 6-point scales. Psychometric literature suggests that scale properties (e.g., the presence of a neutral point, unipolar vs. bipolar phrasing) significantly affect human respondents \citep{menold2021biasinagreementscales}. While this study focused on mechanical consistency of LLMs, future work should isolate these factors to determine if LLMs exhibit similar biases regarding scale design. Initial work by \citet{rupprecht2025prompt} has already begun to explore this, finding that while prompt perturbations trigger consistent recency bias, the effects on central tendency (e.g., preference for middle options) remain mixed.
+
+\vspace{-0.4cm}
+\paragraph{Temperature and Decoding.} All responses were generated using greedy decoding (temperature $= 0$). While this isolates the model's most probable path, it does not reflect the diversity of outputs generated in higher-temperature applications. Investigating how consistency degrades as temperature increases would provide bounds for creative applications of survey simulation.
+
+\subsubsection{Granularity of Analysis}
+Due to time constraints, this analysis aggregated results across all questions. However, the dataset includes manual classifications of question topics (e.g., ``Politics'', ``Economy'', ``Race and Ethnicity''). A stratified analysis could reveal whether models are more robust on certain topics, while being more fragile on others.
+
+\subsubsection{The Lack of Human Baselines}
+Finally, this study evaluated LLMs against a theoretical standard of perfect logical consistency. However, human respondents are historically inconsistent due to fatigue, acquiescence bias, or genuine ambivalence \citep{krosnick1991satisficing}. Without a comparative human baseline answering the exact same set of reworded and shuffled questions, it is difficult to determine where current models stand. \citet{aher2023llmstosimhumans} suggest that LLM samples often exhibit ``hyper-accuracy'' and lower variance than human samples; thus, models might be ``super-human'' (lacking natural variance) or, conversely, exhibit volatility driven by mechanical artifacts that has no parallel in human psychology.
