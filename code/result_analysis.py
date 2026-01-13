@@ -143,8 +143,8 @@ def process_and_merge(r1, r2, r3, r4):
 # Apply to reworded Results
 merged_res_reworded_it = process_and_merge(res1_reworded_it, res2_reworded_it, res3_reworded_it, res4_reworded_it)
 print(len(merged_res_reworded_it)) #### 24700
-merged_res_reworded_it_bm = process_and_merge(res1_reworded_bm, res2_reworded_bm, res3_reworded_bm, res4_reworded_bm)
-print(len(merged_res_reworded_it_bm)) #### 24700
+merged_res_reworded_bm = process_and_merge(res1_reworded_bm, res2_reworded_bm, res3_reworded_bm, res4_reworded_bm)
+print(len(merged_res_reworded_bm)) #### 24700
 
 # Apply to Shuffled Results
 merged_res_shuffled_it = process_and_merge(res1_shuffled_it, res2_shuffled_it, res3_shuffled_it, res4_shuffled_it)
@@ -411,8 +411,8 @@ plot_distributions(merged_res_shuffled_it, "Shuffled", "Instruction-Tuned", "it_
 plot_distributions(merged_res_shuffled_it, "Shuffled", "Instruction-Tuned", "it_shuff", mode='percentage', include_title=True)
 
 # 2. Base Models
-plot_distributions(merged_res_reworded_it_bm, "Reworded", "Base Models", "bm_rew", mode='absolute', include_title=True)
-plot_distributions(merged_res_reworded_it_bm, "Reworded", "Base Models", "bm_rew", mode='percentage', include_title=True)
+plot_distributions(merged_res_reworded_bm, "Reworded", "Base Models", "bm_rew", mode='absolute', include_title=True)
+plot_distributions(merged_res_reworded_bm, "Reworded", "Base Models", "bm_rew", mode='percentage', include_title=True)
 plot_distributions(merged_res_shuffled_bm, "Shuffled", "Base Models", "bm_shuff", mode='absolute', include_title=True)
 plot_distributions(merged_res_shuffled_bm, "Shuffled", "Base Models", "bm_shuff", mode='percentage', include_title=True)
 
@@ -424,8 +424,8 @@ plot_distributions(merged_res_shuffled_it, "Shuffled", "Instruction-Tuned", "it_
 plot_distributions(merged_res_shuffled_it, "Shuffled", "Instruction-Tuned", "it_shuff", mode='percentage', include_title=False)
 
 # 4. Base Models
-plot_distributions(merged_res_reworded_it_bm, "Reworded", "Base Models", "bm_rew", mode='absolute', include_title=False)
-plot_distributions(merged_res_reworded_it_bm, "Reworded", "Base Models", "bm_rew", mode='percentage', include_title=False)
+plot_distributions(merged_res_reworded_bm, "Reworded", "Base Models", "bm_rew", mode='absolute', include_title=False)
+plot_distributions(merged_res_reworded_bm, "Reworded", "Base Models", "bm_rew", mode='percentage', include_title=False)
 plot_distributions(merged_res_shuffled_bm, "Shuffled", "Base Models", "bm_shuff", mode='absolute', include_title=False)
 plot_distributions(merged_res_shuffled_bm, "Shuffled", "Base Models", "bm_shuff", mode='percentage', include_title=False)
 
@@ -609,9 +609,9 @@ plot_consistency(merged_res_reworded_it, "Reworded", "Instruction-Tuned Models",
 plot_consistency(merged_res_shuffled_it, "Shuffled", "Instruction-Tuned Models", "it_shuff", mode='percentage', include_title=True)
 
 # 2. Base Models
-plot_consistency(merged_res_reworded_it_bm, "Reworded", "Base Models", "bm_rew", mode='absolute', include_title=True)
+plot_consistency(merged_res_reworded_bm, "Reworded", "Base Models", "bm_rew", mode='absolute', include_title=True)
 plot_consistency(merged_res_shuffled_bm, "Shuffled", "Base Models", "bm_shuff", mode='absolute', include_title=True)
-plot_consistency(merged_res_reworded_it_bm, "Reworded", "Base Models", "bm_rew", mode='percentage', include_title=True)
+plot_consistency(merged_res_reworded_bm, "Reworded", "Base Models", "bm_rew", mode='percentage', include_title=True)
 plot_consistency(merged_res_shuffled_bm, "Shuffled", "Base Models", "bm_shuff", mode='percentage', include_title=True)
 
 ## Without title (for paper)
@@ -622,9 +622,9 @@ plot_consistency(merged_res_reworded_it, "Reworded", "Instruction-Tuned Models",
 plot_consistency(merged_res_shuffled_it, "Shuffled", "Instruction-Tuned Models", "it_shuff", mode='percentage', include_title=False)
 
 # 4. Base Models
-plot_consistency(merged_res_reworded_it_bm, "Reworded", "Base Models", "bm_rew", mode='absolute', include_title=False)
+plot_consistency(merged_res_reworded_bm, "Reworded", "Base Models", "bm_rew", mode='absolute', include_title=False)
 plot_consistency(merged_res_shuffled_bm, "Shuffled", "Base Models", "bm_shuff", mode='absolute', include_title=False)
-plot_consistency(merged_res_reworded_it_bm, "Reworded", "Base Models", "bm_rew", mode='percentage', include_title=False)
+plot_consistency(merged_res_reworded_bm, "Reworded", "Base Models", "bm_rew", mode='percentage', include_title=False)
 plot_consistency(merged_res_shuffled_bm, "Shuffled", "Base Models", "bm_shuff", mode='percentage', include_title=False)
 
 
@@ -826,7 +826,7 @@ generate_avg_distance_plots(merged_res_reworded_it, "Reworded", "Instruction-Tun
 generate_avg_distance_plots(merged_res_shuffled_it, "Shuffled", "Instruction-Tuned Models", "apd_distr_it_shuff", include_title=True)
 
 # 2. Base Models
-generate_avg_distance_plots(merged_res_reworded_it_bm, "Reworded", "Base Models", "apd_distr_bm_rew", include_title=True)
+generate_avg_distance_plots(merged_res_reworded_bm, "Reworded", "Base Models", "apd_distr_bm_rew", include_title=True)
 generate_avg_distance_plots(merged_res_shuffled_bm, "Shuffled", "Base Models", "apd_distr_bm_shuff", include_title=True)
 
 ## Without title
@@ -835,7 +835,7 @@ generate_avg_distance_plots(merged_res_reworded_it, "Reworded", "Instruction-Tun
 generate_avg_distance_plots(merged_res_shuffled_it, "Shuffled", "Instruction-Tuned Models", "apd_distr_it_shuff", include_title=False)
 
 # 4. Base Models
-generate_avg_distance_plots(merged_res_reworded_it_bm, "Reworded", "Base Models", "apd_distr_bm_rew", include_title=False)
+generate_avg_distance_plots(merged_res_reworded_bm, "Reworded", "Base Models", "apd_distr_bm_rew", include_title=False)
 generate_avg_distance_plots(merged_res_shuffled_bm, "Shuffled", "Base Models", "apd_distr_bm_shuff", include_title=False)
 
 
@@ -1023,7 +1023,7 @@ generate_max_distance_plots(merged_res_reworded_it, "Reworded", "Instruction-Tun
 generate_max_distance_plots(merged_res_shuffled_it, "Shuffled", "Instruction-Tuned Models", "mpd_distr_it_shuff", include_title=True)
 
 # 2. Base Models
-generate_max_distance_plots(merged_res_reworded_it_bm, "Reworded", "Base Models", "mpd_distr_bm_rew", include_title=True)
+generate_max_distance_plots(merged_res_reworded_bm, "Reworded", "Base Models", "mpd_distr_bm_rew", include_title=True)
 generate_max_distance_plots(merged_res_shuffled_bm, "Shuffled", "Base Models", "mpd_distr_bm_shuff", include_title=True)
 
 ## Without title
@@ -1032,7 +1032,7 @@ generate_max_distance_plots(merged_res_reworded_it, "Reworded", "Instruction-Tun
 generate_max_distance_plots(merged_res_shuffled_it, "Shuffled", "Instruction-Tuned Models", "mpd_distr_it_shuff", include_title=False)
 
 # 4. Base Models
-generate_max_distance_plots(merged_res_reworded_it_bm, "Reworded", "Base Models", "mpd_distr_bm_rew", include_title=False)
+generate_max_distance_plots(merged_res_reworded_bm, "Reworded", "Base Models", "mpd_distr_bm_rew", include_title=False)
 generate_max_distance_plots(merged_res_shuffled_bm, "Shuffled", "Base Models", "mpd_distr_bm_shuff", include_title=False)
 
 
@@ -1177,9 +1177,9 @@ generate_bias_overlap_plots(merged_res_reworded_it, "Reworded", merged_res_shuff
 
 # 2. Base Models
 # With Title
-generate_bias_overlap_plots(merged_res_reworded_it_bm, "Reworded", merged_res_shuffled_bm, "Shuffled", "ans_distr_bm", include_title=True)
+generate_bias_overlap_plots(merged_res_reworded_bm, "Reworded", merged_res_shuffled_bm, "Shuffled", "ans_distr_bm", include_title=True)
 # Without Title
-generate_bias_overlap_plots(merged_res_reworded_it_bm, "Reworded", merged_res_shuffled_bm, "Shuffled", "ans_distr_bm", include_title=False)
+generate_bias_overlap_plots(merged_res_reworded_bm, "Reworded", merged_res_shuffled_bm, "Shuffled", "ans_distr_bm", include_title=False)
 
 
 ## ----------------------------------------------
@@ -1344,10 +1344,10 @@ generate_stability_analysis(merged_res_shuffled_it, "Shuffled", "Instruction-Tun
 
 # 2. Base Models
 # With Title
-generate_stability_analysis(merged_res_reworded_it_bm, "Reworded", "Base Models", "stability_bm_rew", include_title=True)
+generate_stability_analysis(merged_res_reworded_bm, "Reworded", "Base Models", "stability_bm_rew", include_title=True)
 generate_stability_analysis(merged_res_shuffled_bm, "Shuffled", "Base Models", "stability_bm_shuff", include_title=True)
 # Without Title
-generate_stability_analysis(merged_res_reworded_it_bm, "Reworded", "Base Models", "stability_bm_rew", include_title=False)
+generate_stability_analysis(merged_res_reworded_bm, "Reworded", "Base Models", "stability_bm_rew", include_title=False)
 generate_stability_analysis(merged_res_shuffled_bm, "Shuffled", "Base Models", "stability_bm_shuff", include_title=False)
 
 #### Notes on Interpretation of Matrices:
@@ -1456,18 +1456,19 @@ gemma-2-9b       0.468  0.155  0.499  0.312  0.557  0.378
 # Helper: robust std calculation
 INVALID_MARKERS = {-98, -99}
 
-def get_valid_std(series):
+def get_valid_std(values, expected_n):
     """
-    Cleans series of invalid markers and calculates standard deviation.
-    Returns NaN if fewer than 2 valid points.
+    Calculates std dev ONLY if the number of valid values matches expected_n.
+    Otherwise returns NaN (excluding the question).
     """
-    # Coerce to numeric
-    s = pd.to_numeric(series, errors='coerce')
+    # Convert to numeric Series
+    s = pd.Series(pd.to_numeric(values, errors='coerce'))
     
     # Remove NaNs and Invalid Markers
     valid_s = s[~s.isna() & ~s.isin(INVALID_MARKERS)]
     
-    if len(valid_s) < 2:
+    # Check: Exclude if we don't have the full set of answers
+    if len(valid_s) != expected_n:
         return np.nan
         
     return valid_s.std()
@@ -1482,22 +1483,10 @@ def generate_std_analysis(df, dataset_label, model_type, filename_prefix, includ
     df = df.copy()
     prompts = [1, 2, 3, 4]
     
-    # Define model order
-    it_order = [
-        'Llama-3.1-8B-Instruct', 
-        'Mistral-7B-Instruct-v0.3', 
-        'Qwen2.5-7B-Instruct', 
-        'gemma-2-9b-it'
-    ]
+    # --- 0. Define Sorting Order ---
+    it_order = ['Llama-3.1-8B-Instruct', 'Mistral-7B-Instruct-v0.3', 'Qwen2.5-7B-Instruct', 'gemma-2-9b-it']
+    base_order = ['Llama-3.1-8B', 'Mistral-7B-v0.3', 'Qwen2.5-7B', 'gemma-2-9b']
     
-    base_order = [
-        'Llama-3.1-8B', 
-        'Mistral-7B-v0.3', 
-        'Qwen2.5-7B', 
-        'gemma-2-9b'
-    ]
-    
-    # Select order
     if "Base" in model_type:
         model_order = base_order
     else:
@@ -1518,8 +1507,19 @@ def generate_std_analysis(df, dataset_label, model_type, filename_prefix, includ
         col = f'num_value{p}'
         if col not in df.columns: continue
         
-        # Calculate Std Dev per question
-        std_per_question = df.groupby(['model', 'question_id'])[col].apply(get_valid_std).reset_index(name='std_dev')
+        # Group by Question to get the list of 5 (or 6) answers
+        grouped = df.groupby(['model', 'question_id'])[col].apply(list).reset_index(name='values_list')
+        
+        if grouped.empty: continue
+
+        # Dynamically determine expected N (e.g., 5 for Reworded, 6 for Shuffled)
+        typical_len = int(grouped['values_list'].apply(len).median())
+
+        # Apply Strict Calculation
+        grouped['std_dev'] = grouped['values_list'].apply(lambda x: get_valid_std(x, typical_len))
+        
+        # Drop excluded questions (NaNs)
+        std_per_question = grouped.dropna(subset=['std_dev']).copy()
         
         # Add metadata for plotting
         std_per_question['prompt'] = p
@@ -1541,7 +1541,7 @@ def generate_std_analysis(df, dataset_label, model_type, filename_prefix, includ
     full_plot_df = pd.concat(plot_data, ignore_index=True)
     summary_df = pd.DataFrame(summary_stats)
 
-    # --- 2. Print Summary Table (Optional Log) ---
+    # --- 2. Print Summary Table ---
     print(f"\n--- {dataset_label} ({model_type}): Mean Standard Deviation (Lower = More Consistent) ---")
     pivot_table = summary_df.pivot(index='model', columns='prompt', values='mean_std_dev')
     print(pivot_table.round(3))
@@ -1550,7 +1550,6 @@ def generate_std_analysis(df, dataset_label, model_type, filename_prefix, includ
     # --- 3. Plotting (2x2 Grid of Boxplots) ---
     fig, axes = plt.subplots(2, 2, figsize=(19, 10))
     
-    # Conditional Title
     if include_title:
         fig.suptitle(f'Volatility Analysis: Standard Deviation of Answers ({dataset_label}) - {model_type}', 
                      fontsize=FS_MAIN_TITLE, fontweight='bold', y=0.98)
@@ -1559,8 +1558,6 @@ def generate_std_analysis(df, dataset_label, model_type, filename_prefix, includ
 
     for idx, p in enumerate(prompts):
         ax = axes_flat[idx]
-        
-        # Filter data for this prompt
         prompt_data = full_plot_df[full_plot_df['prompt'] == p]
         
         if not prompt_data.empty:
@@ -1591,7 +1588,6 @@ def generate_std_analysis(df, dataset_label, model_type, filename_prefix, includ
         else:
             ax.set_ylabel('')
             
-        # Legend (Only on first plot)
         if idx == 0:
             legend_elements = [
                 Line2D([0], [0], color='#1f77b4', lw=4, label='IQR (Median inside)'),
@@ -1604,7 +1600,6 @@ def generate_std_analysis(df, dataset_label, model_type, filename_prefix, includ
     top_margin = 0.91 if include_title else 0.99
     plt.subplots_adjust(top=top_margin, bottom=0.08, left=0.05, right=0.95, hspace=0.3, wspace=0.15)
     
-    # Save Logic
     if include_title:
         filename = f"{filename_prefix}_std_boxplot.pdf"
         save_dir = os.path.join(script_dir, "plots")
@@ -1630,10 +1625,10 @@ generate_std_analysis(merged_res_shuffled_it, "Shuffled", "Instruction-Tuned Mod
 
 # 2. Base Models
 # With Title
-generate_std_analysis(merged_res_reworded_it_bm, "Reworded", "Base Models", "volatility_bm_rew", include_title=True)
+generate_std_analysis(merged_res_reworded_bm, "Reworded", "Base Models", "volatility_bm_rew", include_title=True)
 generate_std_analysis(merged_res_shuffled_bm, "Shuffled", "Base Models", "volatility_bm_shuff", include_title=True)
 # Without Title
-generate_std_analysis(merged_res_reworded_it_bm, "Reworded", "Base Models", "volatility_bm_rew", include_title=False)
+generate_std_analysis(merged_res_reworded_bm, "Reworded", "Base Models", "volatility_bm_rew", include_title=False)
 generate_std_analysis(merged_res_shuffled_bm, "Shuffled", "Base Models", "volatility_bm_shuff", include_title=False)
 
 #### Notes on Interpretation of Matrices:
@@ -1644,18 +1639,18 @@ generate_std_analysis(merged_res_shuffled_bm, "Shuffled", "Base Models", "volati
 Reworded (Instruction-Tuned Models): Mean Standard Deviation (Lower = More Consistent)
 prompt                        1      2      3      4
 model
-Llama-3.1-8B-Instruct     0.207  0.230  0.248  0.203
-Mistral-7B-Instruct-v0.3  0.221  0.227  0.287  0.199
-Qwen2.5-7B-Instruct       0.232  0.249  0.244  0.235
-gemma-2-9b-it             0.174  0.171  0.179  0.148
+Llama-3.1-8B-Instruct     0.207  0.229  0.248  0.203
+Mistral-7B-Instruct-v0.3  0.221  0.227  0.287  0.206
+Qwen2.5-7B-Instruct       0.232  0.249  0.244  0.241
+gemma-2-9b-it             0.174  0.172  0.178  0.164
 
 Shuffled (Instruction-Tuned Models): Mean Standard Deviation (Lower = More Consistent)
 prompt                        1      2      3      4
 model
-Llama-3.1-8B-Instruct     0.277  0.232  0.146  0.273
-Mistral-7B-Instruct-v0.3  0.263  0.320  0.242  0.250
-Qwen2.5-7B-Instruct       0.310  0.277  0.207  0.279
-gemma-2-9b-it             0.233  0.187  0.122  0.217
+Llama-3.1-8B-Instruct     0.277  0.233  0.146  0.274
+Mistral-7B-Instruct-v0.3  0.263  0.320  0.240  0.249
+Qwen2.5-7B-Instruct       0.310  0.277  0.206  0.273
+gemma-2-9b-it             0.232  0.187  0.121  0.220
 """
 # - Gemma-2-9b-it is the "Stability Queen" (Consistently lowest Std Dev across all Reworded prompts, ~0.17):
 # => This confirms Gemma has the tightest internal logic. When you ask the same question 5 times with different words,
@@ -1679,16 +1674,16 @@ gemma-2-9b-it             0.233  0.187  0.122  0.217
 Reworded (Base Models): Mean Standard Deviation (Lower = More Consistent)
 prompt               1      2      3      4
 model
-Llama-3.1-8B     0.357  0.315  0.411  0.331
-Mistral-7B-v0.3  0.299  0.259  0.454  0.275
-Qwen2.5-7B       0.254  0.304  0.416  0.221
+Llama-3.1-8B     0.357  0.315  0.411  0.340
+Mistral-7B-v0.3  0.302  0.254  0.453  0.294
+Qwen2.5-7B       0.254  0.304  0.415  0.224
 gemma-2-9b       0.344  0.325  0.421  0.229
 
 Shuffled (Base Models): Mean Standard Deviation (Lower = More Consistent)
 prompt               1      2      3      4
 model
 Llama-3.1-8B     0.367  0.403  0.445  0.328
-Mistral-7B-v0.3  0.503  0.400  0.365  0.482
+Mistral-7B-v0.3  0.508  0.403  0.365  0.510
 Qwen2.5-7B       0.323  0.361  0.363  0.330
 gemma-2-9b       0.553  0.346  0.415  0.378
 """
@@ -1824,3 +1819,967 @@ scale_type
 5-bipolar    1350     18.22%
 5-unipolar    228      3.08%
 """
+
+## --- How many questions are exluded by ignoring all with one or more unusable, "don't know" or "refused" answers? ---
+## So the percentage of questions excluded when there's min. one answer that doesn't fit on [-1, 1] scale:
+
+def analyze_exclusion_by_model(df, dataset_name):
+    """
+    Generates an exclusion table for EACH MODEL separately.
+    Calculates the percentage of questions excluded per prompt for that specific model.
+    """
+    models = sorted(df['model'].unique())
+    
+    print(f"\n{'#'*60}")
+    print(f" DETAILED EXCLUSION ANALYSIS BY MODEL: {dataset_name}")
+    print(f"{'#'*60}")
+    
+    for model in models:
+        # Filter data for this specific model
+        df_model = df[df['model'] == model]
+        
+        results = []
+        total_questions = df_model['question_id'].nunique()
+        
+        for p in range(1, 5):
+            col = f'num_value{p}'
+            if col not in df_model.columns: continue
+                
+            # --- Identify Invalid Answers ---
+            # 1. NaN (Unusable)
+            mask_nan = df_model[col].isna()
+            
+            # 2. Extended Options (-98, -99)
+            mask_ext = df_model[col].isin([-98, -99])
+            
+            # 3. Total Invalid (Strictly outside [-1, 1], including NaN)
+            numeric_vals = df_model[col].fillna(0) 
+            mask_out_of_bounds = (numeric_vals < -1) | (numeric_vals > 1)
+            mask_total_invalid = mask_nan | mask_out_of_bounds
+
+            # --- Counts ---
+            count_nan = df_model.loc[mask_nan, 'question_id'].nunique()
+            count_ext = df_model.loc[mask_ext, 'question_id'].nunique()
+            count_total = df_model.loc[mask_total_invalid, 'question_id'].nunique()
+            
+            pct_nan = (count_nan / total_questions) * 100
+            pct_ext = (count_ext / total_questions) * 100
+            pct_total = (count_total / total_questions) * 100
+            
+            results.append({
+                'Prompt': f'P{p}',
+                'Questions': total_questions,
+                'Unusable (NaN)': f"{count_nan} ({pct_nan:.1f}%)",
+                'Extended (-98/-99)': f"{count_ext} ({pct_ext:.1f}%)",
+                'Total Excluded': f"{count_total} ({pct_total:.1f}%)"
+            })
+            
+        res_df = pd.DataFrame(results)
+        print(f"\n>> Model: {model}")
+        print(res_df.to_string(index=False, col_space=15))
+        print("-" * 60)
+
+# 1. Instruction Tuned
+analyze_exclusion_by_model(merged_res_reworded_it, "Reworded - IT")
+analyze_exclusion_by_model(merged_res_shuffled_it, "Shuffled - IT")
+
+# 2. Base Models
+analyze_exclusion_by_model(merged_res_reworded_bm, "Reworded - Base")
+analyze_exclusion_by_model(merged_res_shuffled_bm, "Shuffled - Base")
+
+"""
+############################################################
+ DETAILED EXCLUSION ANALYSIS BY MODEL: Reworded - IT
+############################################################
+>> Model: Llama-3.1-8B-Instruct
+         Prompt       Questions  Unusable (NaN) Extended (-98/-99)  Total Excluded
+             P1            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P2            1235        5 (0.4%)           0 (0.0%)        5 (0.4%)
+             P3            1235        1 (0.1%)           0 (0.0%)        1 (0.1%)
+             P4            1235        0 (0.0%)        159 (12.9%)     159 (12.9%)
+
+>> Model: Mistral-7B-Instruct-v0.3
+         Prompt       Questions  Unusable (NaN) Extended (-98/-99)  Total Excluded
+             P1            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P2            1235        2 (0.2%)           0 (0.0%)        2 (0.2%)
+             P3            1235       14 (1.1%)           0 (0.0%)       14 (1.1%)
+             P4            1235        0 (0.0%)        311 (25.2%)     311 (25.2%)
+
+>> Model: Qwen2.5-7B-Instruct
+         Prompt       Questions  Unusable (NaN) Extended (-98/-99)  Total Excluded
+             P1            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P2            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P3            1235        1 (0.1%)           0 (0.0%)        1 (0.1%)
+             P4            1235        0 (0.0%)        234 (18.9%)     234 (18.9%)
+
+>> Model: gemma-2-9b-it
+         Prompt       Questions  Unusable (NaN) Extended (-98/-99)  Total Excluded
+             P1            1235        3 (0.2%)           0 (0.0%)        3 (0.2%)
+             P2            1235        2 (0.2%)           0 (0.0%)        2 (0.2%)
+             P3            1235        1 (0.1%)           0 (0.0%)        1 (0.1%)
+             P4            1235        0 (0.0%)        514 (41.6%)     514 (41.6%)
+
+############################################################
+ DETAILED EXCLUSION ANALYSIS BY MODEL: Shuffled - IT
+############################################################
+>> Model: Llama-3.1-8B-Instruct
+         Prompt       Questions  Unusable (NaN) Extended (-98/-99)  Total Excluded
+             P1            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P2            1235        2 (0.2%)           0 (0.0%)        2 (0.2%)
+             P3            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P4            1235        0 (0.0%)          79 (6.4%)       79 (6.4%)
+
+>> Model: Mistral-7B-Instruct-v0.3
+         Prompt       Questions  Unusable (NaN) Extended (-98/-99)  Total Excluded
+             P1            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P2            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P3            1235       17 (1.4%)           0 (0.0%)       17 (1.4%)
+             P4            1235        0 (0.0%)        228 (18.5%)     228 (18.5%)
+
+>> Model: Qwen2.5-7B-Instruct
+         Prompt       Questions  Unusable (NaN) Extended (-98/-99)  Total Excluded
+             P1            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P2            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P3            1235        2 (0.2%)           0 (0.0%)        2 (0.2%)
+             P4            1235        0 (0.0%)         122 (9.9%)      122 (9.9%)
+
+>> Model: gemma-2-9b-it
+         Prompt       Questions  Unusable (NaN) Extended (-98/-99)  Total Excluded
+             P1            1235        2 (0.2%)           0 (0.0%)        2 (0.2%)
+             P2            1235        1 (0.1%)           0 (0.0%)        1 (0.1%)
+             P3            1235        3 (0.2%)           0 (0.0%)        3 (0.2%)
+             P4            1235        0 (0.0%)        558 (45.2%)     558 (45.2%)
+
+             
+############################################################
+ DETAILED EXCLUSION ANALYSIS BY MODEL: Reworded - Base
+############################################################
+>> Model: Llama-3.1-8B
+         Prompt       Questions  Unusable (NaN) Extended (-98/-99)  Total Excluded
+             P1            1235        3 (0.2%)           0 (0.0%)        3 (0.2%)
+             P2            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P3            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P4            1235        3 (0.2%)          68 (5.5%)       71 (5.7%)
+
+>> Model: Mistral-7B-v0.3
+         Prompt       Questions  Unusable (NaN) Extended (-98/-99)  Total Excluded
+             P1            1235     192 (15.5%)           0 (0.0%)     192 (15.5%)
+             P2            1235     173 (14.0%)           0 (0.0%)     173 (14.0%)
+             P3            1235       19 (1.5%)           0 (0.0%)       19 (1.5%)
+             P4            1235     607 (49.1%)          43 (3.5%)     641 (51.9%)
+
+>> Model: Qwen2.5-7B
+         Prompt       Questions  Unusable (NaN) Extended (-98/-99)  Total Excluded
+             P1            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P2            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P3            1235        6 (0.5%)           0 (0.0%)        6 (0.5%)
+             P4            1235        0 (0.0%)          92 (7.4%)       92 (7.4%)
+
+>> Model: gemma-2-9b
+         Prompt       Questions  Unusable (NaN) Extended (-98/-99)  Total Excluded
+             P1            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P2            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P3            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P4            1235        0 (0.0%)           3 (0.2%)        3 (0.2%)
+
+############################################################
+ DETAILED EXCLUSION ANALYSIS BY MODEL: Shuffled - Base
+############################################################
+>> Model: Llama-3.1-8B
+         Prompt       Questions  Unusable (NaN) Extended (-98/-99)  Total Excluded
+             P1            1235        1 (0.1%)           0 (0.0%)        1 (0.1%)
+             P2            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P3            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P4            1235        0 (0.0%)          19 (1.5%)       19 (1.5%)
+
+>> Model: Mistral-7B-v0.3
+         Prompt       Questions  Unusable (NaN) Extended (-98/-99)  Total Excluded
+             P1            1235     146 (11.8%)           0 (0.0%)     146 (11.8%)
+             P2            1235      116 (9.4%)           0 (0.0%)      116 (9.4%)
+             P3            1235       10 (0.8%)           0 (0.0%)       10 (0.8%)
+             P4            1235     499 (40.4%)           6 (0.5%)     505 (40.9%)
+
+>> Model: Qwen2.5-7B
+         Prompt       Questions  Unusable (NaN) Extended (-98/-99)  Total Excluded
+             P1            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P2            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P3            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P4            1235        0 (0.0%)          14 (1.1%)       14 (1.1%)
+
+>> Model: gemma-2-9b
+         Prompt       Questions  Unusable (NaN) Extended (-98/-99)  Total Excluded
+             P1            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P2            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P3            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+             P4            1235        0 (0.0%)           0 (0.0%)        0 (0.0%)
+"""
+
+
+### ---------------------------------------------------------------------------
+### "Mixed Plots" for slides ### ### ### ### ###
+### ---------------------------------------------------------------------------
+
+## ----------------------------------------------------------------------------
+## Distribution of clean_response across 2 prompts for both model types ## ## ##
+## ----------------------------------------------------------------------------
+
+def plot_distributions_mixed(df_base, df_it, dataset_label, prompts, filename_suffix, include_title=True):
+    """
+    Creates a 2x2 grid comparing Base Models (Left) vs Instruction-Tuned Models (Right)
+    for two specific prompts. (Percentage Mode Only).
+    
+    Parameters:
+    - df_base: Dataframe for Base Models.
+    - df_it: Dataframe for Instruction-Tuned Models.
+    - dataset_label: "Reworded" or "Shuffled".
+    - prompts: Tuple of two integers, e.g., (1, 2).
+    - filename_suffix: e.g., "compare_p1_p2".
+    - include_title: Boolean, if False, suppresses the main figure title.
+    """
+    
+    # --- 0. Define Sorting Order ---
+    it_order = [
+        'Llama-3.1-8B-Instruct', 'Mistral-7B-Instruct-v0.3', 
+        'Qwen2.5-7B-Instruct', 'gemma-2-9b-it'
+    ]
+    base_order = [
+        'Llama-3.1-8B', 'Mistral-7B-v0.3', 
+        'Qwen2.5-7B', 'gemma-2-9b'
+    ]
+
+    # Font Sizes
+    FS_MAIN_TITLE = 22
+    FS_SUB_TITLE  = 20
+    FS_AXIS_LABEL = 18
+    FS_TICKS      = 15
+    FS_LEG_TITLE  = 18
+    FS_LEG_TEXT   = 16
+
+    # Construct Dynamic Title
+    p1, p2 = prompts
+    plot_title = f'Distribution of Responses on {dataset_label} Dataset'
+    
+    # Construct Filename
+    filename = f"ans_distr_comp_{filename_suffix}.pdf"
+    
+    # Ensure save directory exists
+    slides_dir = os.path.join(script_dir, "plots", "slides")
+    if not os.path.exists(slides_dir):
+        os.makedirs(slides_dir)
+    save_path = os.path.join(slides_dir, filename)
+
+    # Define Column Mapping
+    cols_config = [
+        (df_base, "Base Models", base_order), 
+        (df_it, "IT Models", it_order)
+    ]
+    
+    # Define Rows (Prompts)
+    rows_config = [
+        (f'clean_response{p1}', f'Prompt {p1}'),
+        (f'clean_response{p2}', f'Prompt {p2}')
+    ]
+
+    all_possible_responses = ['1', '2', '3', '4', '5', '6', '7', '8', 'unusable']
+    
+    custom_colors = [
+        '#2ca02c', '#ff7f0e', '#1f77b4', '#d62728', 
+        '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22'
+    ]
+    color_mapping = {resp: custom_colors[i] for i, resp in enumerate(all_possible_responses)}
+
+    # --- Plotting ---
+    y_limit = 70
+    fig, axes = plt.subplots(2, 2, figsize=(19, 10))
+    
+    if include_title:
+        fig.suptitle(plot_title, fontsize=FS_MAIN_TITLE, fontweight='bold', y=0.98)
+    
+    # Loop over Rows (Prompts)
+    for row_idx, (col_name, prompt_title) in enumerate(rows_config):
+        # Loop over Columns (Base vs IT)
+        for col_idx, (df, type_label, order) in enumerate(cols_config):
+            ax = axes[row_idx, col_idx]
+            
+            hue_order = all_possible_responses
+            
+            # Percentage Calculation
+            counts = df.groupby(['model', col_name]).size().reset_index(name='count')
+            totals = df.groupby('model').size().reset_index(name='total')
+            props = pd.merge(counts, totals, on='model')
+            props['percentage'] = (props['count'] / props['total']) * 100
+            
+            sns.barplot(
+                data=props, x='model', y='percentage', hue=col_name, ax=ax,
+                hue_order=hue_order, palette=color_mapping, order=order
+            )
+
+            # Styling
+            ax.set_ylim(0, y_limit)
+            
+            # Subplot Title: "Base - Prompt 1"
+            ax.set_title(f"{type_label} - {prompt_title}", fontsize=FS_SUB_TITLE)
+            
+            ax.set_xlabel('') 
+            ax.tick_params(axis='x', labelsize=FS_TICKS, rotation=10)
+            ax.tick_params(axis='y', labelsize=FS_TICKS)
+            
+            # Y-Label only on left column
+            if col_idx == 0:
+                ax.set_ylabel('Percentage of Responses', fontsize=FS_AXIS_LABEL)
+            else:
+                ax.set_ylabel('')
+            
+            if ax.get_legend():
+                ax.get_legend().remove()
+
+    # --- Legend & Save ---
+    top_margin = 0.91 if include_title else 0.99
+    plt.subplots_adjust(left=0.05, right=0.85, top=top_margin, bottom=0.1, hspace=0.35, wspace=0.15)
+    
+    if dataset_label == "Shuffled":
+        legend_responses = ['1', '2', '3', '4', '5', '6', '7', 'unusable']
+    else:
+        legend_responses = ['1', '2', '3', '4', '5', '6', '7', '8', 'unusable']
+
+    handles = [mpatches.Patch(facecolor=color_mapping[r], edgecolor='black', linewidth=0.5, label=r) for r in legend_responses]
+        
+    fig.legend(
+        handles=handles, labels=legend_responses, title='Response Options',
+        title_fontsize=FS_LEG_TITLE, loc='center right', bbox_to_anchor=(0.99, 0.5),
+        fontsize=FS_LEG_TEXT, frameon=True, shadow=True
+    )
+    
+    plt.savefig(save_path, dpi=300, bbox_inches='tight', facecolor='white')
+    print(f"Saved slide plot: {save_path}")
+    plt.close()
+
+# 1. Reworded: Prompt 1 vs 2 & Prompt 3 vs 4
+plot_distributions_mixed(merged_res_reworded_bm, merged_res_reworded_it, "Reworded", (1, 2), "rew_p1v2", include_title=True)
+plot_distributions_mixed(merged_res_reworded_bm, merged_res_reworded_it, "Reworded", (3, 4), "rew_p3v4", include_title=True)
+
+# 2. Shuffled: Prompt 1 vs 2 & Prompt 3 vs 4
+plot_distributions_mixed(merged_res_shuffled_bm, merged_res_shuffled_it, "Shuffled", (1, 2), "shuff_p1v2", include_title=True)
+plot_distributions_mixed(merged_res_shuffled_bm, merged_res_shuffled_it, "Shuffled", (3, 4), "shuff_p3v4", include_title=True)
+
+
+## ----------------------------------------------------------------------------
+## APD & MPD "mixed" plots for slides ## ## ##
+## ----------------------------------------------------------------------------
+
+# helpers (reused)
+INVALID_MARKERS = {-98, -99}
+
+def _to_valid_floats(values):
+    """Filter out None, NaN, and sentinel markers."""
+    out = []
+    for v in values:
+        if v is None: continue
+        if (isinstance(v, float) and np.isnan(v)): continue
+        try:
+            fv = float(v)
+        except Exception:
+            continue
+        if int(fv) in INVALID_MARKERS: continue
+        out.append(fv)
+    return out
+
+def avg_pairwise_abs_distance(values, require_full=False, expected_n=5):
+    """Compute mean of |xi - xj| over all pairs."""
+    vals = _to_valid_floats(values)
+    n = len(vals)
+    if require_full and n != expected_n: return np.nan
+    if n < 2: return np.nan
+    total = sum(abs(vals[i] - vals[j]) for i in range(n) for j in range(i+1, n))
+    count = n * (n - 1) // 2
+    return total / count if count > 0 else np.nan
+
+def max_pairwise_abs_distance(values, require_full=False, expected_n=5):
+    """Compute max |xi - xj| over all pairs."""
+    vals = _to_valid_floats(values)
+    n = len(vals)
+    if require_full and n != expected_n: return np.nan
+    if n < 2: return np.nan
+    maxd = 0.0
+    for i in range(n):
+        for j in range(i+1, n):
+            d = abs(vals[i] - vals[j])
+            if d > maxd: maxd = d
+    return maxd
+
+# ==========================
+# 1. APD Mixed Plot Function
+# ==========================
+def generate_avg_distance_plots_mixed(df_base, df_it, base_models, it_models, dataset_label, prompt, filename_suffix):
+    """
+    Generates a 2x2 APD plot mixing Base and IT models for a specific Prompt.
+    Layout: Left Col = Base Models, Right Col = IT Models.
+    """
+    # Font Sizes
+    FS_MAIN_TITLE = 22
+    FS_SUB_TITLE  = 20
+    FS_AXIS_LABEL = 18
+    FS_TICKS      = 15
+    FS_LEG_TEXT   = 16
+
+    # Data Preparation
+    def get_prompt_data(df, p):
+        col = f'num_value{p}'
+        if col not in df.columns: return pd.DataFrame()
+        grouped = df.groupby(['model', 'question_id'])[col].apply(list).reset_index(name='values_list')
+        if grouped.empty: return pd.DataFrame()
+        
+        typical_len = int(grouped['values_list'].apply(len).median())
+        grouped['avg_pairwise_dist'] = grouped['values_list'].apply(
+            lambda lst: avg_pairwise_abs_distance(lst, require_full=True, expected_n=typical_len)
+        )
+        return grouped
+
+    dfp_base = get_prompt_data(df_base, prompt)
+    dfp_it = get_prompt_data(df_it, prompt)
+    
+    # Plotting
+    fig, axes = plt.subplots(2, 2, figsize=(19, 10))
+    plot_title = f'APD Distribution on {dataset_label} Dataset (Prompt {prompt})'
+    fig.suptitle(plot_title, fontsize=FS_MAIN_TITLE, fontweight='bold', y=0.98)
+    
+    # Configuration: (Row, Col, Dataframe, ModelName)
+    # Row 0: Model 1 (Base vs IT)
+    # Row 1: Model 2 (Base vs IT)
+    plot_config = [
+        (0, 0, dfp_base, base_models[0]), # Top-Left: Base Model 1
+        (0, 1, dfp_it,   it_models[0]),   # Top-Right: IT Model 1
+        (1, 0, dfp_base, base_models[1]), # Bottom-Left: Base Model 2
+        (1, 1, dfp_it,   it_models[1])    # Bottom-Right: IT Model 2
+    ]
+
+    y_limit = 12.8
+
+    for r, c, df, model_name in plot_config:
+        ax = axes[r, c]
+        
+        if not df.empty:
+            model_vals = df[df['model'] == model_name]['avg_pairwise_dist'].dropna()
+        else:
+            model_vals = pd.Series()
+
+        if len(model_vals) > 0:
+            # Histogram
+            fixed_bins = np.linspace(0, 2.0, 41) 
+            sns.histplot(model_vals, bins=fixed_bins, stat='density', alpha=0.6, ax=ax, edgecolor=None, color='#1f77b4')
+            
+            # KDE
+            if model_vals.nunique() > 1:
+                sns.kdeplot(model_vals, ax=ax, linewidth=2)
+            
+            # Metrics
+            med = float(model_vals.median())
+            mean = float(model_vals.mean())
+            
+            ax.axvline(med, color='black', linestyle='--', linewidth=1.5, label=f'Median: {med:.3f}')
+            ax.axvline(mean, color='black', linestyle='-', linewidth=1.5, label=f'Mean: {mean:.3f}')
+            
+            ax.legend(loc='upper right', fontsize=FS_LEG_TEXT)
+        else:
+            ax.text(0.5, 0.5, 'No Data', ha='center', va='center')
+
+        # Styling
+        ax.set_xlim(0, 2.0)
+        ax.set_ylim(0, y_limit) 
+        ax.set_title(model_name, fontsize=FS_SUB_TITLE)
+        ax.set_xlabel('Avg Pairwise Distance', fontsize=FS_AXIS_LABEL)
+        
+        # Y-Label only on left column
+        if c == 0:
+            ax.set_ylabel('Density', fontsize=FS_AXIS_LABEL)
+        else:
+            ax.set_ylabel('')
+            
+        ax.tick_params(axis='x', labelsize=FS_TICKS)
+        ax.tick_params(axis='y', labelsize=FS_TICKS)
+
+    # Layout & Save
+    plt.subplots_adjust(top=0.90, bottom=0.08, left=0.05, right=0.95, hspace=0.35, wspace=0.15)
+    
+    filename = f"apd_mixed_p{prompt}_{filename_suffix}.pdf"
+    save_dir = os.path.join(script_dir, "plots", "slides")
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+    save_path = os.path.join(save_dir, filename)
+    
+    plt.savefig(save_path, dpi=300, bbox_inches='tight', facecolor='white')
+    print(f"Saved APD slide plot: {save_path}")
+    plt.close()
+
+
+# ==========================
+# 2. MPD Mixed Plot Function
+# ==========================
+def generate_max_distance_plots_mixed(df_base, df_it, base_models, it_models, dataset_label, prompt, filename_suffix):
+    """
+    Generates a 2x2 MPD plot mixing Base and IT models for a specific Prompt.
+    Layout: Left Col = Base Models, Right Col = IT Models.
+    """
+    # Font Sizes
+    FS_MAIN_TITLE = 22
+    FS_SUB_TITLE  = 20
+    FS_AXIS_LABEL = 18
+    FS_TICKS      = 15
+    FS_LEG_TEXT   = 16
+
+    # Data Preparation
+    def get_prompt_data(df, p):
+        col = f'num_value{p}'
+        if col not in df.columns: return pd.DataFrame()
+        grouped = df.groupby(['model', 'question_id'])[col].apply(list).reset_index(name='values_list')
+        if grouped.empty: return pd.DataFrame()
+        
+        typical_len = int(grouped['values_list'].apply(len).median())
+        grouped['max_pairwise_dist'] = grouped['values_list'].apply(
+            lambda lst: max_pairwise_abs_distance(lst, require_full=True, expected_n=typical_len)
+        )
+        return grouped
+
+    dfp_base = get_prompt_data(df_base, prompt)
+    dfp_it = get_prompt_data(df_it, prompt)
+    
+    # Plotting
+    fig, axes = plt.subplots(2, 2, figsize=(19, 10))
+    plot_title = f'MPD Distribution on {dataset_label} Dataset (Prompt {prompt})'
+    fig.suptitle(plot_title, fontsize=FS_MAIN_TITLE, fontweight='bold', y=0.98)
+    
+    # Configuration
+    plot_config = [
+        (0, 0, dfp_base, base_models[0]), 
+        (0, 1, dfp_it,   it_models[0]),   
+        (1, 0, dfp_base, base_models[1]), 
+        (1, 1, dfp_it,   it_models[1])    
+    ]
+
+    y_limit = 14.0
+
+    for r, c, df, model_name in plot_config:
+        ax = axes[r, c]
+        
+        if not df.empty:
+            model_vals = df[df['model'] == model_name]['max_pairwise_dist'].dropna()
+        else:
+            model_vals = pd.Series()
+
+        if len(model_vals) > 0:
+            # Histogram
+            fixed_bins = np.linspace(0, 2.0, 41) 
+            sns.histplot(model_vals, bins=fixed_bins, stat='density', alpha=0.6, ax=ax, edgecolor=None, color='#1f77b4')
+            
+            # KDE
+            if model_vals.nunique() > 1:
+                sns.kdeplot(model_vals, ax=ax, linewidth=2)
+            
+            # Metrics
+            med = float(model_vals.median())
+            mean = float(model_vals.mean())
+            
+            ax.axvline(med, color='black', linestyle='--', linewidth=1.5, label=f'Median: {med:.3f}')
+            ax.axvline(mean, color='black', linestyle='-', linewidth=1.5, label=f'Mean: {mean:.3f}')
+            
+            ax.legend(loc='upper right', fontsize=FS_LEG_TEXT)
+        else:
+            ax.text(0.5, 0.5, 'No Data', ha='center', va='center')
+
+        # Styling
+        ax.set_xlim(0, 2.0)
+        ax.set_ylim(0, y_limit) 
+        ax.set_title(model_name, fontsize=FS_SUB_TITLE)
+        ax.set_xlabel('Max Pairwise Distance', fontsize=FS_AXIS_LABEL)
+        
+        if c == 0:
+            ax.set_ylabel('Density', fontsize=FS_AXIS_LABEL)
+        else:
+            ax.set_ylabel('')
+            
+        ax.tick_params(axis='x', labelsize=FS_TICKS)
+        ax.tick_params(axis='y', labelsize=FS_TICKS)
+
+    # Layout & Save
+    plt.subplots_adjust(top=0.90, bottom=0.08, left=0.05, right=0.95, hspace=0.35, wspace=0.15)
+    
+    filename = f"mpd_mixed_p{prompt}_{filename_suffix}.pdf"
+    save_dir = os.path.join(script_dir, "plots", "slides")
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+    save_path = os.path.join(save_dir, filename)
+    
+    plt.savefig(save_path, dpi=300, bbox_inches='tight', facecolor='white')
+    print(f"Saved MPD slide plot: {save_path}")
+    plt.close()
+
+
+# Base models: ['Llama-3.1-8B', 'Mistral-7B-v0.3', 'Qwen2.5-7B', 'gemma-2-9b']
+# IT models: ['Llama-3.1-8B-Instruct', 'Mistral-7B-Instruct-v0.3', 'Qwen2.5-7B-Instruct', 'gemma-2-9b-it']
+
+# Scenario 1: APD - Llama & Gemma (Base vs IT) - Shuffled - Prompt 1
+base_models_apd = ['Llama-3.1-8B', 'gemma-2-9b']
+it_models_apd = ['Llama-3.1-8B-Instruct', 'gemma-2-9b-it']
+generate_avg_distance_plots_mixed(
+    merged_res_shuffled_bm, 
+    merged_res_shuffled_it, 
+    base_models_apd, 
+    it_models_apd, 
+    "Shuffled", 
+    prompt=1, 
+    filename_suffix="llama_gemma_shuff"
+)
+
+# Scenario 1: APD - Qwen & Mistral (Base vs IT) - Shuffled - Prompt 1
+base_models_apd = ['Qwen2.5-7B', 'Mistral-7B-v0.3']
+it_models_apd = ['Qwen2.5-7B-Instruct', 'Mistral-7B-Instruct-v0.3']
+generate_avg_distance_plots_mixed(
+    merged_res_shuffled_bm, 
+    merged_res_shuffled_it, 
+    base_models_apd, 
+    it_models_apd, 
+    "Shuffled", 
+    prompt=1, 
+    filename_suffix="qwen_mistral_shuff"
+)
+
+# Scenario 3: MPD - Mistral & Gemma (Base vs IT) - Reworded - Prompt 2
+base_models_mpd = ['Mistral-7B-v0.3', 'gemma-2-9b']
+it_models_mpd = ['Mistral-7B-Instruct-v0.3', 'gemma-2-9b-it']
+generate_max_distance_plots_mixed(
+    merged_res_reworded_bm, 
+    merged_res_reworded_it, 
+    base_models_mpd, 
+    it_models_mpd, 
+    "Reworded", 
+    prompt=2, 
+    filename_suffix="mistral_gemma_rew"
+)
+
+
+## -------------------------------------------------
+## Cross-Prompt Consistency side by side (Base vs IT) ## ## ##
+## -------------------------------------------------
+
+def plot_consistency_mixed(df_base, df_it, dataset_label, filename_suffix, mode='percentage', include_title=True):
+    """
+    Creates a side-by-side consistency plot (Base vs IT) for slides.
+    Features:
+    - High contrast color palette (Dark to Light).
+    - Single Legend.
+    - Side-by-side layout (1 row, 2 columns).
+    """
+    
+    it_order = [
+        'Llama-3.1-8B-Instruct', 'Mistral-7B-Instruct-v0.3', 
+        'Qwen2.5-7B-Instruct', 'gemma-2-9b-it'
+    ]
+    base_order = [
+        'Llama-3.1-8B', 'Mistral-7B-v0.3', 
+        'Qwen2.5-7B', 'gemma-2-9b'
+    ]
+    
+    # Font Sizes
+    FS_MAIN_TITLE = 22
+    FS_SUB_TITLE  = 20
+    FS_AXIS_LABEL = 18
+    FS_TICKS      = 15
+    FS_LEG_TITLE  = 18
+    FS_LEG_TEXT   = 16
+
+    # Derived from Viridis to be more distinguishable
+    custom_palette = [
+        '#440154',  # 4 Same: Dark Purple
+        '#3b528b',  # 3 Same: Medium Blue
+        '#21918c',  # 2 Same: Teal
+        '#5ec962'   # 4 Diff: Light Green
+    ]
+    
+    cat_order = ['4 Same Answers', '3 Same Answers', '2 Same Answers', '4 Different Answers']
+
+    # --- helper: Process Dataframe ---
+    def process_consistency(df, order):
+        response_cols = [f'clean_response{i}' for i in range(1, 5)]
+        
+        # Filter unusable
+        mask = df[response_cols].apply(lambda row: 'unusable' in row.values, axis=1)
+        df_clean = df[~mask].copy()
+        
+        # Calculate Consistency
+        def get_label(row):
+            counts = Counter([row[c] for c in response_cols]).values()
+            max_freq = max(counts) if counts else 0
+            if max_freq == 4: return '4 Same Answers'
+            elif max_freq == 3: return '3 Same Answers'
+            elif max_freq == 2: return '2 Same Answers'
+            else: return '4 Different Answers'
+
+        df_clean['consistency_cat'] = df_clean.apply(get_label, axis=1)
+        
+        # Aggregate
+        if mode == 'percentage':
+            counts = df_clean.groupby(['model', 'consistency_cat'], observed=False).size().reset_index(name='count')
+            totals = df_clean.groupby('model', observed=False).size().reset_index(name='total')
+            props = pd.merge(counts, totals, on='model')
+            props['percentage'] = (props['count'] / props['total']) * 100
+            return props
+        else:
+            return df_clean
+
+    # Process both datasets
+    data_base = process_consistency(df_base, base_order)
+    data_it = process_consistency(df_it, it_order)
+
+    # --- Plotting ---
+    fig, axes = plt.subplots(1, 2, figsize=(19, 10))
+    
+    plot_title = f'Cross-Prompt Consistency Comparison on {dataset_label} Dataset'
+    
+    if include_title:
+        fig.suptitle(plot_title, fontsize=FS_MAIN_TITLE, fontweight='bold', y=0.98)
+
+    # Configuration Loop
+    configs = [
+        (axes[0], data_base, "Base Models", base_order),
+        (axes[1], data_it, "IT Models", it_order)
+    ]
+
+    y_limit = 70 if mode == 'percentage' else 4600
+
+    for idx, (ax, data, title, order) in enumerate(configs):
+        if mode == 'percentage':
+            sns.barplot(
+                data=data, x='model', y='percentage', hue='consistency_cat',
+                hue_order=cat_order, palette=custom_palette, order=order, ax=ax
+            )
+            ylabel = 'Percentage of Questions'
+        else:
+            sns.countplot(
+                data=data, x='model', hue='consistency_cat',
+                hue_order=cat_order, palette=custom_palette, order=order, ax=ax
+            )
+            ylabel = 'Number of Questions'
+
+        # Styling
+        ax.set_ylim(0, y_limit)
+        ax.set_title(title, fontsize=FS_SUB_TITLE)
+        ax.set_xlabel('')
+        ax.tick_params(axis='x', labelsize=FS_TICKS, rotation=15)
+        ax.tick_params(axis='y', labelsize=FS_TICKS)
+        
+        if idx == 0:
+            ax.set_ylabel(ylabel, fontsize=FS_AXIS_LABEL)
+        else:
+            ax.set_ylabel('')
+        
+        if ax.get_legend():
+            ax.get_legend().remove()
+
+    # --- Legend & Save ---
+    top_margin = 0.90 if include_title else 0.98
+    plt.subplots_adjust(left=0.05, right=0.85, top=top_margin, bottom=0.1, wspace=0.15)
+    
+    # Legend
+    handles = [mpatches.Patch(facecolor=custom_palette[i], edgecolor='black', label=cat) for i, cat in enumerate(cat_order)]
+    
+    fig.legend(
+        handles=handles, title='Consistency Level',
+        title_fontsize=FS_LEG_TITLE, loc='center right', bbox_to_anchor=(0.99, 0.8),
+        fontsize=FS_LEG_TEXT, frameon=True, shadow=True
+    )
+
+    # Filename
+    mode_prefix = "perc" if mode == 'percentage' else "abs"
+    filename = f"consistency_comp_{mode_prefix}_{filename_suffix}.pdf"
+    save_dir = os.path.join(script_dir, "plots", "slides")
+    
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+    save_path = os.path.join(save_dir, filename)
+
+    plt.savefig(save_path, dpi=300, bbox_inches='tight', facecolor='white')
+    print(f"Saved slide consistency plot: {save_path}")
+    plt.close()
+
+# 1. Reworded Comparison (Percentage)
+plot_consistency_mixed(merged_res_reworded_bm, merged_res_reworded_it, "Reworded", "rew", mode='percentage', include_title=True)
+
+# 2. Shuffled Comparison (Percentage)
+plot_consistency_mixed(merged_res_shuffled_bm, merged_res_shuffled_it, "Shuffled", "shuff", mode='percentage', include_title=True)
+
+
+## -------------------------------------------------
+## Overlapping Histograms side by side (Base vs IT) ## ## ##
+## -------------------------------------------------
+
+# --- helper (reused from above) ---
+INVALID_MARKERS = {-98, -99}
+
+def clean_numeric_series(series):
+    """Takes a pandas Series, drops NaNs, and filters out -98/-99."""
+    s = pd.to_numeric(series, errors='coerce')
+    s = s.dropna()
+    mask = ~s.isin(INVALID_MARKERS)
+    return s[mask]
+
+def generate_bias_mixed_plots(
+    df_rew_base, df_shuff_base, 
+    df_rew_it, df_shuff_it, 
+    base_model_name, it_model_name, 
+    prompts, filename_suffix, 
+    include_title=True
+):
+    """
+    Generates a 2x2 grid comparing Base vs IT models for two specific prompts.
+    Each subplot compares Reworded vs Shuffled distributions.
+    
+    Layout:
+    Row 0: Prompt P1 (Base Left, IT Right)
+    Row 1: Prompt P2 (Base Left, IT Right)
+    """
+    
+    # Font Sizes
+    FS_MAIN_TITLE = 22
+    FS_SUB_TITLE  = 20
+    FS_AXIS_LABEL = 18
+    FS_TICKS      = 15
+    FS_LEG_TEXT   = 16
+    
+    # Config
+    c1 = '#1f77b4' # Blue (Reworded)
+    c2 = '#ff7f0e' # Orange (Shuffled)
+    label1 = "Reworded"
+    label2 = "Shuffled"
+    alpha_val = 0.5
+    y_limit = 10.5
+
+    p1, p2 = prompts
+    
+    # Create Figure
+    fig, axes = plt.subplots(2, 2, figsize=(19, 10))
+    
+    if include_title:
+        base_short = base_model_name.split("-")[0] # e.g. "Llama"
+        fig.suptitle(f'{base_short}: Answer Distribution Base vs IT (Prompts {p1} & {p2})', 
+                     fontsize=FS_MAIN_TITLE, fontweight='bold', y=0.98)
+        
+    # Define the 4 subplots configuration
+    # (Row, Col, RewordedDF, ShuffledDF, ModelName, PromptNum)
+    plot_config = [
+        (0, 0, df_rew_base, df_shuff_base, f"Base: {base_model_name}", p1),
+        (0, 1, df_rew_it,   df_shuff_it,   f"IT: {it_model_name}",   p1),
+        (1, 0, df_rew_base, df_shuff_base, f"Base: {base_model_name}", p2),
+        (1, 1, df_rew_it,   df_shuff_it,   f"IT: {it_model_name}",   p2)
+    ]
+
+    for r, c, df_rew, df_shuff, title_prefix, p in plot_config:
+        ax = axes[r, c]
+        col = f'num_value{p}'
+        
+        # Extract Data
+        # Base Model Name might be in df_rew/df_shuff, we need to filter by the specific model name passed in args
+        # The dfs passed in likely contain ALL models, so we filter by the specific name
+        # We need to strip the prefix "Base: " or "IT: " for filtering if it's just for display
+        real_model_name = title_prefix.split(": ")[1]
+
+        if real_model_name not in df_rew['model'].values:
+             raw1 = pd.Series(dtype='float64')
+        else:
+             raw1 = df_rew[df_rew['model'] == real_model_name][col]
+             
+        if real_model_name not in df_shuff['model'].values:
+             raw2 = pd.Series(dtype='float64')
+        else:
+             raw2 = df_shuff[df_shuff['model'] == real_model_name][col]
+
+        vals1 = clean_numeric_series(raw1)
+        vals2 = clean_numeric_series(raw2)
+
+        if len(vals1) > 0 or len(vals2) > 0:
+            # Histograms (bins=30)
+            if len(vals1) > 0:
+                sns.histplot(vals1, bins=30, stat='density', alpha=alpha_val, 
+                             color=c1, label=label1, ax=ax, edgecolor=None)
+            if len(vals2) > 0:
+                sns.histplot(vals2, bins=30, stat='density', alpha=alpha_val, 
+                             color=c2, label=label2, ax=ax, edgecolor=None)
+            
+            # KDE
+            if len(vals1) > 1 and vals1.nunique() > 1:
+                sns.kdeplot(vals1, color=c1, ax=ax, linewidth=2, warn_singular=False)
+            if len(vals2) > 1 and vals2.nunique() > 1:
+                sns.kdeplot(vals2, color=c2, ax=ax, linewidth=2, warn_singular=False)
+            
+            # Limits
+            ax.set_ylim(0, y_limit)
+            ax.set_xlim(-1.05, 1.05)
+            
+            # Legend (Only top-right plot to avoid clutter, or top-left)
+            if r == 0 and c == 1:
+                ax.legend(loc='upper right', fontsize=FS_LEG_TEXT)
+        else:
+            ax.text(0.5, 0.5, 'No Data', ha='center', va='center')
+            ax.set_xlim(-1.05, 1.05)
+            ax.set_ylim(0, y_limit)
+
+        # Titles & Labels
+        # Title format: "Base - Prompt 1"
+        display_title = "Base" if c == 0 else "IT"
+        ax.set_title(f"{display_title} - Prompt {p}", fontsize=FS_SUB_TITLE)
+        
+        ax.set_xlabel('Numeric Answer Value', fontsize=FS_AXIS_LABEL)
+        
+        # Y-Label only on left column
+        if c == 0:
+            ax.set_ylabel('Density', fontsize=FS_AXIS_LABEL)
+        else:
+            ax.set_ylabel('')
+
+        # Ticks
+        ax.tick_params(axis='x', labelsize=FS_TICKS)
+        ax.tick_params(axis='y', labelsize=FS_TICKS)
+
+    # Layout
+    rect_val = [0, 0, 1, 0.96] if include_title else [0, 0, 1, 1]
+    plt.tight_layout(rect=rect_val)
+    
+    # Save
+    filename = f"ans_distr_mixed_{filename_suffix}.pdf"
+    save_dir = os.path.join(script_dir, "plots", "slides")
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+    save_path = os.path.join(save_dir, filename)
+    
+    plt.savefig(save_path, dpi=300, bbox_inches='tight', facecolor='white')
+    print(f"Saved mixed bias plot: {save_path}")
+    plt.close()
+
+
+# Base models: ['Llama-3.1-8B', 'Mistral-7B-v0.3', 'Qwen2.5-7B', 'gemma-2-9b']
+# IT models: ['Llama-3.1-8B-Instruct', 'Mistral-7B-Instruct-v0.3', 'Qwen2.5-7B-Instruct', 'gemma-2-9b-it']
+
+# 1. Llama Comparison (Prompt 1 & 3)
+generate_bias_mixed_plots(
+    df_rew_base=merged_res_reworded_bm, 
+    df_shuff_base=merged_res_shuffled_bm, 
+    df_rew_it=merged_res_reworded_it, 
+    df_shuff_it=merged_res_shuffled_it, 
+    base_model_name='Llama-3.1-8B', 
+    it_model_name='Llama-3.1-8B-Instruct', 
+    prompts=(1, 3), 
+    filename_suffix="llama_p1_p3",
+    include_title=True
+)
+
+# 2. Mistral Comparison (Prompt 1 & 3)
+generate_bias_mixed_plots(
+    df_rew_base=merged_res_reworded_bm, 
+    df_shuff_base=merged_res_shuffled_bm, 
+    df_rew_it=merged_res_reworded_it, 
+    df_shuff_it=merged_res_shuffled_it, 
+    base_model_name='Mistral-7B-v0.3', 
+    it_model_name='Mistral-7B-Instruct-v0.3', 
+    prompts=(1, 3), 
+    filename_suffix="mistral_p1_p3",
+    include_title=True
+)

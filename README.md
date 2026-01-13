@@ -54,12 +54,13 @@ We isolate the artifacts of text generation from genuine semantic stability by e
 │   ├── distance_distributions/
 │   │   ├── apd_distr_..._promptX.pdf      # Average Pairwise Distance histograms
 │   │   └── mpd_distr_..._promptX.pdf      # Maximum Pairwise Distance histograms
-│   └── notitle/                           # Clean versions for Thesis (no titles)
+│   ├── notitle/                           # Clean versions for Thesis (no titles)
 │       ├── answer_distributions/
 │       └── distance_distributions/
+│   └── slides/                            # Condensed comparative visualizations for slides
 ├── thesis/
 │   ├── latex/                             # LaTeX source files
-│   └── b-thesis_llm-consistency           # Final PDF of the thesis
+│   └── b-thesis_llm-consistency.pdf       # Final PDF of the thesis
 ├── requirements_llm.txt                   # Dependencies for Model Inference (Ran on GPU cluster)
 ├── requirements_local.txt                 # Dependencies for Analysis & Plotting (Ran on private PC)
 └── README.md
