@@ -233,22 +233,22 @@ Table \ref{tab:mean_volatility_rew} summarizes the aggregated volatility scores 
         \textbf{Model} & \textbf{P1 (Numeric)} & \textbf{P2 (Alpha)} & \textbf{P3 (Unlabeled)} & \textbf{P4 (Ext.)} \\
         \midrule
         \textit{Base Models} & & & & \\
-        Llama-3.1-8B & 0.357 & 0.315 & 0.411 & 0.331 \\
-        Mistral-7B-v0.3 & 0.299 & 0.259 & 0.454 & 0.275 \\
-        Qwen2.5-7B & 0.254 & 0.304 & 0.416 & 0.221 \\
+        Llama-3.1-8B & 0.357 & 0.315 & 0.411 & 0.340 \\
+        Mistral-7B-v0.3 & 0.302 & 0.254 & 0.453 & 0.294 \\
+        Qwen2.5-7B & 0.254 & 0.304 & 0.415 & 0.224 \\
         Gemma-2-9B & 0.344 & 0.325 & 0.421 & 0.229 \\
         \midrule
         \textit{Instruction-Tuned Models} & & & & \\
-        Llama-3.1-8B-Instruct & 0.207 & 0.230 & 0.248 & 0.203 \\
-        Mistral-7B-Instruct-v0.3 & 0.221 & 0.227 & 0.287 & 0.199 \\
-        Qwen2.5-7B-Instruct & 0.232 & 0.249 & 0.244 & 0.235 \\
-        Gemma-2-9B-IT & 0.174 & 0.171 & 0.179 & 0.148 \\
+        Llama-3.1-8B-Instruct & 0.207 & 0.229 & 0.248 & 0.203 \\
+        Mistral-7B-Instruct-v0.3 & 0.221 & 0.227 & 0.287 & 0.206 \\
+        Qwen2.5-7B-Instruct & 0.232 & 0.249 & 0.244 & 0.241 \\
+        Gemma-2-9B-IT & 0.174 & 0.172 & 0.178 & 0.164 \\
         \bottomrule
     \end{tabular}
 \end{table}
 
 \paragraph{Observations from Table \ref{tab:mean_volatility_rew}.}
-A stark contrast between model classes is demonstrated. Base models exhibit an overall volatility roughly twice that of their instruction-tuned counterparts (e.g., Llama Base $\approx 0.35$ vs. IT $\approx 0.21$). The Base models are particularly prone to high variance in Prompt 3 (Unlabeled), where values spike to $>0.40$ (e.g., Mistral-Base at $0.454$). This suggests that without the ``anchor'' of explicit labels (A, B, C), Base models struggle to map semantic content to a consistent numerical score.
+A stark contrast between model classes is demonstrated. Base models exhibit an overall volatility roughly twice that of their instruction-tuned counterparts (e.g., Llama Base $\approx 0.35$ vs. IT $\approx 0.21$). The Base models are particularly prone to high variance in Prompt 3 (Unlabeled), where values spike to $>0.40$ (e.g., Mistral-Base at $0.453$). This suggests that without the ``anchor'' of explicit labels (A, B, C), Base models struggle to map semantic content to a consistent numerical score.
 
 Among the tuned models, \textit{Gemma-2-9B-IT} emerges as the most consistent performer, achieving the lowest MSD across all prompts ($\approx 0.17$). This finding is particularly notable given that its Base variant was among the most unstable. This confirms that Gemma's stability is not an inherent architectural feature but a direct result of effective instruction tuning and RLHF.
 
