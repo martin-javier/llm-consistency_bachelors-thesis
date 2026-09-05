@@ -2783,3 +2783,765 @@ generate_bias_mixed_plots(
     filename_suffix="mistral_p1_p3",
     include_title=True
 )
+
+
+
+### ---------------------------------------------------------------------------
+### Plots for paper (bigger fontsizes, etc. for improved readability) ### ### ### ### ###
+### ---------------------------------------------------------------------------
+
+## Bias overview qwen (ans_distr_it_qwen2.5-7b-instruct_notitle.pdf, ans_distr_bm_qwen2.5-7b_notitle.pdf)
+
+def generate_paper_bias_overlap_plots(df1, label1, df2, label2, filename_prefix, target_models=None):
+    """
+    Generates 2x2 figures showing overlapping histograms, optimized for ACL/EMNLP papers.
+    Saves exclusively 'notitle' versions to the plots/paper/ directory.
+    """
+    df1 = df1.copy()
+    df2 = df2.copy()
+    
+    # Filter for targeted models to save generation time
+    models = sorted(df1['model'].unique())
+    if target_models:
+        models = [m for m in models if m in target_models]
+        
+    prompts = [1, 2, 3, 4] 
+    
+    # Colors
+    c1 = '#1f77b4' # Blue
+    c2 = '#ff7f0e' # Orange
+    alpha_val = 0.5
+    
+    # Font Sizes for Paper Readability
+    FS_SUB_TITLE  = 36
+    FS_AXIS_LABEL = 32
+    FS_TICKS      = 26
+    FS_LEG_TEXT   = 28
+    LINE_WIDTH    = 4
+    
+    # Fixed Y-Limit
+    y_limit = 10.5
+
+    for model in models:
+        fig, axes = plt.subplots(2, 2, figsize=(19, 10))
+        axes_flat = axes.flatten()
+        
+        for idx, p in enumerate(prompts):
+            ax = axes_flat[idx]
+            col = f'num_value{p}'
+
+            if col not in df1.columns or col not in df2.columns:
+                ax.text(0.5, 0.5, 'Missing Column', ha='center', va='center', fontsize=FS_TICKS)
+                continue
+
+            if model not in df2['model'].values:
+                raw_vals2 = pd.Series(dtype='float64')
+            else:
+                raw_vals2 = df2[df2['model'] == model][col]
+            raw_vals1 = df1[df1['model'] == model][col]
+            
+            vals1 = clean_numeric_series(raw_vals1)
+            vals2 = clean_numeric_series(raw_vals2)
+            
+            if len(vals1) > 0 or len(vals2) > 0:
+                # Plot histograms
+                if len(vals1) > 0:
+                    sns.histplot(vals1, bins=30, stat='density', alpha=alpha_val, 
+                                 color=c1, label=label1, ax=ax, edgecolor=None)
+                if len(vals2) > 0:
+                    sns.histplot(vals2, bins=30, stat='density', alpha=alpha_val, 
+                                 color=c2, label=label2, ax=ax, edgecolor=None)
+                
+                # Plot KDE with thicker lines
+                if len(vals1) > 1 and vals1.nunique() > 1:
+                    sns.kdeplot(vals1, color=c1, ax=ax, linewidth=LINE_WIDTH, warn_singular=False)
+                if len(vals2) > 1 and vals2.nunique() > 1:
+                    sns.kdeplot(vals2, color=c2, ax=ax, linewidth=LINE_WIDTH, warn_singular=False)
+                
+                ax.set_ylim(0, y_limit)
+                ax.set_xlim(-1.05, 1.05)
+
+                if idx == 1:
+                    ax.legend(loc='upper left', fontsize=FS_LEG_TEXT, framealpha=0.9)
+
+            else:
+                ax.text(0.5, 0.5, 'No Data', ha='center', va='center', fontsize=FS_TICKS)
+                ax.set_xlim(-1.05, 1.05)
+                ax.set_ylim(0, y_limit)
+
+            ax.set_title(f'Prompt {p}', fontsize=FS_SUB_TITLE, pad=15)
+            
+            # Axis Labels & Ticks
+            if idx < 2:
+                # Top row: hide the main axis label, BUT keep the numeric tick labels
+                ax.set_xlabel('')
+                ax.tick_params(axis='x', labelsize=FS_TICKS)
+            else:
+                # Bottom row: show everything normally
+                ax.set_xlabel('Numeric Answer Value', fontsize=FS_AXIS_LABEL, labelpad=10)
+                ax.tick_params(axis='x', labelsize=FS_TICKS)
+            
+            if idx % 2 == 0:
+                ax.set_ylabel('Density', fontsize=FS_AXIS_LABEL, labelpad=10)
+            else:
+                ax.set_ylabel('')
+
+            ax.tick_params(axis='y', labelsize=FS_TICKS)
+
+        # Adjust Layout
+        plt.tight_layout()
+        
+        # Filename & Path
+        safe_model_name = model.lower().replace(" ", "_").replace("/", "-")
+        filename = f"{filename_prefix}_{safe_model_name}_notitle.pdf"
+        
+        save_dir = os.path.join("plots", "paper")
+        if not os.path.exists(save_dir):
+             os.makedirs(save_dir)
+
+        save_path = os.path.join(save_dir, filename)
+        plt.savefig(save_path, dpi=300, bbox_inches='tight', facecolor='white')
+        print(f"Saved paper bias plot for {model} to {save_path}")
+        plt.close()
+
+# 1. Instruction Tuned Model: Qwen2.5-7B-Instruct
+generate_paper_bias_overlap_plots(
+    df1=merged_res_reworded_it, 
+    label1="Reworded", 
+    df2=merged_res_shuffled_it, 
+    label2="Shuffled", 
+    filename_prefix="ans_distr_it",
+    target_models=["Qwen2.5-7B-Instruct"] 
+)
+
+# 2. Base Model: Qwen2.5-7B
+generate_paper_bias_overlap_plots(
+    df1=merged_res_reworded_bm, 
+    label1="Reworded", 
+    df2=merged_res_shuffled_bm, 
+    label2="Shuffled", 
+    filename_prefix="ans_distr_bm",
+    target_models=["Qwen2.5-7B"] 
+)
+
+
+## Plain answer distribution (answer_perc_distr_bm_rew_notitle.pdf, answer_perc_distr_it_rew_notitle.pdf)
+
+def plot_paper_distributions(df, dataset_label, model_type, filename_suffix, mode='percentage'):
+    """
+    Creates a 2x2 grid of barplots for the 4 prompts, optimized for ACL/EMNLP papers.
+    Saves exclusively to the plots/paper/ directory.
+    """
+    it_order = [
+        'Llama-3.1-8B-Instruct', 
+        'Mistral-7B-Instruct-v0.3', 
+        'Qwen2.5-7B-Instruct', 
+        'gemma-2-9b-it'
+    ]
+    
+    base_order = [
+        'Llama-3.1-8B', 
+        'Mistral-7B-v0.3', 
+        'Qwen2.5-7B', 
+        'gemma-2-9b'
+    ]
+    
+    # Define the shortened labels for the plots
+    it_short_labels = ['Llama-IT', 'Mistral-IT', 'Qwen-IT', 'Gemma-IT']
+    base_short_labels = ['Llama-Base', 'Mistral-Base', 'Qwen-Base', 'Gemma-Base']
+    
+    if "Base" in model_type:
+        model_order = base_order
+        display_labels = base_short_labels
+    else:
+        model_order = it_order
+        display_labels = it_short_labels
+
+    # Font Sizes
+    FS_SUB_TITLE  = 36
+    FS_AXIS_LABEL = 32
+    FS_TICKS      = 26
+    FS_LEG_TITLE  = 32
+    FS_LEG_TEXT   = 28
+    
+    # Construct Filename
+    mode_prefix = "abs" if mode == 'absolute' else "perc"
+    filename = f"answer_{mode_prefix}_distr_{filename_suffix}_notitle.pdf"
+    
+    save_dir = os.path.join("plots", "paper")
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+    save_path = os.path.join(save_dir, filename)
+
+    prompts = [
+        ('clean_response1', 'Prompt 1'),
+        ('clean_response2', 'Prompt 2'), 
+        ('clean_response3', 'Prompt 3'),
+        ('clean_response4', 'Prompt 4')
+    ]
+
+    all_possible_responses = ['1', '2', '3', '4', '5', '6', '7', '8', 'unusable']
+    
+    custom_colors = [
+        '#2ca02c', '#ff7f0e', '#1f77b4', '#d62728', 
+        '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22'
+    ]
+    color_mapping = {resp: custom_colors[i] for i, resp in enumerate(all_possible_responses)}
+
+    # Fixed ylims for comparability
+    if mode == 'absolute':
+        y_limit = 5200
+    elif mode == 'percentage':
+        y_limit = 70
+
+    fig, axes = plt.subplots(2, 2, figsize=(19, 10))
+    axes_flat = axes.flatten()
+
+    for idx, (col, title) in enumerate(prompts):
+        ax = axes_flat[idx]
+        hue_order = all_possible_responses
+        
+        if mode == 'absolute':
+            sns.countplot(
+                data=df, x='model', hue=col, ax=ax,
+                hue_order=hue_order, palette=color_mapping, order=model_order
+            )
+            ylabel = 'Number of Responses'
+
+        elif mode == 'percentage':
+            counts = df.groupby(['model', col]).size().reset_index(name='count')
+            totals = df.groupby('model').size().reset_index(name='total')
+            props = pd.merge(counts, totals, on='model')
+            props['percentage'] = (props['count'] / props['total']) * 100
+            
+            sns.barplot(
+                data=props, x='model', y='percentage', hue=col, ax=ax,
+                hue_order=hue_order, palette=color_mapping, order=model_order
+            )
+            ylabel = 'Responses (in %)'
+
+        # Styling
+        ax.set_title(title, fontsize=FS_SUB_TITLE, pad=15)
+        ax.set_xlabel('') 
+        ax.tick_params(axis='y', labelsize=FS_TICKS)
+        
+        # Determine X-axis label visibility and text
+        if idx < 2:
+            ax.set_xticklabels([])
+            ax.tick_params(axis='x', length=0) 
+        else:
+            # Safely lock the generated ticks
+            ax.set_xticks(ax.get_xticks()) 
+            ax.set_xticklabels(display_labels, fontsize=FS_TICKS, rotation=15)
+        
+        if idx % 2 == 0:
+            ax.set_ylabel(ylabel, fontsize=FS_AXIS_LABEL, labelpad=10)
+        else:
+            ax.set_ylabel('')
+            
+        if ax.get_legend():
+            ax.get_legend().remove()
+            
+        # Hard lock the y-limits & y-ticks
+        ax.set_ylim(0, y_limit)
+        if mode == 'percentage':
+            ax.set_yticks(range(0, y_limit + 1, 20))
+
+    # Layout adjusted for larger text
+    plt.subplots_adjust(left=0.08, right=0.75, top=0.95, bottom=0.15, hspace=0.4, wspace=0.15)
+    
+    if dataset_label == "Shuffled":
+        legend_responses = ['1', '2', '3', '4', '5', '6', '7', 'unusable']
+    else:
+        legend_responses = ['1', '2', '3', '4', '5', '6', '7', '8', 'unusable']
+
+    handles = []
+    labels = []
+    for response in legend_responses:
+        handle = mpatches.Patch(facecolor=color_mapping[response], edgecolor='black', linewidth=1, label=response)
+        handles.append(handle)
+        labels.append(response)
+        
+    fig.legend(
+        handles=handles,
+        labels=labels,
+        title='Options',
+        title_fontsize=FS_LEG_TITLE,
+        loc='center left',
+        bbox_to_anchor=(0.77, 0.5),
+        fontsize=FS_LEG_TEXT,
+        frameon=True,
+        shadow=True
+    )
+    
+    plt.savefig(save_path, dpi=300, bbox_inches='tight', facecolor='white')
+    print(f"Saved paper plot: {save_path}")
+    plt.close()
+
+# 1. Base Models - Percentage - Reworded
+plot_paper_distributions(
+    df=merged_res_reworded_bm, 
+    dataset_label="Reworded", 
+    model_type="Base Models", 
+    filename_suffix="bm_rew", 
+    mode='percentage'
+)
+
+# 2. Instruction-Tuned Models - Percentage - Reworded
+plot_paper_distributions(
+    df=merged_res_reworded_it, 
+    dataset_label="Reworded", 
+    model_type="Instruction-Tuned", 
+    filename_suffix="it_rew", 
+    mode='percentage'
+)
+
+
+## APD Distance Histogram Plots 
+## (apd_distr_bm_rew_prompt1_notitle.pdf, apd_distr_it_rew_prompt1_notitle.pdf, apd_distr_bm_shuff_prompt1_notitle.pdf, apd_distr_it_shuff_prompt1_notitle.pdf)
+
+def generate_paper_avg_distance_plots(df, dataset_label, model_type, filename_prefix, target_prompts=None):
+    """
+    1. Calculates pairwise distances for specified Prompts.
+    2. Generates one 2x2 figure per prompt (showing 4 models), optimized for papers.
+    Saves exclusively 'notitle' versions to the plots/paper/ directory.
+    """
+    df = df.copy()
+    prompts = target_prompts if target_prompts else [1, 2, 3, 4]
+    
+    # Define model order and shortened names for paper titles
+    it_order = [
+        'Llama-3.1-8B-Instruct', 
+        'Mistral-7B-Instruct-v0.3', 
+        'Qwen2.5-7B-Instruct', 
+        'gemma-2-9b-it'
+    ]
+    base_order = [
+        'Llama-3.1-8B', 
+        'Mistral-7B-v0.3', 
+        'Qwen2.5-7B', 
+        'gemma-2-9b'
+    ]
+    
+    it_short_labels = ['Llama-IT', 'Mistral-IT', 'Qwen-IT', 'Gemma-IT']
+    base_short_labels = ['Llama-Base', 'Mistral-Base', 'Qwen-Base', 'Gemma-Base']
+    
+    # Select order
+    if "Base" in model_type:
+        model_order = base_order
+        short_labels = base_short_labels
+    else:
+        model_order = it_order
+        short_labels = it_short_labels
+
+    # Font Sizes
+    FS_SUB_TITLE  = 36
+    FS_AXIS_LABEL = 32
+    FS_TICKS      = 26
+    FS_LEG_TEXT   = 28
+    LINE_WIDTH    = 4  # For KDE
+    METRIC_WIDTH  = 3  # For Mean/Median lines
+
+    # --- STEP 1: Calc distances ---
+    avgdist_data = {}
+    
+    for p in prompts:
+        col = f'num_value{p}'
+        if col not in df.columns: continue
+        
+        grouped = df.groupby(['model', 'question_id'])[col].apply(list).reset_index(name='values_list')
+
+        if grouped.empty:
+            print(f"[{dataset_label}] Prompt {p}: No data found.")
+            avgdist_data[p] = grouped
+            continue
+
+        typical_len = int(grouped['values_list'].apply(len).median())
+
+        grouped['avg_pairwise_dist'] = grouped['values_list'].apply(
+            lambda lst: avg_pairwise_abs_distance(lst, require_full=True, expected_n=typical_len)
+        )
+        avgdist_data[p] = grouped
+
+    # --- STEP 2: Plotting Loop ---
+    for p in prompts:
+        if p not in avgdist_data: continue
+        dfp = avgdist_data[p]
+        if dfp.empty: continue
+        
+        # 2a. Fixed Y-Limit
+        y_limit = 12.8 
+        
+        # 2b. Plotting
+        fig, axes = plt.subplots(2, 2, figsize=(19, 10))
+        axes_flat = axes.flatten()
+        
+        # Iterate over fixed model order
+        for idx, model in enumerate(model_order):
+            if idx >= len(axes_flat): break
+            ax = axes_flat[idx]
+            short_name = short_labels[idx]
+            
+            # Extract data for specific model
+            model_vals = dfp[dfp['model'] == model]['avg_pairwise_dist'].dropna()
+            
+            if len(model_vals) > 0:
+                # Histogram
+                fixed_bins = np.linspace(0, 2.0, 61) # 61 edges = 60 bins
+                sns.histplot(model_vals, bins=fixed_bins, stat='density', alpha=0.6, ax=ax, edgecolor=None, color='#1f77b4')
+                
+                # KDE (Check variance first)
+                if model_vals.nunique() > 1:
+                    sns.kdeplot(model_vals, ax=ax, linewidth=LINE_WIDTH)
+                
+                # Metrics
+                med = float(model_vals.median())
+                mean = float(model_vals.mean())
+                
+                # Lines
+                ax.axvline(med, color='black', linestyle='--', linewidth=METRIC_WIDTH, label=f'Median: {med:.3f}')
+                ax.axvline(mean, color='black', linestyle='-', linewidth=METRIC_WIDTH, label=f'Mean: {mean:.3f}')
+                
+                # Legend
+                ax.legend(loc='upper right', fontsize=FS_LEG_TEXT, framealpha=0.9)
+            else:
+                ax.text(0.5, 0.5, 'No Data', ha='center', va='center', fontsize=FS_TICKS)
+
+            # Styling
+            ax.set_title(short_name, fontsize=FS_SUB_TITLE, pad=15)
+            
+            # X-axis formatting: Hide main label on top row but keep ticks
+            if idx < 2:
+                ax.set_xlabel('')
+                ax.tick_params(axis='x', labelsize=FS_TICKS)
+            else:
+                ax.set_xlabel('Avg Pairwise Distance', fontsize=FS_AXIS_LABEL, labelpad=10)
+                ax.tick_params(axis='x', labelsize=FS_TICKS)
+            
+            # Y-label only on left column
+            if idx % 2 == 0:
+                ax.set_ylabel('Density', fontsize=FS_AXIS_LABEL, labelpad=10)
+            else:
+                ax.set_ylabel('')
+                
+            ax.tick_params(axis='y', labelsize=FS_TICKS)
+            
+            # Hard lock limits at the end of the loop
+            ax.set_xlim(0, 2.0)
+            ax.set_ylim(0, y_limit) 
+            
+            ax.set_yticks(np.arange(2.5, y_limit, 2.5))
+
+        # Adjust Layout
+        plt.subplots_adjust(top=0.95, bottom=0.15, left=0.08, right=0.95, hspace=0.35, wspace=0.15)
+        
+        # Construct Filename & Path
+        filename = f"{filename_prefix}_prompt{p}_notitle.pdf"
+        
+        save_dir = os.path.join("plots", "paper")
+        if not os.path.exists(save_dir):
+            os.makedirs(save_dir)
+            
+        save_path = os.path.join(save_dir, filename)
+
+        plt.savefig(save_path, dpi=300, bbox_inches='tight', facecolor='white')
+        print(f"Saved paper plot: {save_path}")
+        plt.close()
+
+# 1. Base Models - Reworded (Prompt 1 only)
+generate_paper_avg_distance_plots(
+    df=merged_res_reworded_bm, 
+    dataset_label="Reworded", 
+    model_type="Base Models", 
+    filename_prefix="apd_distr_bm_rew", 
+    target_prompts=[1]
+)
+
+# 2. Instruction-Tuned Models - Reworded (Prompt 1 only)
+generate_paper_avg_distance_plots(
+    df=merged_res_reworded_it, 
+    dataset_label="Reworded", 
+    model_type="Instruction-Tuned Models", 
+    filename_prefix="apd_distr_it_rew", 
+    target_prompts=[1]
+)
+
+# 3. Base Models - Shuffled (Prompt 1 only)
+generate_paper_avg_distance_plots(
+    df=merged_res_shuffled_bm, 
+    dataset_label="Shuffled", 
+    model_type="Base Models", 
+    filename_prefix="apd_distr_bm_shuff", 
+    target_prompts=[1]
+)
+
+# 4. Instruction-Tuned Models - Shuffled (Prompt 1 only)
+generate_paper_avg_distance_plots(
+    df=merged_res_shuffled_it, 
+    dataset_label="Shuffled", 
+    model_type="Instruction-Tuned Models", 
+    filename_prefix="apd_distr_it_shuff", 
+    target_prompts=[1]
+)
+
+
+## Consistency Category barplots (consistency_perc_bm_rew_notitle.pdf, consistency_perc_it_rew_notitle.pdf)
+
+def plot_paper_consistency(df, dataset_label, model_type, filename_suffix, mode='percentage', show_legend=True):
+    """
+    Analyzes consistency across clean_response1 to clean_response4.
+    Optimized for ACL/EMNLP single-column paper format.
+    Saves exclusively 'notitle' versions to the plots/paper/ directory.
+    Can toggle the legend on/off for side-by-side paper placement.
+    """
+    df = df.copy()
+
+    # Define model order and short labels
+    it_order = [
+        'Llama-3.1-8B-Instruct', 
+        'Mistral-7B-Instruct-v0.3', 
+        'Qwen2.5-7B-Instruct', 
+        'gemma-2-9b-it'
+    ]
+    base_order = [
+        'Llama-3.1-8B', 
+        'Mistral-7B-v0.3', 
+        'Qwen2.5-7B', 
+        'gemma-2-9b'
+    ]
+    
+    it_short_labels = ['Llama-IT', 'Mistral-IT', 'Qwen-IT', 'Gemma-IT']
+    base_short_labels = ['Llama-Base', 'Mistral-Base', 'Qwen-Base', 'Gemma-Base']
+    
+    # Select order
+    if "Base" in model_type:
+        model_order = base_order
+        short_labels = base_short_labels
+    else:
+        model_order = it_order
+        short_labels = it_short_labels
+
+    # Font Sizes
+    FS_AXIS_LABEL = 32
+    FS_TICKS      = 26
+    FS_LEG_TITLE  = 32
+    FS_LEG_TEXT   = 28
+
+    # Exclude rows with ANY 'unusable' response
+    response_cols = [f'clean_response{i}' for i in range(1, 5)]
+    
+    missing_cols = [c for c in response_cols if c not in df.columns]
+    if missing_cols:
+        print(f"Skipping plot for {dataset_label}-{model_type}: Missing columns {missing_cols}")
+        return
+
+    mask_unusable = df[response_cols].apply(lambda row: 'unusable' in row.values, axis=1)
+    df_clean = df[~mask_unusable].copy()
+    
+    if len(df_clean) == 0:
+        print(f"No valid data for {dataset_label}-{model_type} after filtering unusable.")
+        return
+
+    # 1. Define consistency logic
+    def get_consistency_label(row):
+        responses = [row[col] for col in response_cols]
+        counts = Counter(responses).values()
+        max_freq = max(counts) if counts else 0
+        
+        if max_freq == 4:
+            return '4 Same Answers'
+        elif max_freq == 3:
+            return '3 Same Answers'
+        elif max_freq == 2:
+            return '2 Same Answers'
+        else:
+            return '4 Different Answers'
+
+    df_clean['consistency_cat'] = df_clean.apply(get_consistency_label, axis=1)
+    
+    # Define Order
+    cat_order = ['4 Same Answers', '3 Same Answers', '2 Same Answers', '4 Different Answers']
+    
+    # 2. Plotting
+    plt.figure(figsize=(19, 10)) 
+    
+    # Fixed ylims & Filename Logic
+    if mode == 'absolute':
+        y_limit = 4600
+        mode_prefix = "abs"
+    elif mode == 'percentage':
+        y_limit = 62.5
+        mode_prefix = "perc"
+
+    # Append _nolegend to the filename if the legend is toggled off
+    legend_str = "" if show_legend else "_nolegend"
+    filename = f"consistency_{mode_prefix}_{filename_suffix}_notitle{legend_str}.pdf"
+    
+    save_dir = os.path.join("plots", "paper")
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+    save_path = os.path.join(save_dir, filename)
+    
+    # Plotting
+    ax = plt.gca() # Get current axis to manipulate ticks
+    
+    if mode == 'absolute':
+        sns.countplot(
+            data=df_clean,
+            x='model',
+            hue='consistency_cat',
+            hue_order=cat_order,
+            palette='viridis',
+            order=model_order,
+            ax=ax
+        )
+        plt.ylabel('Number of Questions', fontsize=FS_AXIS_LABEL, labelpad=10)
+
+    elif mode == 'percentage':
+        counts = df_clean.groupby(['model', 'consistency_cat'], observed=False).size().reset_index(name='count')
+        totals = df_clean.groupby('model', observed=False).size().reset_index(name='total')
+        
+        props = pd.merge(counts, totals, on='model')
+        props['percentage'] = (props['count'] / props['total']) * 100
+        
+        sns.barplot(
+            data=props,
+            x='model',
+            y='percentage',
+            hue='consistency_cat',
+            hue_order=cat_order,
+            palette='viridis',
+            order=model_order,
+            ax=ax
+        )
+        plt.ylabel('Percentage of Questions', fontsize=FS_AXIS_LABEL, labelpad=10)
+
+    # 3. Styling
+    plt.ylim(0, y_limit)
+    if mode == 'percentage':
+        plt.yticks(np.arange(0, 70, 10))
+
+    plt.xlabel('')
+    
+    # Apply short labels to x-axis
+    ax.set_xticks(range(len(short_labels)))
+    ax.set_xticklabels(short_labels, fontsize=FS_TICKS)
+    
+    plt.tick_params(axis='y', labelsize=FS_TICKS)
+    
+    # Legend Toggle Logic
+    if show_legend:
+        plt.legend(
+            title='Consistency Level', 
+            bbox_to_anchor=(1.01, 1), 
+            loc='upper left',
+            title_fontsize=FS_LEG_TITLE,
+            fontsize=FS_LEG_TEXT
+        )
+    else:
+        if ax.get_legend():
+            ax.get_legend().remove()
+    
+    plt.tight_layout()
+    
+    plt.savefig(save_path, dpi=300, bbox_inches='tight', facecolor='white')
+    print(f"Saved paper plot: {save_path}")
+    plt.close()
+
+# 1. Base Models - Percentage - Reworded (Legend ON)
+plot_paper_consistency(
+    df=merged_res_reworded_bm, 
+    dataset_label="Reworded", 
+    model_type="Base Models", 
+    filename_suffix="bm_rew", 
+    mode='percentage',
+    show_legend=True
+)
+
+# 2. Instruction-Tuned Models - Percentage - Reworded (Legend OFF)
+plot_paper_consistency(
+    df=merged_res_reworded_it, 
+    dataset_label="Reworded", 
+    model_type="Instruction-Tuned Models", 
+    filename_suffix="it_rew", 
+    mode='percentage',
+    show_legend=False
+)
+
+
+## ---------------------------------------------------------------------------
+## Random-Response Baseline Simulation ## ## ##
+## ---------------------------------------------------------------------------
+# Calculates the theoretical APD and MPD if answers were picked randomly from the available options
+
+def simulate_random_baseline_all(df, dataset_label, expected_n, seed=42):
+    """
+    Simulates random guessing for each unique question to establish a baseline.
+    Draws `expected_n` random answers per question from its specific `num_scale`.
+    Calculates APD, MPD, and MSD.
+    """
+    np.random.seed(seed)
+    
+    df_unique = df.drop_duplicates(subset=['question_id']).copy()
+    
+    apds, mpds, stds = [], [], []
+    
+    for _, row in df_unique.iterrows():
+        scale_str = row.get('num_scale', None)
+        if not isinstance(scale_str, str):
+            continue
+            
+        try:
+            scale = ast.literal_eval(scale_str)
+            scale = _to_valid_floats(scale) 
+            if len(scale) < 2:
+                continue
+                
+            simulated_answers = np.random.choice(scale, size=expected_n, replace=True)
+            
+            # Calculate metrics
+            apd = avg_pairwise_abs_distance(simulated_answers, require_full=False)
+            mpd = max_pairwise_abs_distance(simulated_answers, require_full=False)
+            
+            # For MSD, use Pandas std() to exactly match your get_valid_std behavior (ddof=1)
+            std = pd.Series(simulated_answers).std()
+            
+            if not np.isnan(apd): apds.append(apd)
+            if not np.isnan(mpd): mpds.append(mpd)
+            if not pd.isna(std): stds.append(std)
+            
+        except Exception as e:
+            continue
+            
+    mean_apd = np.mean(apds) if apds else np.nan
+    mean_mpd = np.mean(mpds) if mpds else np.nan
+    mean_msd = np.mean(stds) if stds else np.nan
+    
+    print(f"\n--- Random-Response Baseline: {dataset_label} (Seed: {seed}) ---")
+    print(f"Simulated based on N={expected_n} variations per question.")
+    print(f"Average Pairwise Distance (APD): {mean_apd:.3f}")
+    print(f"Maximum Pairwise Distance (MPD): {mean_mpd:.3f}")
+    print(f"Mean Standard Deviation (MSD): {mean_msd:.3f}")
+    print("-" * 60)
+    
+    return mean_apd, mean_mpd, mean_msd
+
+# Calculate for Reworded (5 variations per question)
+simulate_random_baseline_all(merged_res_reworded_bm, "Reworded", expected_n=5)
+"""
+Random-Response Baseline: Reworded (Seed: 42)
+Simulated based on N=5 variations per question.
+Average Pairwise Distance (APD): 0.825
+Maximum Pairwise Distance (MPD): 1.632
+Mean Standard Deviation (MSD): 0.711
+"""
+
+# Calculate for Shuffled (6 variations per question)
+simulate_random_baseline_all(merged_res_shuffled_bm, "Shuffled", expected_n=6)
+"""
+Random-Response Baseline: Shuffled (Seed: 42)
+Simulated based on N=6 variations per question.
+Average Pairwise Distance (APD): 0.833
+Maximum Pairwise Distance (MPD): 1.734
+Mean Standard Deviation (MSD): 0.724
+"""
